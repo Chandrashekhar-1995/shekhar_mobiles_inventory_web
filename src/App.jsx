@@ -1,10 +1,16 @@
-import { Provider } from "react-redux";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import appStore from "./store/appStore";
+import AppRoutes from "./routes/AppRoutes";
+
 
 function App() {
   return (
     <Provider store={appStore}>
-      <h1>Superman</h1>
+      <Router>
+        <AppRoutes />
+      </Router>
     </Provider>
   );
 }
