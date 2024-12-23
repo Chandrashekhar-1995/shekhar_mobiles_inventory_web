@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import {addUser} from "../store/userSlice";
 
 const LoginForm = () => {
   const [loginForm, setLoginForm] = useState(true);
@@ -8,6 +10,7 @@ const LoginForm = () => {
     identifier: '', // For mobile number or email
     password: '',
   });
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +26,9 @@ const LoginForm = () => {
    try { 
     const res = await axios.post("http://localhost:7777/api/v1/auth/login", formData,{
       withCredentials:true
-    })
+    });
 
+    dispatch(addUser(res.data.data));
    } catch (err) {
     console.error(err)
    }
