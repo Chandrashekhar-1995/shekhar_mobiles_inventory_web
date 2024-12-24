@@ -3,14 +3,15 @@ import { Button, TextField } from '@mui/material';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import {addUser} from "../store/userSlice";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [formData, setFormData] = useState({
     identifier: '', // For mobile number or email
     password: '',
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,17 +23,18 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
    try { 
     const res = await axios.post("http://localhost:7777/api/v1/auth/login", formData,{
       withCredentials:true
     });
 
     dispatch(addUser(res.data.data));
+    return navigate("/")
    } catch (err) {
     console.error(err)
    }
   };
+
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -67,7 +69,7 @@ const LoginForm = () => {
             Login
           </Button>
           <div>
-            <p className="hover:text-blue-800" onClick={console.log("Done")} > Don't have an account ? Signup
+            <p className="hover:text-blue-800" onClick={console.log("Hi Hello")} >Already have an account ?  Login
               </p>
           </div>
         </form>
@@ -76,4 +78,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

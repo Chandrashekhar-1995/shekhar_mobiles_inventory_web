@@ -1,23 +1,43 @@
-import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
-import PrivateRoute from './PrivateRoute';
+import React from "react";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import HomePage from "../pages/HomePage";
+import RegisterForm from "../components/RegisterForm";
+import Logout from "../components/Logout";
+import LoginForm from "../components/LoginForm";
+import Dashboard from "../components/Dashboard";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
-const AppRoutes = () => {
+// Layout Component to wrap all pages with Header and Footer
+const AppLayout = () => {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/login" element={<LoginForm/>} />
-      <Route path="/dashboard" element={<PrivateRoute/>} />
+    <div className="app">
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-      {/* Protected Routes */}
-      {/* <Route path="/dashboard" element={<PrivateRoute component={Dashboard} />} />
-      <Route path="/logout" element={<PrivateRoute component={Logout} />} /> */}
+// Define routes
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />, // Wrap all routes with AppLayout
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "register", element: <RegisterForm /> },
+      { path: "logout", element: <Logout /> },
+      { path: "login", element: <LoginForm /> },
+      { path: "dashboard", element: <Dashboard /> },
+    ],
+  },
+]);
 
-      {/* Fallback Route */}
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
-  )
+function AppRoutes() {
+  return <RouterProvider router={appRouter} />;
 }
 
-export default AppRoutes
+export default AppRoutes;
