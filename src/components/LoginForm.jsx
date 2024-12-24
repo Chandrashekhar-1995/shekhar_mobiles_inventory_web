@@ -3,14 +3,16 @@ import { Button, TextField } from '@mui/material';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import {addUser} from "../store/userSlice";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     identifier: '', // For mobile number or email
     password: '',
   });
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,10 +30,15 @@ const LoginForm = () => {
       withCredentials:true
     });
 
+    // Dispatch the user data to the store
     dispatch(addUser(res.data.data));
-   } catch (err) {
-    console.error(err)
-   }
+
+    // Navigate to the admin dashboard
+    navigate("/admin/dashboard");
+
+  } catch (err) {
+    setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
+}
   };
 
   return (
@@ -67,8 +74,10 @@ const LoginForm = () => {
             Login
           </Button>
           <div>
-            <p className="hover:text-blue-800" onClick={console.log("Done")} > Don't have an account ? Signup
-              </p>
+          <p className="hover:text-blue-800" onClick={() => navigate('/register')}>
+    Don't have an account? Signup
+</p>
+
           </div>
         </form>
       </div>
