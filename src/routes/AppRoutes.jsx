@@ -2,7 +2,6 @@ import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import RegisterForm from "../components/RegisterForm";
-import Logout from "../components/Logout";
 import LoginForm from "../components/LoginForm";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -30,7 +29,6 @@ const appRouter = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "*", element: <HomePage /> },
       { path: "register", element: <RegisterForm /> },
-      { path: "logout", element: <Logout /> },
       { path: "login", element: <LoginForm /> },
       // Private Routes (handled in PrivateRoutes.jsx)
       ...PrivateRoutes,

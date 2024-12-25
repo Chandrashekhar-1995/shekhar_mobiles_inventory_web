@@ -7,6 +7,7 @@ import CreateCustomer from "../components/customer/CreateCustomer";
 import UserDashboard from "../components/user/UserDashboard";
 import useAuthWithRoles from "../hooks/useAuthWithRoles";
 import useAuth from "../hooks/useAuth";
+import { handleLogout } from "../utils/logout";
 
 const AdminProtectedRoute = ({ children }) => {
   const { hasAccess } = useAuthWithRoles(["Admin"]);
@@ -46,6 +47,14 @@ const PrivateRoutes = [
       <RedirectOnLogin>
         <Outlet />
       </RedirectOnLogin>
+    ),
+  },
+  {
+    path: "logout",
+    element: (
+      <ProtectedRoute>
+        <handleLogout/>
+      </ProtectedRoute>
     ),
   },
   {

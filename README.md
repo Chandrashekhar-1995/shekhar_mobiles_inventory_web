@@ -12,3 +12,4 @@
 - setup Routing done
 - create hooks for check userAuth and role base protection
 - update route
+- write Logout Logic
