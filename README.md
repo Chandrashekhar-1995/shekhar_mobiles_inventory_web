@@ -13,3 +13,4 @@
 - create hooks for check userAuth and role base protection
 - update route
 - write Logout Logic
+- setup header and footer
