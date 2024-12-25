@@ -14,3 +14,4 @@
 - update route
 - write Logout Logic
 - setup header and footer
+- set barchart, pai chart and sidebar in Admin Dashboard
