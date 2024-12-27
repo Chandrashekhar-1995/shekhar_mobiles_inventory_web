@@ -34,7 +34,7 @@ const LoginForm = () => {
     dispatch(addUser(res.data.data));
 
     // Navigate to the admin dashboard
-    navigate("/admin/dashboard");
+    navigate("/dashboard");
 
   } catch (err) {
     setErrorMessage(err.response?.data?.message || "An unexpected error occurred");

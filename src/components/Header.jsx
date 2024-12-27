@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Typography } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleLogout } from "../utils/logout";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -14,12 +18,16 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const handleLogoutClick = async () => {
+    setAnchorEl(null);
+    await handleLogout(dispatch, navigate);
+  };
+
   return (
     <AppBar position="static" className="bg-blue-600">
       <Toolbar className="flex justify-between items-center">
         {/* Logo and Shop Name */}
         <div className="flex items-center space-x-2">
-          {/* <img src="/path-to-logo.png" alt="Shop Logo" className="h-10 w-10 object-contain"/> */}
           <Typography variant="h6" className="font-bold text-white">
             Shekhar Mobiles
           </Typography>
@@ -62,7 +70,7 @@ const Header = () => {
             <MenuItem onClick={handleMenuClose} component="a" href="/dashboard">
               Dashboard
             </MenuItem>
-            <MenuItem onClick={handleMenuClose} component="a" href="/logout">
+            <MenuItem onClick={handleLogoutClick}>
               Logout
             </MenuItem>
           </Menu>
