@@ -1,26 +1,52 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Dialog } from "@mui/material";
+import CreateInvoice from "./sale/CreateInvoice";
+import CreateQuotation from "./sale/CreateQuotation";
 import CreateCustomer from "./customer/CreateCustomer";
+import Purchase from "./purchase/Purchase";
+import AddExpense from "./account/AddExpense";
+import ComingSoon from "./reminder/comingsoon";
+import PaymentIn from "./account/PaumentIn";
+import PaymentOut from "./account/PaymenyOut";
+
 
 const ActionButtons = () => {
-  const [isCustomerPopupOpen, setCustomerPopupOpen] = useState(false);
+  const [activeForm, setActiveForm] = useState(null); // Tracks the active form
 
   const buttons = [
-    { label: "New Invoice", link: "/new-invoice" },
-    { label: "New Quotation", link: "/new-quotation" },
-    { label: "Add Purchase", link: "/add-purchase" },
-    { label: "Add Expense", link: "/add-expense" },
-    {
-      label: "Add Customer",
-      action: () => setCustomerPopupOpen(true),
-    },
-    { label: "Add Reminder", link: "/add-reminder" },
-    { label: "Payment In", link: "/payment-in" },
-    { label: "Payment Out", link: "/payment-out" },
+    { label: "New Invoice", action: () => setActiveForm("NewInvoice") },
+    { label: "New Quotation", action: () => setActiveForm("NewQuotation") },
+    { label: "Add Purchase", action: () => setActiveForm("AddPurchase") },
+    { label: "Add Expense", action: () => setActiveForm("AddExpense") },
+    { label: "Add Customer", action: () => setActiveForm("AddCustomer") },
+    { label: "Add Reminder", action: () => setActiveForm("AddReminder") },
+    { label: "Payment In", action: () => setActiveForm("PaymentIn") },
+    { label: "Payment Out", action: () => setActiveForm("PaymentOut") },
   ];
 
-  const handleNavigate = (link) => {
-    navigate(link);
+  const closeForm = () => setActiveForm(null); // Closes the active form
+
+  const renderForm = () => {
+    switch (activeForm) {
+      case "NewInvoice":
+        return <CreateInvoice onClose={closeForm} />;
+      case "NewQuotation":
+        return <CreateQuotation onClose={closeForm} />;
+      case "AddPurchase":
+        return <Purchase onClose={closeForm} />;
+      case "AddExpense":
+        return <AddExpense onClose={closeForm} />;
+      case "AddCustomer":
+        return <CreateCustomer onClose={closeForm} />;
+      case "AddReminder":
+        return <ComingSoon onClose={closeForm} />;
+      case "PaymentIn":
+        return <PaymentIn onClose={closeForm} />;
+      case "PaymentOut":
+        return <PaymentOut onClose={closeForm} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -59,9 +85,9 @@ const ActionButtons = () => {
         </Grid>
       </Box>
 
-      {/* Popup for Create Customer */}
-      <Dialog open={isCustomerPopupOpen} onClose={() => setCustomerPopupOpen(false)} maxWidth="sm" fullWidth>
-        <CreateCustomer onClose={() => setCustomerPopupOpen(false)} />
+      {/* Popup for Active Form */}
+      <Dialog open={Boolean(activeForm)} onClose={closeForm} maxWidth="sm" fullWidth>
+        {renderForm()}
       </Dialog>
     </>
   );

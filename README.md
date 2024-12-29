@@ -16,3 +16,5 @@
 - setup header and footer
 - set barchart, pai chart and sidebar in Admin Dashboard
 - set register function
+- fix route bug
+- setup action Button form popups
