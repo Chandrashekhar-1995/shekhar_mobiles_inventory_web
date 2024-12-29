@@ -1,61 +1,63 @@
 import React from "react";
-import ProtectedRoute from "./ProtectedRoute";
 import { Outlet, Navigate } from "react-router-dom";
 import CustomerDashboard from "../components/customer/CustomerDashboard";
 import AdminDashboard from "../components/user/AdminDashboard";
 import CreateCustomer from "../components/customer/CreateCustomer";
 import UserDashboard from "../components/user/UserDashboard";
-import useAuthWithRoles from "../hooks/useAuthWithRoles";
 import useAuth from "../hooks/useAuth";
-import { handleLogout } from "../utils/logout";
 
-const AdminProtectedRoute = ({ children }) => {
-  const { hasAccess } = useAuthWithRoles(["Admin"]);
-  return hasAccess ? children : <Navigate to="/login" replace />;
-};
-
-const RedirectOnLogin = ({ children }) => {
+// Helper component for protected routes
+const ProtectedRoute = ({ children, roles }) => {
   const { isAuthenticated, user } = useAuth();
-  if (isAuthenticated) {
-    if (user?.designation === "Admin") return <Navigate to="/admin/dashboard" replace />;
 
-    const userDesignations = [
-      "Relationship Manager",
-      "Marketing Executive",
-      "Manager",
-      "Accountant",
-      "Clerk",
-      "Peon",
-      "Office Boy",
-      "Receptionist",
-      "Trainee",
-    ];
-
-    if (userDesignations.includes(user?.designation)) {
-      return <Navigate to="/user/dashboard" replace />;
-    }
-
-    return <Navigate to="/dashboard" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
+
+  if (roles && !roles.includes(user?.designation)) {
+    return <Navigate to="/" replace />;
+  }
+
   return children;
 };
 
+// Routes definition
 const PrivateRoutes = [
   {
-    path: "login",
+    path: "auth/user",
     element: (
-      <RedirectOnLogin>
+      <ProtectedRoute roles={["Admin", "Relationship Manager", "Manager", "Clerk"]}>
         <Outlet />
-      </RedirectOnLogin>
-    ),
-  },
-  {
-    path: "logout",
-    element: (
-      <ProtectedRoute>
-        <handleLogout/>
       </ProtectedRoute>
     ),
+    children: [
+      {
+        path: "",
+        element: <UserDashboard />,
+      },
+      {
+        path: "add-customer",
+        element: (
+          <ProtectedRoute roles={["Admin"]}>
+            <CreateCustomer />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: "admin/dashboard",
+    element: (
+      <ProtectedRoute roles={["Admin"]}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <AdminDashboard />,
+      },
+    ],
   },
   {
     path: "dashboard",
@@ -71,110 +73,6 @@ const PrivateRoutes = [
       },
     ],
   },
-  {
-    path: "user/dashboard",
-    element: (
-      <ProtectedRoute>
-        <Outlet />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: "",
-        element: <UserDashboard />,
-      },
-    ],
-  },
-  {
-    path: "admin/dashboard",
-    element: (
-      <AdminProtectedRoute>
-        <Outlet />
-      </AdminProtectedRoute>
-    ),
-    children: [
-      {
-        path: "",
-        element: <AdminDashboard />,
-      },
-    ],
-  },
-  {
-    path: "/auth/customer",
-    element: (
-      <ProtectedRoute>
-        <Outlet />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: "create",
-        element: <CreateCustomer />,
-      },
-    ],
-  },
 ];
 
 export default PrivateRoutes;
-
-
-
-// import React from "react";
-// import ProtectedRoute from "./ProtectedRoute";
-// import { Outlet, Navigate } from "react-router-dom";
-// import CustomerDashboard from "../components/customer/CustomerDashboard";
-// import AdminDashboard from "../components/user/AdminDashboard";
-// import CreateCustomer from "../components/customer/CreateCustomer";
-// import useAuthWithRoles from "../hooks/useAuthWithRoles";
-
-// const AdminProtectedRoute = ({ children }) => {
-//   const { hasAccess } = useAuthWithRoles(["Admin"]);
-//   return hasAccess ? children : <Navigate to="/login" replace />;
-// };
-
-// const PrivateRoutes = [
-//   {
-//     path: "dashboard",
-//     element: (
-//       <ProtectedRoute>
-//         <Outlet />
-//       </ProtectedRoute>
-//     ),
-//     children: [
-//       {
-//         path: "",
-//         element: <CustomerDashboard />,
-//       },
-//     ],
-//   },
-//   {
-//     path: "admin/dashboard",
-//     element: (
-//       <AdminProtectedRoute>
-//         <Outlet />
-//       </AdminProtectedRoute>
-//     ),
-//     children: [
-//       {
-//         path: "",
-//         element: <AdminDashboard />,
-//       },
-//     ],
-//   },
-//   {
-//     path: "/auth/customer",
-//     element: (
-//       <ProtectedRoute>
-//         <Outlet />
-//       </ProtectedRoute>
-//     ),
-//     children: [
-//       {
-//         path: "create",
-//         element: <CreateCustomer />,
-//       },
-//     ],
-//   },
-// ];
-
-// export default PrivateRoutes;

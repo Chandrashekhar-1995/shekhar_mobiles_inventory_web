@@ -243,7 +243,7 @@ const Sidebar = () => {
         {menuItems.map((menuItem, index) => (
           <ListItem
             key={index}
-            button
+            type="button"
             onMouseEnter={(e) => handleMouseEnter(e, menuItem.subMenu)}
             onMouseLeave={handleMouseLeave}
             sx={{
@@ -285,7 +285,7 @@ const Sidebar = () => {
           {submenuItems.map((subItem, subIndex) => (
             <ListItem
               key={subIndex}
-              button
+              type="button"
               component="a"
               href={subItem.link}
               sx={{

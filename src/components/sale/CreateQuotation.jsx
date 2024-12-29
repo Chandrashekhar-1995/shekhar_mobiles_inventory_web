@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
 
-const CreateCustomer = ({ open, onClose }) => {
+const CreateQuotation = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -67,4 +67,4 @@ const CreateCustomer = ({ open, onClose }) => {
   );
 };
 
-export default CreateCustomer;
+export default CreateQuotation;

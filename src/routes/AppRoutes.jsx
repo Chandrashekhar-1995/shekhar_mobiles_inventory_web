@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PrivateRoutes from "./PrivateRoutes";
 
-// Layout Component to wrap all pages with Header and Footer
+// Layout Component
 const AppLayout = () => {
   return (
     <div className="app">
@@ -30,8 +30,7 @@ const appRouter = createBrowserRouter([
       { path: "*", element: <HomePage /> },
       { path: "register", element: <RegisterForm /> },
       { path: "login", element: <LoginForm /> },
-      // Private Routes (handled in PrivateRoutes.jsx)
-      ...PrivateRoutes,
+      ...PrivateRoutes, // Include private routes
     ],
   },
 ]);

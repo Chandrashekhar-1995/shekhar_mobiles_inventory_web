@@ -3,9 +3,7 @@ import { removeUser } from "../store/userSlice";
 
 export const handleLogout = async (dispatch, navigate) => {
   try {
-    // Hit the logout API
-    await axios.post("http://localhost:7777/api/v1/auth/logout", {}, { withCredentials: true });
-
+    
     // Clear the user from Redux store
     dispatch(removeUser());
 
@@ -14,6 +12,9 @@ export const handleLogout = async (dispatch, navigate) => {
 
     // Redirect to login page
     navigate("/login");
+
+    // Hit the logout API
+    await axios.post("http://localhost:7777/api/v1/auth/logout", {}, { withCredentials: true });
   } catch (error) {
     console.error("Logout failed:", error);
   }
