@@ -18,3 +18,4 @@
 - set register function
 - fix route bug
 - setup action Button form popups
+- CreateCustomer form done and work

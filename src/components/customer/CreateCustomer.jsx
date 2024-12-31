@@ -3,30 +3,32 @@ import axios from "axios";
 
 const CreateCustomer = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    mobileNumber: "",
-    // contactNumber: "",
-    address: "",
-    avatar:"",
-    city: "",
-    state: "",
-    pinCode: "",
-    country:"",
-    gender:"",
-    dateOfBirth: "",
-    marrigeAniversary: "",
-    panNo: "",
-    // gstin: "",
-    // gstType: "Unregistered",
-    // tradeName: "",
-    accountType: "Debit",
-    openingBalance: "",
-    documentType: "",
-    documentNo: "",
-    creditAllowed: "No",
-    creditLimit: "",
-    remark: "",
+    avatar:"",                // optional
+    name: "",                 // required   ok
+    address: "",              // required   ok
+    city:"Kushinagar ",                  // optional   ok
+    state: "Uttar Pradesh",                // optional   ok
+    pinCode:"274207",               // optional   ok
+    country:"India",               // optional   ok
+    email:"",                // optional   ok
+    contactNumber: "",        // optional   ok
+    mobileNumber: "",         // required   ok
+    panNo: "",                // optional   ok
+    gstin: "",                // optional   ok
+    gstType: "Unregistered",  // optional   ok
+    tradeName: "",            // optional   ok
+    accountType: "Debit",     // optional   ok
+    openingBalance: 0,       // optional   ok
+    documentType: "",         // optional   ok
+    documentNo: "",           // optional   ok
+    gender:"male",           // "male", "female", "others"
+    refferedBy:"",          // optional
+    dateOfBirth: "",          // optional   ok
+    marrigeAniversary: "",   // optional   ok
+    creditAllowed: "No",    // optional   ok
+    creditLimit: 0,        // optional   ok
+    remark: "",             // optional   ok
+    bio:"",                 // optional
   });
 
   const handleChange = (e) => {
@@ -39,12 +41,15 @@ const CreateCustomer = ({ open, onClose }) => {
     try {
       const response = await axios.post(
         "http://localhost:7777/api/v1/auth/customer/create",
-        formData
+        formData,
+        {
+          withCredentials:true
+        }
       );
       console.log("Customer Created:", response.data);
-      onClose(); // Close the popup after successful submission
+      onClose();
     } catch (error) {
-      console.error("Error creating customer:", error);
+      console.error("Error creating customer:", error.response.data.message);
     }
   };
 
@@ -55,7 +60,7 @@ const CreateCustomer = ({ open, onClose }) => {
           <h2 className="font-semibold mb-4 text-sm">Customer Information</h2>
           <button onClick={onClose} className="hover:bg-red-600 rounded-lg p-2"> X </button>
         </div>
-
+        {/* form */}
         <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-4">
           {/*  Section 1 Profile Picture */}
           <div className="col-span-2 flex flex-col items-center">
@@ -74,125 +79,61 @@ const CreateCustomer = ({ open, onClose }) => {
               </button>
             </div>
           </div>
-
-
           {/* Section 2 Form Fields */}
           <div className="col-span-5 grid grid-cols-2 gap-4">
 
             {/* Name */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="col-span-1 text-xs font-medium">Full Name *</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" name="name" placeholder="Name" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.name} onChange={handleChange} required />
             </div>
 
             {/* Address */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">Billing Address *</label>
-              <textarea
-                name="address"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                rows="2"
-                value={formData.address}
-                onChange={handleChange}
-              ></textarea>
+              <textarea name="address" className="col-span-2 border border-gray-300 rounded p-2 text-xs" rows="2" value={formData.address} onChange={handleChange} ></textarea>
             </div>
 
             {/* City */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">City</label>
-              <input
-                type="text"
-                name="city"
-                placeholder="Kushinagar"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.city}
-                onChange={handleChange}
-              />
+              <input type="text" name="city" placeholder="Kushinagar" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.city} onChange={handleChange} />
             </div>
 
             {/* State */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">State</label>
-              <input
-                type="text"
-                name="state"
-                placeholder="Uttar Pradesh"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.state}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" name="state" placeholder="Uttar Pradesh" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.state} onChange={handleChange}/>
             </div>
 
             {/* Pin code */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">PIN Code</label>
-              <input
-                type="text"
-                name="pinCode"
-                placeholder="274207"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.pinCode}
-                onChange={handleChange}
-              />
+              <input type="number" name="pinCode" placeholder="274207" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.pinCode} onChange={handleChange} />
             </div>
 
             {/* Country */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">Country</label>
-              <input
-                type="text"
-                name="pinCode"
-                placeholder="India"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.country}
-                onChange={handleChange}
-              />
+              <input type="text" name="country" placeholder="India" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.country} onChange={handleChange} />
             </div>
 
             {/* Email */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">Email ID</label>
-              <input
-                type="email"
-                name="email"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.email}
-                onChange={handleChange}
-              />
+              <input type="email" name="email" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.email} onChange={handleChange}/>
             </div>
 
             {/* Phone Number */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">Phone No *</label>
-              <input
-                type="text"
-                name="phoneNo"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.mobileNumber}
-                onChange={handleChange}
-              />
+              <input type="text" name="mobileNumber" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.mobileNumber} onChange={handleChange} />
             </div>
 
             {/* // Contact Number
             <div className="col-span-2 grid grid-cols-3">
-              <label className="text-xs font-medium">Contact No </label>
-              <input
-                type="text"
-                name="contactNo"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.contactNo}
-                onChange={handleChange}
-                required
-              />
+              <label className="text-xs font-medium">Other Contact Number *</label>
+              <input type="text" name="contactNumber" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.contactNumber} onChange={handleChange} />
             </div> */}
 
 
@@ -201,179 +142,93 @@ const CreateCustomer = ({ open, onClose }) => {
             {/* PAN Number */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">PAN No</label>
-              <input
-                type="text"
-                name="panNo"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.panNo}
-                onChange={handleChange}
-              />
+              <input type="text" name="panNo" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.panNo} onChange={handleChange} />
             </div>
 
             {/* GSTIN */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">GSTIN</label>
-              <input
-                type="text"
-                name="gstin"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.gstin}
-                onChange={handleChange}
-              />
+              <input type="text" name="gstin" value={formData.gstin} onChange={handleChange} />
             </div>           
 
             {/* GST Type */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">GST Type</label>
-              <input
-                type="text"
-                name="gstType"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.gstType}
-                onChange={handleChange}
-              />
+              <input type="text" name="gstType" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.gstType} onChange={handleChange} />
             </div>
 
             {/* Trade Name */}
             <div className="col-span-2 grid grid-cols-3">
               <label className="text-xs font-medium">Trade Name</label>
-              <input
-                type="text"
-                name="tradeName"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs"
-                value={formData.tradeName}
-                onChange={handleChange}
-              />
+              <input type="text" name="tradeName" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.tradeName} onChange={handleChange} />
             </div> 
           </div>
-
-
 
           {/* Section 3 Others Details */}
           <div className="col-span-5 grid grid-cols-2 gap-4">
 
             {/* Account Details */}
-<div className="border border-gray-200 col-span-5 shadow-lg relative">
-  <div className="absolute -top-2 left-2 bg-white px-2 text-sm font-semibold">
-    Account Details
-  </div>
+            <div className="border border-gray-200 col-span-5 shadow-lg relative">
+              <div className="absolute -top-2 left-2 bg-white px-2 text-sm font-semibold">
+                Account Details
+              </div>
 
-  {/* Account Type */}
-  <div className="col-span-2 grid grid-cols-3 m-2">
-    <label className="block text-xs font-medium mb-1">Type *</label>
-    <div className="flex items-center gap-4">
-      <label className="flex items-center text-xs">
-        <input
-          type="radio"
-          name="accountType"
-          value="Debit"
-          checked={formData.accountType === "Debit"}
-          onChange={handleChange}
-          className="mr-2"
-        />
-        Debit
-      </label>
-      <label className="flex items-center text-xs">
-        <input
-          type="radio"
-          name="accountType"
-          value="Credit"
-          checked={formData.accountType === "Credit"}
-          onChange={handleChange}
-          className="mr-2"
-        />
-        Credit
-      </label>
-    </div>
-  </div>
+              {/* Account Type */}
+              <div className="col-span-2 grid grid-cols-3 m-2">
+              <label className="block text-xs font-medium mb-1">Type *</label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center text-xs">
+                  <input type="radio" name="accountType" value="Debit" checked={formData.accountType === "Debit"} onChange={handleChange} className="mr-2"/> Debit
+                </label>
 
-  {/* Opening Balance */}
-  <div className="col-span-2 grid grid-cols-3 m-2">
-    <label className="text-xs font-medium">Opening Balance</label>
-    <input
-      type="text"
-      name="openingBalance"
-      className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-      value={formData.openingBalance}
-      onChange={handleChange}
-    />
-  </div>
-</div>
+                <label className="flex items-center text-xs">
+                  <input type="radio" name="accountType" value="Credit" checked={formData.accountType === "Credit"} onChange={handleChange} className="mr-2"/> Credit
+                </label>
+              </div>
+              </div>
 
-            
+            {/* Opening Balance */}
+            <div className="col-span-2 grid grid-cols-3 m-2">
+              <label className="text-xs font-medium">Opening Balance</label>
+              <input type="text" name="openingBalance" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.openingBalance} onChange={handleChange} />
+            </div>
+            </div>
+
             {/* Identity Details */}
           <div className="col-span-5 grid grid-cols-2 gap-4">
-
             <div className="border border-gray-200 col-span-5">
               Identity Details
 
             {/* Document Type */}
             <div className="col-span-2 grid grid-cols-3 m-2">
-              <label className="text-xs font-medium">Document Type</label>
-              <input
-                type="text"
-                name="documentType"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-                value={formData.documentType}
-                onChange={handleChange}
-              />
+              <label className="text-xs font-medium"> Document Type</label>
+              <input type="text" name="documentType" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"  value={formData.documentType} onChange={handleChange} />
             </div>
 
             {/* Document Number */}
             <div className="col-span-2 grid grid-cols-3 m-2">
               <label className="text-xs font-medium">Document Number</label>
-              <input
-                type="text"
-                name="documentNo"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-                value={formData.documentNo}
-                onChange={handleChange}
-              />
+              <input type="text" name="documentNo" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.documentNo} onChange={handleChange} />
             </div>
-
             </div>
-
-
-
-  
           </div>
-
 
           {/* Aniversary */}
           <div className="col-span-5 grid grid-cols-2 gap-4">
+            <div className="border border-gray-200 col-span-5"> Aniversary
 
-            <div className="border border-gray-200 col-span-5">
-            Aniversary
+              {/* Date of Birth  */}
+              <div className="col-span-2 grid grid-cols-3 m-2">
+                <label className="text-xs font-medium">Date of Birth</label>
+                <input type="date" name="dateOfBirth" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.dateOfBirth} onChange={handleChange} />
+              </div>
 
-            {/* Date of Birth  */}
-            <div className="col-span-2 grid grid-cols-3 m-2">
-              <label className="text-xs font-medium">Document Type</label>
-              <input
-                type="text"
-                name="documentType"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-                value={formData.documentType}
-                onChange={handleChange}
-              />
+              {/* Aniversary */}
+              <div className="col-span-2 grid grid-cols-3 m-2">
+                <label className="text-xs font-medium">Aniversary</label>
+                <input type="date" name="marrigeAniversary" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"  value={formData.marrigeAniversary} onChange={handleChange} />
+              </div>
             </div>
-
-            {/* Aniversary */}
-            <div className="col-span-2 grid grid-cols-3 m-2">
-              <label className="text-xs font-medium">Document Number</label>
-              <input
-                type="text"
-                name="documentNo"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-                value={formData.documentNo}
-                onChange={handleChange}
-              />
-            </div>
-
-            </div>
-
-
-
-  
           </div>
 
           {/* Other Details */}
@@ -382,70 +237,46 @@ const CreateCustomer = ({ open, onClose }) => {
             <div className="border border-gray-200 col-span-5">
             Other Details
 
-            {/* Credit Allowed */}
-<div className="col-span-2 grid grid-cols-3 m-2">
-  <label className="block text-xs font-medium mb-1">Credit Allowed</label>
-  <div className="flex items-center gap-4">
-    <label className="flex items-center text-xs">
-      <input
-        type="radio"
-        name="creditAllowed" // Correct name attribute
-        value="Yes"
-        checked={formData.creditAllowed === "Yes"}
-        onChange={handleChange}
-        className="mr-2"
-      />
-      Yes
-    </label>
-    <label className="flex items-center text-xs">
-      <input
-        type="radio"
-        name="creditAllowed" // Correct name attribute
-        value="No"
-        checked={formData.creditAllowed === "No"}
-        onChange={handleChange}
-        className="mr-2"
-      />
-      No
-    </label>
-  </div>
-</div>
+            {/* Reffered By */}
+            <div className="col-span-2 grid grid-cols-3 m-2">
+              <label className="text-xs font-medium"> Reffered By</label>
+              <input type="text" name="refferedBy" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"  value={formData.refferedBy} onChange={handleChange} />
+            </div>
 
+            {/* Gender */}
+            <div className="col-span-2 grid grid-cols-3 m-2">
+              <label className="text-xs font-medium">Gender</label>
+              <input type="text" name="gender" placeholder="male" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.gender} onChange={handleChange} />
+            </div>
+
+            {/* Credit Allowed */}
+          <div className="col-span-2 grid grid-cols-3 m-2">
+            <label className="block text-xs font-medium mb-1">Credit Allowed</label>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center text-xs">
+                <input type="radio" name="creditAllowed" value="Yes" checked={formData.creditAllowed === "Yes"} onChange={handleChange} className="mr-2" /> Yes
+              </label>
+              <label className="flex items-center text-xs">
+                <input type="radio" name="creditAllowed" value="No" checked={formData.creditAllowed === "No"} onChange={handleChange} className="mr-2" /> No
+              </label>
+            </div>
+          </div>
 
             {/* Credit Limit  */}
             <div className="col-span-2 grid grid-cols-3 m-2">
               <label className="text-xs font-medium">Credit Limit</label>
-              <input
-                type="text"
-                name="creditLimit"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-                value={formData.creditLimit}
-                onChange={handleChange}
-              />
+              <input type="text" name="creditLimit" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.creditLimit} onChange={handleChange} />
             </div>
 
             {/* Remark */}
             <div className="col-span-2 grid grid-cols-3 m-2">
               <label className="text-xs font-medium">Remark</label>
-              <input
-                type="text"
-                name="remark"
-                className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"
-                value={formData.remark}
-                onChange={handleChange}
-              />
+              <textarea name="remark" className="col-span-2 border border-gray-300 rounded p-2 text-xs" rows="2" value={formData.remark} onChange={handleChange} ></textarea>
             </div>
 
-            </div>
-
-
-
-  
           </div>
-              
-          </div> //
-
-
+          </div>   
+          </div>
 
           {/* Button */}
           <div className="col-span-12 flex justify-end gap-2">
