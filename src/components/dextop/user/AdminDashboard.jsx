@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import Sidebar from "../../Sidebar";
+import Sidebar from "../Sidebar";
 import QuickInfo from "../../QuickInfo";
 import ActionButtons from "../../ActionButtons";
 import PieChartComponent from "../../PieChartComponent";
