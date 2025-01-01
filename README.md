@@ -19,3 +19,6 @@
 - fix route bug
 - setup action Button form popups
 - CreateCustomer form done and work
+
+# Create mobile optimize app so optimize l;ike those
+-   make component like dashboar pc sapeate

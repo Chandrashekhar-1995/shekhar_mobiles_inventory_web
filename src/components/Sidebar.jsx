@@ -171,7 +171,7 @@ const Sidebar = () => {
     ]
     },
     { text: "Staff", icon: <InterpreterMode/>, subMenu: [
-      { text: "Add Staff", link: "/user/create" },
+      { text: "Add Staff", link: "/auth/user/create" },
       { text: "Search and Manage Staff", link: "/admin/user/update" },
     ] 
       },

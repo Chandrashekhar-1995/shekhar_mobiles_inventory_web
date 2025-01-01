@@ -1,10 +1,11 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import CustomerDashboard from "../components/customer/CustomerDashboard";
-import AdminDashboard from "../components/user/AdminDashboard";
-import CreateCustomer from "../components/customer/CreateCustomer";
+import AdminDashboardPc from "../components/dextop/user/AdminDashboard";
+import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
 import UserDashboard from "../components/user/UserDashboard";
 import useAuth from "../hooks/useAuth";
+import CreateUser from "../components/user/CreateUser";
 
 // Helper component for protected routes
 const ProtectedRoute = ({ children, roles }) => {
@@ -39,7 +40,15 @@ const PrivateRoutes = [
         path: "add-customer",
         element: (
           <ProtectedRoute roles={["Admin"]}>
-            <CreateCustomer />
+            <CreateCustomerPc />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "create",
+        element: (
+          <ProtectedRoute roles={["Admin"]}>
+            <CreateUser/>
           </ProtectedRoute>
         ),
       },
@@ -55,7 +64,7 @@ const PrivateRoutes = [
     children: [
       {
         path: "",
-        element: <AdminDashboard />,
+        element: <AdminDashboardPc />,
       },
     ],
   },
