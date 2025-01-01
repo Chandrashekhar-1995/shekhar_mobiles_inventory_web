@@ -6,6 +6,7 @@ import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
 import UserDashboard from "../components/user/UserDashboard";
 import useAuth from "../hooks/useAuth";
 import CreateUser from "../components/user/CreateUser";
+import Admin from "../components/user/Admin";
 
 // Helper component for protected routes
 const ProtectedRoute = ({ children, roles }) => {
@@ -39,7 +40,7 @@ const PrivateRoutes = [
       {
         path: "add-customer",
         element: (
-          <ProtectedRoute roles={["Admin"]}>
+          <ProtectedRoute>
             <CreateCustomerPc />
           </ProtectedRoute>
         ),
@@ -55,7 +56,7 @@ const PrivateRoutes = [
     ],
   },
   {
-    path: "admin/dashboard",
+    path: "auth/admin",
     element: (
       <ProtectedRoute roles={["Admin"]}>
         <Outlet />
@@ -64,6 +65,10 @@ const PrivateRoutes = [
     children: [
       {
         path: "",
+        element: <Admin/>,
+      },
+      {
+        path: "dashboard",
         element: <AdminDashboardPc />,
       },
     ],
