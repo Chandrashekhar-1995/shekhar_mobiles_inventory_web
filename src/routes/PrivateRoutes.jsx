@@ -28,7 +28,7 @@ const PrivateRoutes = [
   {
     path: "auth/user",
     element: (
-      <ProtectedRoute roles={["Admin", "Relationship Manager", "Manager", "Clerk"]}>
+      <ProtectedRoute roles={["Admin", "Relationship Manager", "Marketing Executive", "Manager", "Accountant", "Clerk", "Peon", "Office Boy", "Receptionist", "Trainee"]}>
         <Outlet />
       </ProtectedRoute>
     ),
@@ -74,7 +74,7 @@ const PrivateRoutes = [
     ],
   },
   {
-    path: "dashboard",
+    path: "user", //for customer route
     element: (
       <ProtectedRoute>
         <Outlet />
@@ -82,7 +82,7 @@ const PrivateRoutes = [
     ),
     children: [
       {
-        path: "",
+        path: "dashboard",
         element: <CustomerDashboard />,
       },
     ],

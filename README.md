@@ -23,3 +23,4 @@
 # Create mobile optimize app so optimize l;ike those
 -   make component like dashboar pc sapeate
 -   fix route issue
+-   set navigate after login 

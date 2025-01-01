@@ -33,8 +33,17 @@ const LoginForm = () => {
     // Dispatch the user data to the store
     dispatch(addUser(res.data.data));
 
-    // Navigate to the admin dashboard
-    navigate("/dashboard");
+    // Navigate to the related dashboard
+    const role = res.data.data.designation;
+    const userRoles = ["Relationship Manager", "Marketing Executive", "Manager", "Accountant",     "Clerk", "Peon", "Office Boy", "Receptionist", "Trainee"];
+      
+    if (role === "Admin") {
+        navigate("/auth/admin");
+    } else if (userRoles.includes(role)) {
+        navigate("/auth/user");
+    } else {
+        navigate("/user/dashboard");
+    }
 
   } catch (err) {
     setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
