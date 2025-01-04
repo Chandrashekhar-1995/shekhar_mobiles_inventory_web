@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <Box className="bg-gray-800 text-white py-6 fixed inset-x-0 bottom-0">
       {/* Links Section */}
-      <Box className="flex justify-center space-x-6 mb-4">
+      {/* <Box className="flex justify-center space-x-6 mb-4">
         <Link href="/" className="text-white hover:underline">
           Home
         </Link>
@@ -25,10 +25,10 @@ const Footer = () => {
         <Link href="/contact" className="text-white hover:underline">
           Contact
         </Link>
-      </Box>
+      </Box> */}
 
       {/* Social Media Icons */}
-      <Box className="flex justify-center space-x-4 mb-4">
+      {/* <Box className="flex justify-center space-x-4 mb-4">
         <IconButton href="https://facebook.com" target="_blank" className="text-white">
           <FacebookIcon />
         </IconButton>
@@ -41,7 +41,7 @@ const Footer = () => {
         <IconButton href="https://linkedin.com" target="_blank" className="text-white">
           <LinkedInIcon />
         </IconButton>
-      </Box>
+      </Box> */}
 
       {/* Copyright Section */}
       <Typography variant="body2" className="text-center">
