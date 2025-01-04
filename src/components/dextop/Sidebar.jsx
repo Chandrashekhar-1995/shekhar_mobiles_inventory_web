@@ -198,7 +198,6 @@ const Sidebar = () => {
       setSubmenuItems(subMenu); // Update submenu items
       setPopoverOpen(true); // Keep the popover open
       // }
-      setPopoverOpen(true); // Keep the popover open
     } else {
       setPopoverOpen(false); // No submenu to show
     }

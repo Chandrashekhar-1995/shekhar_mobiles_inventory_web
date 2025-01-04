@@ -24,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" className="bg-blue-600">
+    <AppBar position="static" className="bg-primary">
       <Toolbar className="flex justify-between items-center">
         {/* Logo and Shop Name */}
         <div className="flex items-center space-x-2">
