@@ -24,3 +24,4 @@
 -   make component like dashboar pc sapeate
 -   fix route issue
 -   set navigate after login 
+-   scale routes for each routes saperate

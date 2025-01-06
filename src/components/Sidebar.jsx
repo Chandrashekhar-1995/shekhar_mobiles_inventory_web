@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemIcon, ListItemText,  Popover, Typography, Box } from "@mui/material";
+import { List, ListItem, ListItemIcon, ListItemText,  Popover, } from "@mui/material";
 import { ShoppingCart, Inventory, People,  BarChart,  Settings,  AccountBalance,  AssignmentLate,  InterpreterMode,  AutoFixHigh,  AllInclusive,} from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -9,11 +9,6 @@ const Sidebar = () => {
     const [submenuItems, setSubmenuItems] = useState([]);
     const [popoverOpen, setPopoverOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setOpen(!open);
-    console.log(open);
-    
-  }
   // Sidebar menu structure
   const menuItems = [
     {
@@ -197,6 +192,11 @@ const Sidebar = () => {
     { text: "Settings", icon: <Settings />, link: "/settings" },
   ];
 
+  const toggleSidebar = () => {
+    setOpen(!open);
+    console.log(open);    
+  }
+  
   // Handle menu hover to show submenus
   const handleMouseEnter = (event, subMenu) => {
     if (subMenu.length > 0) {

@@ -7,20 +7,16 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PrivateRoutes from "./PrivateRoutes";
 
-// Layout Component
-const AppLayout = () => {
-  return (
-    <div className="app">
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  );
-};
+const AppLayout = () => (
+  <div className="app">
+    <Header />
+    <main>
+      <Outlet />
+    </main>
+    <Footer />
+  </div>
+);
 
-// Define routes
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +26,7 @@ const appRouter = createBrowserRouter([
       { path: "*", element: <HomePage /> },
       { path: "register", element: <RegisterForm /> },
       { path: "login", element: <LoginForm /> },
-      ...PrivateRoutes, // Include private routes
+      ...PrivateRoutes,
     ],
   },
 ]);
