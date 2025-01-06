@@ -62,7 +62,7 @@ const Sidebar = () => {
 
     },
     { text: "Customer", icon: <People/>, subMenu: [
-      { text: "Add Customer", link: "/Customer/add" },
+      { text: "Add Customer", link: "/auth/user/customer/add" },
       { text: "Search and Manage Customers", link: "/Customer/search" },
       { text: "Add Customer Loan", link: "/Customer/loan/add" },
       { text: "Search and Manage Customer Loans", link: "/Customer/loan/manage" },

@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UserDashboard from "../components/user/UserDashboard";
-import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
 import CreateUser from "../components/user/CreateUser";
 import Admin from "../components/user/Admin";
 import AdminDashboardPc from "../components/dextop/user/AdminDashboard";
@@ -21,14 +20,6 @@ const UserRoutes = [
           { 
             path: "",
             element: <UserDashboard />,
-          },
-          {
-            path: "add-customer",
-            element: (
-              <ProtectedRoute>
-                <CreateCustomerPc />
-              </ProtectedRoute>
-            ),
           },
           {
             path: "create",
