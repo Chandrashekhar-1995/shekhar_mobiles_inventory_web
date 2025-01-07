@@ -40,6 +40,8 @@ const LoginForm = () => {
       // Dispatch the user data to the store
       dispatch(addUser(res.data.data));
 
+      setSuccessMessage("Login successful!");
+
       // Navigate to the related dashboard
       const role = res.data.data.designation;
       const userRoles = [
@@ -62,7 +64,6 @@ const LoginForm = () => {
         navigate("/user/dashboard");
       }
 
-      setSuccessMessage("Login successful!");
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
     } finally {

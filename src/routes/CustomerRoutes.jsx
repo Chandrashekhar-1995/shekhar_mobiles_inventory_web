@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
-import CreateCustomer from "../components/dextop/customer/CreateCustomer";
+import CreateCustomer from "../components/customer/CreateCustomer";
 
 
 
