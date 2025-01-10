@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Typography } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleLogout } from "../utils/logout";
 
@@ -9,6 +9,8 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector((store)=> store.user);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,6 +23,60 @@ const Header = () => {
   const handleLogoutClick = async () => {
     setAnchorEl(null);
     await handleLogout(dispatch, navigate);
+  };
+
+  const handleProfileClick = async () =>{
+    if (user?.designation) {
+      const role = user.designation;
+      const userRoles = [
+        "Relationship Manager",
+        "Marketing Executive",
+        "Manager",
+        "Accountant",
+        "Clerk",
+        "Peon",
+        "Office Boy",
+        "Receptionist",
+        "Trainee",
+        "Admin",
+      ];
+
+      if (userRoles.includes(role)) {
+        navigate("/auth/user/profile");
+      } else {
+        navigate("/user/profile");
+      }
+    } else {
+      navigate("/login");
+    }
+  };
+
+
+  const handleDashboardClick = () => {
+    if (user?.designation) {
+      const role = user.designation;
+      const userRoles = [
+        "Relationship Manager",
+        "Marketing Executive",
+        "Manager",
+        "Accountant",
+        "Clerk",
+        "Peon",
+        "Office Boy",
+        "Receptionist",
+        "Trainee",
+      ];
+
+      if (role === "Admin") {
+        navigate("/auth/admin");
+      } else if (userRoles.includes(role)) {
+        navigate("/auth/user");
+      } else {
+        navigate("/user/dashboard");
+      }
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -64,15 +120,16 @@ const Header = () => {
             transformOrigin={{ vertical: "top", horizontal: "right" }}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           >
-            <MenuItem onClick={handleMenuClose} component="a" href="/profile">
-              Profile
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose} component="a" href="/dashboard">
-              Dashboard
-            </MenuItem>
-            <MenuItem onClick={handleLogoutClick}>
-              Logout
-            </MenuItem>
+            <MenuItem onClick={handleProfileClick}> Profile </MenuItem>
+            <MenuItem onClick={handleDashboardClick}> Dashboard </MenuItem>
+
+            { user ? 
+            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem> : 
+            <MenuItem onClick={handleMenuClose} component="a" href="/login">
+                Login
+              </MenuItem>
+            }
+
           </Menu>
         </div>
       </Toolbar>
