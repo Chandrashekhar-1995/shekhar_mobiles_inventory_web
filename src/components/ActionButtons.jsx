@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Dialog } from "@mui/material";
-import CreateInvoice from "./sale/CreateInvoice";
-import CreateQuotation from "./sale/CreateQuotation";
+import CreateInvoice from "./sales/CreateInvoice";
+import CreateQuotation from "./sales/CreateQuotation";
 import CreateCustomer from "./dextop/customer/CreateCustomer";
 import Purchase from "./purchase/Purchase";
 import AddExpense from "./account/AddExpense";

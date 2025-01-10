@@ -26,3 +26,4 @@
 -   set navigate after login 
 -   scale routes for each routes saperate
 -   fix header dropdown router
+-   setup routing for new sale

@@ -15,7 +15,8 @@ const Sidebar = () => {
       text: "Sale",
       icon: <BarChart />,
       subMenu: [
-        { text: "Invoice", link: "/sale/invoice" },
+        { text: "New Invoice", link: "/sales/invoice/create" },
+        { text: "Search Invoice", link: "/sale/invoice/search" },
         { text: "Sale Return", link: "/sale/return" },
         { text: "Quotation", link: "/sale/quotation" },
         { text: "Delivery Note", link: "/sale/delivery_note" },
