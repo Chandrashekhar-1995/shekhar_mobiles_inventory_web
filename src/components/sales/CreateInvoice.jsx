@@ -65,7 +65,7 @@ const CreateInvoice = () => {
   return (
     <div className="flex items-center justify-center mb-8 bg-gray-100">
       <div className="w-full max-w-sm bg-white mb-8 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Customer Information</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">New Invoice</h2>
         {errorMessage && (
           <Alert severity="error" className="mb-4">
             {errorMessage}
@@ -77,36 +77,111 @@ const CreateInvoice = () => {
           </Alert>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Required Fields */}
+          {/* Invoice information */}
           <div className="space-y-4">
-            <TextField
-              label="Full Name"
-              variant="outlined"
-              fullWidth
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Address"
-              variant="outlined"
-              fullWidth
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Mobile Number"
-              variant="outlined"
-              fullWidth
-              name="mobileNumber"
-              value={formData.mobileNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
+
+                {/* Invoice information */}
+                <div className="border border-gray-300 col-span-5 relative">
+                  <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
+                    Invoice information
+                  </div>
+
+                  {/* Invoice Type */}
+                  <div className="col-span-2 grid grid-cols-3 m-2 mt-7">
+                      <label className="text-xs font-medium pt-4"> Invoice Type</label>
+                      <input type="text" name="documentType" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"  value={formData.documentType} onChange={handleChange} />
+                  </div>
+
+                  {/* Invoice Number */}
+                  <div className="col-span-2 grid grid-cols-3 m-2">
+                      <label className="text-xs font-medium pt-4">Invoice Number</label>
+                      <input type="text" name="documentNo" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.documentNo} onChange={handleChange} />
+                  </div>
+
+                  {/* Invoice Date  */}
+                  <div className="col-span-2  grid grid-cols-3 m-2">
+                    <label className="text-xs   font-medium pt-4">Date</label>
+                    <input type="date"  name="dateOfBirth"    className="col-span-2   border border-gray-300  rounded  p-2 text-xs m-2"   value={formData.dateOfBirth}  onChange=  {handleChange} />
+                  </div>
+                </div>
+
+                {/* Accounts Details */}
+                <div className="border border-gray-300 col-span-5 relative">
+                <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
+                  Account Details
+                </div>
+
+                {/* Account Type */}
+                <div className="col-span-2 grid grid-cols-3 m-2 mt-7">
+                    <label className="block text-xs font-medium mb-1 p-2">Type *</label>
+                    <div className="flex items-center gap-4">
+                        <label className="flex items-center text-xs">
+                        <input type="radio" name="accountType" value="Debit" checked={formData.accountType === "Debit"} onChange={handleChange} className="mr-2"/> Debit
+                        </label>
+
+                        <label className="flex items-center text-xs">
+                        <input type="radio" name="accountType" value="Credit" checked={formData.accountType === "Credit"} onChange={handleChange} className="mr-2"/> Credit
+                        </label>
+                    </div>
+                </div>
+
+                {/* Opening Balance */}
+                <div className="col-span-2 grid grid-cols-3 m-2">
+                    <label className="text-xs font-medium pt-4">Opening Balance</label>
+                    <input type="text" name="openingBalance" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2" value={formData.openingBalance} onChange={handleChange} />
+                </div>
+                </div>
+                  
+                {/* Important Dates */}
+                <div className="border border-gray-300 col-span-5 relative">
+                <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
+                    Important Dates
+                </div>
+                {/* Date of Birth  */}
+                <div className="col-span-2  grid grid-cols-3 m-2 mt-7">
+                  <label className="text-xs   font-medium pt-4">Date of   Birth</label>
+                  <input type="date"  name="dateOfBirth"   className="col-span-2   border border-gray-300  rounded p-2 text-xs m-2"   value={formData.  dateOfBirth} onChange=  {handleChange} />
+                </div>
+
+                {/* Aniversary */}
+                <div className="col-span-2  grid grid-cols-3 m-2">
+                  <label className="text-xs   font-medium   pt-4">Aniversary</label>
+                  <input type="date"  name="marrigeAniversary"   className="col-span-2   border border-gray-300  rounded p-2 text-xs m-2"   value={formData.marrigeAniversary} onChange= {handleChange} />
+                </div>
+                </div>
+
+                {/* Others Details */}
+                <div className="border border-gray-300 col-span-5 relative">
+                  <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
+                    Other Details
+                </div>
+
+                {/* Credit Allowed */}
+                <div className="col-span-2 grid grid-cols-3 m-2 mt-7">
+                  <label className="block text-xs font-medium mb-1">Credit Allowed</label>
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center text-xs">
+                      <input type="radio" name="creditAllowed" value="Yes" checked={formData.     creditAllowed === "Yes"} onChange={handleChange} className="mr-2" /> Yes
+                    </label>
+                    <label className="flex items-center text-xs">
+                      <input type="radio" name="creditAllowed" value="No" checked={formData.      creditAllowed === "No"} onChange={handleChange} className="mr-2" /> No
+                    </label>
+                  </div>
+                </div>
+
+                {/* Credit Limit  */}
+                <div className="col-span-2 grid grid-cols-3 m-2">
+                  <label className="text-xs font-medium pt-4">Credit Limit</label>
+                  <input type="text" name="creditLimit" className="col-span-2 border    border-gray-300 rounded p-2 text-xs m-2" value={formData.creditLimit} onChange=   {handleChange} />
+                </div>
+
+                {/* Remark */}
+                <div className="col-span-2 grid grid-cols-3 m-2">
+                  <label className="text-xs font-medium">Remark</label>
+                  <textarea name="remark" className="col-span-2 border border-gray-300 rounded p-2    text-xs" rows="2" value={formData.remark} onChange={handleChange} ></textarea>
+                </div>
+                </div> 
+              </div>
 
           {/* Toggle Button */}
           <Button
