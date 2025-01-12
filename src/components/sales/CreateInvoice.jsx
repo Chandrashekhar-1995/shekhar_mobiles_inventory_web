@@ -9,32 +9,36 @@ const CreateInvoice = () => {
   const [showMoreFields, setShowMoreFields] = useState(false);
 
   const [formData, setFormData] = useState({
-    avatar:"",                // optional
-    name: "",                 // required   
-    address: "",              // required   
-    city:undefined,           // optional   
-    state: undefined,         // optional   
-    pinCode:undefined,        // optional   
-    country:undefined,        // optional   
-    email:undefined,          // optional   
-    contactNumber: undefined,        // optional   
-    mobileNumber: "",         // required   
-    panNo: "",                // optional   
-    gstin: "",                // optional   
-    gstType: "Unregistered",  // optional   
-    tradeName: "",            // optional   
-    accountType: "Debit",     // optional   
-    openingBalance: 0,        // optional   
-    documentType: "",         // optional   
-    documentNo: "",           // optional   
-    gender:undefined,            // optional
-    refferedBy:"",            // optional
-    dateOfBirth: undefined,  // optional  
-    marrigeAniversary: undefined,    // optional  
-    creditAllowed: "No",      // optional   
-    creditLimit: 0,           // optional  
-    remark: "",               // optional   
-    bio:"",                   // optional
+    invoiceType:"Non GST",         // optional dropdown ["Non GST", "GST", "Bill of Supply"]
+    invoiceNumber: undefined,      // required   auto generate
+    date: undefined,              // required   
+    dueDate: undefined,           // optional   
+    placeOfSupply:undefined,      // optional (state)
+    billTo: "Cash",               // optional (radio button ["Cash", "Customer"]) 
+    customer:undefined,           // optional (if billTo==="Customer" then select customer from database)  
+    items:undefined,              // required
+    //( in items section includes = 
+    // [
+    // item all details fetch from item database and auto fill in below fields
+    // unit
+    // quantity
+    // salePrice
+    // mrp
+    // discount
+    // tax
+    // cess
+    // total   (quantity*salePrice)-discount
+    //])
+    totalAmount: undefined,             // required (calculat every items total)
+    discountAmount: undefined,          // optional  (number, want to give discount on totalAmount )  
+    totalPayableAmount: undefined,      // required   (totalAmount - discountAmount)
+    paymentAccount: undefined,          // required (mongoose.Schema.Types.ObjectId == "Account")
+    privateNote: "",                    // optional    
+    customerNote: "",                   // optional   
+    receivedAmount: undefined,          // optional   
+    status:"Unpaid",                    // optional
+    soldBy:undefined,                   // user id optional   
+    deliveryTerm: "",                   // optional
   });
 
   const handleChange = (e) => {
@@ -89,7 +93,7 @@ const CreateInvoice = () => {
                   {/* Invoice Type */}
                   <div className="col-span-2 grid grid-cols-3 m-2 mt-7">
                       <label className="text-xs font-medium pt-4"> Invoice Type</label>
-                      <input type="text" name="documentType" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"  value={formData.documentType} onChange={handleChange} />
+                      <input type="text" name="invoiceType" className="col-span-2 border border-gray-300 rounded p-2 text-xs m-2"  value={formData.invoiceType} onChange={handleChange} />
                   </div>
 
                   {/* Invoice Number */}
