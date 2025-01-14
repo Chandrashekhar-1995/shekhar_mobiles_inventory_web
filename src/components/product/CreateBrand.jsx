@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
+import useBrand from "../../hooks/useBrand";
 
 const CreateBrand = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+
+  useBrand();
 
   const [formData, setFormData] = useState({
     brandName:undefined,

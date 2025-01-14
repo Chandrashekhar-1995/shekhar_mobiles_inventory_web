@@ -191,7 +191,7 @@ const Sidebar = () => {
       { text: "Add Service", link: "/product/create" },
       { text: "Search and Manage Items", link: "/product/create" },
       { text: "Discount Schemes", link: "/product/create" },
-      { text: "Brand Master", link: "/product/create" },
+      { text: "Brand Master", link: "/brand/create" },
       { text: "Category Master", link: "/product/create" },
       { text: "Bank Master", link: "/product/create" },
       { text: "Miscellaneous ", link: "/product/create" },
@@ -201,8 +201,7 @@ const Sidebar = () => {
   ];
 
   const toggleSidebar = () => {
-    setOpen(!open);
-    console.log(open);    
+    setOpen(!open);   
   }
   
   // Handle menu hover to show submenus

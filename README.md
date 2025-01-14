@@ -29,3 +29,4 @@
 -   setup routing for new sale
 -   create brand component successfull
 -   create product component successfully
+-   create hook for fetch brands
