@@ -3,7 +3,7 @@ import PurchaseRoutes from "./PurchaseRoutes";
 import ReportsRoutes from "./ReportsRoutes";
 import UserRoutes from "./UserRoutes";
 import CustomerRoutes from "./CustomerRoutes";
-import ProductRoutes from "./Product";
+import ProductRoutes from "./ProductRoutes";
 
 const PrivateRoutes = [
   ...SalesRoutes,

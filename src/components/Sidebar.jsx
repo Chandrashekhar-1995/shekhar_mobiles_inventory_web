@@ -187,7 +187,14 @@ const Sidebar = () => {
     ]
      },
     { text: "Master", icon: <AllInclusive/>, subMenu: [
-      { text: "Indirect Expense", link: "/expense/direct" },
+      { text: "Add Product", link: "/product/create" },
+      { text: "Add Service", link: "/product/create" },
+      { text: "Search and Manage Items", link: "/product/create" },
+      { text: "Discount Schemes", link: "/product/create" },
+      { text: "Brand Master", link: "/product/create" },
+      { text: "Category Master", link: "/product/create" },
+      { text: "Bank Master", link: "/product/create" },
+      { text: "Miscellaneous ", link: "/product/create" },
     ]
     },
     { text: "Settings", icon: <Settings />, link: "/settings" },

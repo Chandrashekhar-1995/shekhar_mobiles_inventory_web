@@ -28,3 +28,4 @@
 -   fix header dropdown router
 -   setup routing for new sale
 -   create brand component successfull
+-   create product component successfully
