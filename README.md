@@ -30,3 +30,4 @@
 -   create brand component successfull
 -   create product component successfully
 -   create hook for fetch brands
+-   update create product Component
