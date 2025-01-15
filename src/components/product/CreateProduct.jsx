@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
+import useCategory from "../../hooks/useCategory";
+import useBrand from "../../hooks/useBrand";
 
 const CreateProduct = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-   const [showMoreFields, setShowMoreFields] = useState(false);
+  const [showMoreFields, setShowMoreFields] = useState(false);
+  useCategory();
+  useBrand();
 
   const [formData, setFormData] = useState({
     productName:"",             // required
@@ -332,7 +336,7 @@ const CreateProduct = () => {
               className="bg-blue-500 hover:bg-blue-600 text-white"
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} className="text-white" /> : "Create Customer"}
+              {loading ? <CircularProgress size={24} className="text-white" /> : "Create Product"}
             </Button>
           </form>
         </div>

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import brandReducer from "./brandSlice";
+import categoryReducer from "./categorySlice";
 
 // Load user from localStorage
 const loadUserFromLocalStorage = () => {
@@ -22,6 +23,7 @@ const appStore = configureStore({
     reducer:{
         user: userReducer,
         brands:brandReducer,
+        categories:categoryReducer,
     },
     preloadedState,
 });

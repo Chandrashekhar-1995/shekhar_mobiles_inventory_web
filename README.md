@@ -31,3 +31,4 @@
 -   create product component successfully
 -   create hook for fetch brands
 -   update create product Component
+-   create hook for fetch all categories

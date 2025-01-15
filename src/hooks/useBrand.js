@@ -16,7 +16,6 @@ const useBrand =() =>{
             }
           );
           const allBrands = await response.data.data;
-          console.log("Use brand run");
           
           dispatch(addBrand(allBrands));
           
