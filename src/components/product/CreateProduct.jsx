@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
+import { Button, TextField, CircularProgress, Alert,} from '@mui/material';
 import useCategory from "../../hooks/useCategory";
 import useBrand from "../../hooks/useBrand";
+import BrandInput from "./brand/BrandInput";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 const CreateProduct = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,9 +44,30 @@ const CreateProduct = () => {
     notForSale:undefined,       // optional
   });
 
+  const categories = useSelector(store=>store.categories.allCategories);
+  const brands = useSelector(store=>store.brands.allBrands);
+  const [subcategories, setSubcategories] = useState([]);
+  const navigate = useNavigate();
+
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; 
     setFormData({ ...formData, [name]: value });
+
+    if (name === "category") {
+      
+      //create new category
+      if(value === "create-new-category"){
+        navigate("/category/create")
+      }
+      // Find the selected category and update subcategories
+      const selectedCategory = categories.find(
+        (category) => category.categoryName === value
+      );
+      setSubcategories(selectedCategory ? selectedCategory.subcategories : []);
+      setFormData({ ...formData, category: value, subcategory: "" }); // Reset subcategory
+      
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -65,7 +90,8 @@ const CreateProduct = () => {
       setLoading(false);
     }
   };
-  return (
+
+  return categories && brands && (
       <div className="flex items-center justify-center mb-8 bg-gray-100">
         <div className="w-full max-w-sm bg-white mb-8 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-center mb-6">Product Information</h2>
@@ -87,22 +113,55 @@ const CreateProduct = () => {
                   </div>
   
                   {/* Category */}
-                  <div className="col-span-2 grid grid-cols-3 m-2 mt-7">
+                  <div className="col-span-2 grid grid-cols-3 m-2">
                     <label className="text-xs font-medium p-2">Category</label>
-                    <input type="text" name="category" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.category} onChange={handleChange} required />
+                    <select
+                      name="category"
+                      className="col-span-2 border border-gray-300 rounded p-2 text-xs"
+                      value={formData.category}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Category
+                      </option>
+                      {categories.map((category, index) => (
+                        <option key={index} value={category.categoryName}>
+                          {category.categoryName}
+                        </option>
+                      ))}
+                      <option value="create-new-category">Create New Category</option>
+                    </select>
                   </div>
-  
+                  
                   {/* Sub Category */}
                   <div className="col-span-2 grid grid-cols-3 m-2">
                     <label className="text-xs font-medium p-2">Sub Category</label>
-                    <input type="text" name="subcategory" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.subcategory} onChange={handleChange} />
+                    <select
+                       name="subcategory"
+                       className="col-span-2 border border-gray-300 rounded p-2 text-xs"
+                       value={formData.subcategory}
+                       onChange={handleChange}
+                       required={subcategories.length > 0}
+                     >
+                       <option value="" disabled>
+                         Select Sub Category
+                       </option>
+                       {subcategories.map((subcategory, index) => (
+                         <option key={index} value={subcategory}>
+                           {subcategory}
+                         </option>
+                       ))}
+                    </select>
+                    
                   </div>           
   
                   {/* Brand */}
-                  <div className="col-span-2 grid grid-cols-3 m-2">
-                    <label className="text-xs font-medium p-2">Brand</label>
-                    <input type="text" name="brand" className="col-span-2 border border-gray-300 rounded p-2 text-xs" value={formData.brand} onChange={handleChange} />
-                  </div>
+                  <BrandInput
+                    brands={brands}
+                    value={formData.brand}
+                    onChange={handleChange}
+                  />
   
                   {/* Item Code */}
                   <div className="col-span-2 grid grid-cols-3 m-2">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
-import useBrand from "../../hooks/useBrand";
+import useBrand from "../../../hooks/useBrand";
 
 const CreateBrand = () => {
   const [errorMessage, setErrorMessage] = useState("");
