@@ -183,7 +183,7 @@ const Sidebar = () => {
       { text: "Send Gmail", link: "/tools/send_gmail" },
       { text: "GST Calculator", link: "/tools/gst_calculator" },
       { text: "Barcode Generator", link: "/tools/barcode_generator" },
-      { text: "Import Item", link: "/tools/product/bulk-upload" },
+      { text: "Upload Bulk Item", link: "/product/bulk-upload" },
     ]
      },
     { text: "Master", icon: <AllInclusive/>, subMenu: [

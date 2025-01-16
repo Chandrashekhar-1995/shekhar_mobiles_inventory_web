@@ -7,6 +7,7 @@ import CreateProduct from "../components/product/CreateProduct";
 import Product from "../components/product/Product";
 import Category from "../components/product/category/Category";
 import CreateCategory from "../components/product/category/CreateCategory";
+import BulkUploadProduct from "../components/product/BulkUploadProduct";
 ;
 
 const ProductRoutes = [
@@ -44,6 +45,7 @@ const ProductRoutes = [
     children: [
       { path: "", element: <Product/> },
       { path: "create", element: <CreateProduct/> },
+      { path: "bulk-upload", element: <BulkUploadProduct/> },
     ],
   },
 ];
