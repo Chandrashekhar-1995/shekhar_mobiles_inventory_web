@@ -7,6 +7,8 @@ import axios from "axios";
 const ProductBulkUpload = () => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProduct, setUploadProduct] = useState([]);
+  const [skippedProducts, setSkippedProducts] = useState([]);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -23,19 +25,28 @@ const ProductBulkUpload = () => {
 
     setUploading(true);
     try {
-      const response = await axios.post("http://localhost:7777/api/v1/product/bulk-upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "http://localhost:7777/api/v1/product/bulk-upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      // Save the response arrays to state and ensure immediate UI update
+      setUploadProduct(response.data.data.insertedProducts || []);
+      setSkippedProducts(response.data.data.skippedProducts || []);
+
       alert("File uploaded successfully!");
-    } catch (error) {
-      alert("Error uploading file. Please try again.");
+    } catch (err) {
+      alert(err.response?.data?.message || "Error uploading file.");
     } finally {
       setUploading(false);
     }
   };
 
   const handleDownloadTemplate = () => {
-    const templateUrl = "http://localhost:7777/api/v1/product/template"; 
+    const templateUrl = "http://localhost:7777/api/v1/product/template";
     const link = document.createElement("a");
     link.href = templateUrl;
     link.setAttribute("download", "product-template.xlsx");
@@ -46,8 +57,8 @@ const ProductBulkUpload = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-        <Typography variant="h5" className="text-center mb-4 font-bold">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
+        <Typography variant="h5" className="text-center pb-10 font-bold">
           Product Bulk Upload
         </Typography>
 
@@ -97,6 +108,34 @@ const ProductBulkUpload = () => {
             Download Template
           </Button>
         </div>
+
+        {/* Display Upload Results */}
+        {uploadProduct.map((result, index) => (
+          <li key={index} className="mb-4">
+            <div className="flex flex-col bg-white shadow p-4 rounded">
+              <Typography variant="body1" className="font-semibold">
+                Product Name: {result ? JSON.stringify(result.productName) : "Unknown"}
+              </Typography>
+              <Typography variant="body2" className="text-green-600">
+                Status: Inserted
+              </Typography>
+            </div>
+          </li>
+        ))}
+
+        {skippedProducts.map((result, index) => (
+          <li key={index} className="mb-4">
+            <div className="flex flex-col bg-white shadow p-4 rounded">
+              <Typography variant="body1" className="font-semibold">
+                Product Name: {result.row?.productName ? JSON.stringify(result.row.productName) : "Unknown"}                
+              </Typography>
+              <Typography variant="body2" className="text-red-600">
+                Reason: {result.reason || "No reason provided"}
+              </Typography>
+            </div>
+          </li>
+        ))}
+
       </div>
     </div>
   );
