@@ -129,6 +129,7 @@ const ProductBulkUpload = () => {
               <Typography variant="body1" className="font-semibold">
                 Product Name: {result.row?.productName ? JSON.stringify(result.row.productName) : "Unknown"}                
               </Typography>
+              {console.log(result)}
               <Typography variant="body2" className="text-red-600">
                 Reason: {result.reason || "No reason provided"}
               </Typography>
