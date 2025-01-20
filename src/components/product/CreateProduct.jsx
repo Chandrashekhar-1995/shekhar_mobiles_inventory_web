@@ -3,7 +3,6 @@ import axios from "axios";
 import { Button, TextField, CircularProgress, Alert,} from '@mui/material';
 import useCategory from "../../hooks/useCategory";
 import useBrand from "../../hooks/useBrand";
-import BrandInput from "./brand/BrandInput";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -65,9 +64,15 @@ const CreateProduct = () => {
         (category) => category.categoryName === value
       );
       setSubcategories(selectedCategory ? selectedCategory.subcategories : []);
+        
       setFormData({ ...formData, category: value, subcategory: "" }); // Reset subcategory
       
     }
+
+    if(name === "brand" && value === "create-new-brand"){
+        navigate("/brand/create")
+    }
+
   };
 
   const handleSubmit = async (e) => {
@@ -157,11 +162,26 @@ const CreateProduct = () => {
                   </div>           
   
                   {/* Brand */}
-                  <BrandInput
-                    brands={brands}
-                    value={formData.brand}
-                    onChange={handleChange}
-                  />
+                  <div className="col-span-2 grid grid-cols-3 m-2">
+                    <label className="text-xs font-medium p-2">Brand</label>
+                    <select
+                      name="brand"
+                      className="col-span-2 border border-gray-300 rounded p-2 text-xs"
+                      value={formData.brand}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Brand
+                      </option>
+                      {brands.map((brand, index) => (
+                        <option key={index} value={brand.brandName}>
+                          {brand.brandName}
+                        </option>
+                      ))}
+                      <option value="create-new-brand">Create New Brand</option>
+                    </select>
+                  </div>
   
                   {/* Item Code */}
                   <div className="col-span-2 grid grid-cols-3 m-2">

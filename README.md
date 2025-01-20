@@ -33,3 +33,4 @@
 -   update create product Component
 -   create hook for fetch all categories
 -   craet Bulk upload Product component ok
+-   set create brand component acording form
