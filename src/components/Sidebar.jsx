@@ -1,200 +1,205 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemIcon, ListItemText,  Popover, } from "@mui/material";
 import { ShoppingCart, Inventory, People,  BarChart,  Settings,  AccountBalance,  AssignmentLate,  InterpreterMode,  AutoFixHigh,  AllInclusive,} from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
 
 const Sidebar = () => {
-  const [open,setOpen] = useState(false);
+  const [open,setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-    const [submenuItems, setSubmenuItems] = useState([]);
-    const [popoverOpen, setPopoverOpen] = useState(false);
+  const [submenuItems, setSubmenuItems] = useState([]);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Sidebar menu structure
   const menuItems = [
-    {
-      text: "Sale",
-      icon: <BarChart />,
-      subMenu: [
-        { text: "New Invoice", link: "/sales/invoice/create" },
-        { text: "Search Invoice", link: "/sale/invoice/search" },
-        { text: "Sale Return", link: "/sale/return" },
-        { text: "Quotation", link: "/sale/quotation" },
-        { text: "Delivery Note", link: "/sale/delivery_note" },
-        { text: "Proforma Invoice", link: "/sale/proforma_invoice" },
-        { text: "Sale Order", link: "/sale/order" },
-        { text: "Credit Note", link: "/sale/credit_note" },
-        { text: "Debit Note", link: "/sale/debit_note" },
-      ],
-    },
-    {
-      text: "Purchase",
-      icon: <ShoppingCart />,
-      subMenu: [
-        { text: "Purchase Bill", link: "/purchase/invoice" },
-        { text: "Purchase Order", link: "/purchase/order" },
-        { text: "Purchase Return", link: "/purchase/return" },
-        { text: "Debit Note", link: "/purchase/debit_note" },
-        { text: "Credit Note", link: "/purchase/credit_note" },
-        { text: "Supplier", link: "/purchase/supplier" },
-      ],
-    },
-    {
-      text: "Inventory",
-      icon: <Inventory />,
-      subMenu: [
-        { text: "Add Stock Adjustment", link: "/inventory/add_stock_adjustment" },
-        { text: "Search and Manage Stock Adjustment", link: "/inventory/search_stock_adjustment" },
-        { text: "Physical Stock Reconciliation", link: "/inventory/stock_reconciliation" },
-        { text: "Low Stock", link: "/inventory/low-stock" },
-      ],
-    },
-    { text: "Accounts", icon: <AccountBalance/>, subMenu: [
-      { text: "Bank Account", link: "/account/bank_account" },
-      { text: "Loan Account", link: "/account/loan_account" },
-      { text: "Asset Account", link: "/account/asset_account" },
-      { text: "Capital Account", link: "/account/capital_account" },
-      { text: "Other Incom Account", link: "/account/other_incom_account" },
-      { text: "Tax Payment", link: "/account/tax_payment" },
-    ] 
-    },
-    { text: "Expense", icon: <AssignmentLate/>, subMenu: [
-      { text: "Direct Expense", link: "/expense/direct" },
-      { text: "Indirect Expense", link: "/expense/direct" },      
-    ]
+    // {
+    //   text: "Sale",
+    //   icon: <BarChart />,
+    //   subMenu: [
+    //     { text: "New Invoice", link: "/sales/invoice/create" },
+    //     { text: "Search Invoice", link: "/sales/invoice/search" },
+    //     // { text: "Sale Return", link: "/sales/return" },
+    //     // { text: "Quotation", link: "/sales/quotation" },
+    //     // { text: "Delivery Note", link: "/sales/delivery_note" },
+    //     // { text: "Proforma Invoice", link: "/sales/proforma_invoice" },
+    //     { text: "Sale Order", link: "/sales/order" },
+    //     // { text: "Credit Note", link: "/sales/credit_note" },
+    //     // { text: "Debit Note", link: "/sales/debit_note" },
+    //   ],
+    // },
+    // {
+    //   text: "Purchase",
+    //   icon: <ShoppingCart />,
+    //   subMenu: [
+    //     { text: "Purchase Bill", link: "/purchase/invoice/create" },// isi me link rahega create ka
+    //     // { text: "Purchase Order", link: "/purchase/order" }, // isi me link rahega create ka
+    //     // { text: "Purchase Return", link: "/purchase/return" },
+    //     // { text: "Debit Note", link: "/purchase/debit_note" },
+    //     // { text: "Credit Note", link: "/purchase/credit_note" },
+    //     { text: "Supplier", link: "/purchase/supplier" },
+    //   ],
+    // },
+    // {
+    //   text: "Inventory",
+    //   icon: <Inventory />,
+    //   subMenu: [
+    //     { text: "Add Stock Adjustment", link: "/inventory/add_stock_adjustment" },
+    //     // { text: "Search and Manage Stock Adjustment", link: "/inventory/search_stock_adjustment" },
+    //     // { text: "Physical Stock Reconciliation", link: "/inventory/stock_reconciliation" },
+    //     // { text: "Low Stock", link: "/inventory/low-stock" },
+    //   ],
+    // },
+    // { 
+    //   text: "Accounts", icon: <AccountBalance/>, subMenu: [
+    //   { text: "Bank Account", link: "/account/bank_account" },
+    //   // { text: "Loan Account", link: "/account/loan_account" },
+    //   // { text: "Asset Account", link: "/account/asset_account" },
+    //   // { text: "Capital Account", link: "/account/capital_account" },
+    //   // { text: "Other Incom Account", link: "/account/other_incom_account" },
+    //   // { text: "Tax Payment", link: "/account/tax_payment" },
+    // ] 
+    // },
+    // {
+    //   text: "Expense", icon: <AssignmentLate/>, subMenu: [
+    //   { text: "Direct Expense", link: "/expense/direct" },
+    //   { text: "Indirect Expense", link: "/expense/indirect" },      
+    // ]
 
-    },
-    { text: "Customer", icon: <People/>, subMenu: [
-      { text: "Add Customer", link: "/auth/user/customer/create" }, 
-      { text: "Search and Manage Customers", link: "/Customer/search" },
-      { text: "Add Customer Loan", link: "/Customer/loan/add" },
-      { text: "Search and Manage Customer Loans", link: "/Customer/loan/manage" },
+    // },
+    {
+      text: "Customer", icon: <People/>, subMenu: [
+      
+        { text: "Add Customer", link: "/auth/user/customer/create" },
+        // { text: "Manage Customers", link: "/auth/user/customer" },       
+        // { text: "Manage Customer Loan", link: "/auth/user/customer/loan" },
     ]
     },
-    { text: "Reports", icon: <BarChart/>, subMenu: [
-      { text: "Accounts", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Inventory", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Sales", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Customers", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Purchases", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Suppliers", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Expenses", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "Staff", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
-      { text: "GSTR", miniSubMenu: [
-        { text: "Cash Book", link: "/Reports/cash_book" },
-        { text: "Business Book", link: "/Reports/business_book" },
-        { text: "Paymeny Paid", link: "/Reports/payment_paid" },
-        { text: "Paymeny Recived", link: "/Reports/payment_recived" },
-        { text: "Daily Summery", link: "/Reports/Daily_summery" },
-        { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
-        { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
-        { text: "Chart of Accounts", link: "/Reports/account_chart" },
-        { text: "Balance Sheet", link: "/balance-sheet" },
-      ] },
+    // { 
+    //   text: "Reports", icon: <BarChart/>, 
+    //   subMenu: [
+    //     { text: "Accounts",link: "/reports/account/", miniSubMenu: [
+    //       { text: "Cash Book", link: "/reports/account/cash_book" },
+    //       { text: "Business Book", link: "/reports/account/business_book" },
+    //       { text: "Paymeny Paid", link: "/reports/account/payment_paid" },
+    //       { text: "Paymeny Recived", link: "/reports/account/payment_recived" },
+    //       { text: "Daily Summery", link: "/reports/account/daily_summery" },
+    //       { text: "Input/Output Tax", link: "/reports/account/input_output_tax" },
+    //       { text: "Profit & Loss Summary", link: "/reports/account/profit_loss_summery" },
+    //       { text: "Chart of Accounts", link: "/reports/account/account_chart" },
+    //       { text: "Balance Sheet", link: "/reports/account/balance-sheet" },
+    //     ] },
+    //     // { text: "Inventory", link: "/reports/inventory/", miniSubMenu: [
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "Sales", link: "/reports/sales/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "Purchases", link: "/reports/purchases/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "Customers", link: "/reports/customers/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "Suppliers", link: "/reports/suppliers/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "Expenses", link: "/reports/expenses/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "Staff", link: "/reports/staff/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //     // { text: "GSTR", link: "/reports/gstr/", miniSubMenu: [
+    //     //   { text: "Cash Book", link: "/Reports/cash_book" },
+    //     //   { text: "Business Book", link: "/Reports/business_book" },
+    //     //   { text: "Paymeny Paid", link: "/Reports/payment_paid" },
+    //     //   { text: "Paymeny Recived", link: "/Reports/payment_recived" },
+    //     //   { text: "Daily Summery", link: "/Reports/Daily_summery" },
+    //     //   { text: "Input/Output Tax", link: "/Reports/input_output_tax" },
+    //     //   { text: "Profit & Loss Summary", link: "/Reports/profit_loss_summery" },
+    //     //   { text: "Chart of Accounts", link: "/Reports/account_chart" },
+    //     //   { text: "Balance Sheet", link: "/balance-sheet" },
+    //     // ] },
+    //   ]
+    // },
+    // { 
+    //   text: "Staff", icon: <InterpreterMode/>, subMenu: [
+    //   { text: "Add Staff", link: "/auth/user/create" },
+    //   { text: "Search and Manage Staff", link: "/auth/user/manage" },
+    // ] 
+    // },
+    { 
+      text: "Tools", icon: <AutoFixHigh/>, subMenu: [
+      // { text: "Reminders", link: "/tools/reminders" },
+      // { text: "Send SMS", link: "/tools/send_sms" },
+      // { text: "Send Gmail", link: "/tools/send_gmail" },
+      // { text: "GST Calculator", link: "/tools/gst_calculator" },
+      // { text: "Barcode Generator", link: "/tools/barcode_generator" },
+      { text: "Import Customer", link: "/auth/user/customer/bulk-upload" },
+      { text: "Import Item", link: "/product/bulk-upload" },
     ]
     },
-    { text: "Staff", icon: <InterpreterMode/>, subMenu: [
-      { text: "Add Staff", link: "/auth/user/create" },
-      { text: "Search and Manage Staff", link: "/admin/user/update" },
-    ] 
-      },
-    { text: "Tools", icon: <AutoFixHigh/>, subMenu: [
-      { text: "Reminders", link: "/tools/reminders" },
-      { text: "Send SMS", link: "/tools/send_sms" },
-      { text: "Send Gmail", link: "/tools/send_gmail" },
-      { text: "GST Calculator", link: "/tools/gst_calculator" },
-      { text: "Barcode Generator", link: "/tools/barcode_generator" },
-      { text: "Upload Bulk Item", link: "/product/bulk-upload" },
-    ]
-     },
-    { text: "Master", icon: <AllInclusive/>, subMenu: [
+    { 
+      text: "Master", icon: <AllInclusive/>, subMenu: [
       { text: "Add Product", link: "/product/create" },
-      { text: "Add Service", link: "/product/create" },
-      { text: "Search and Manage Items", link: "/product/create" },
-      { text: "Discount Schemes", link: "/product/create" },
-      { text: "Brand Master", link: "/brand/create" },
-      { text: "Category Master", link: "/product/create" },
-      { text: "Bank Master", link: "/product/create" },
-      { text: "Miscellaneous ", link: "/product/create" },
+      // { text: "Add Service", link: "/service/create" },
+      // { text: "Manage Services", link: "/service/create" },
+      // { text: "Discount Schemes", link: "/service/create" },
+      // { text: "Brand Master", link: "/service/create" },
+      // { text: "Category Master", link: "/service/create" },
+      // { text: "Bank Master", link: "/service/create" },
+      // { text: "Miscellaneous ", link: "/service/create" },
     ]
     },
     { text: "Settings", icon: <Settings />, link: "/settings" },
@@ -219,6 +224,7 @@ const Sidebar = () => {
   const handleMouseLeave = () => {
     setPopoverOpen(false); 
   };
+  
   return (
     <>
       {/* Hamburger Menu */}
@@ -248,7 +254,13 @@ const Sidebar = () => {
                   <ListItem
                     key={index}
                     type="button"
-                    onClick={(e) => handleMouseEnter(e, menuItem.subMenu)}
+                    onClick={(e) => {
+                      if(menuItem.subMenu?.length){
+                      handleMouseEnter(e, menuItem.subMenu);
+                    } else if(menuItem.link){
+                      navigate(menuItem.link);
+                    }
+                      }}
                     onMouseLeave={handleMouseLeave}
                     className="w-full p-2 text-left hover:bg-blue-950 hover:bg-opacity-50"
                   >

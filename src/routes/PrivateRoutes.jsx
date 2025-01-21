@@ -1,17 +1,27 @@
 import SalesRoutes from "./SalesRoutes";
 import PurchaseRoutes from "./PurchaseRoutes";
-import ReportsRoutes from "./ReportsRoutes";
+import ReportRoutes from "./ReportRoutes";
 import UserRoutes from "./UserRoutes";
 import CustomerRoutes from "./CustomerRoutes";
 import ProductRoutes from "./ProductRoutes";
+import InventoryRoutes from "./InventoryRoutes";
+import AccountRoutes from "./AccountRoutes";
+import ExpenseRoutes from "./ExpenseRoutes";
+import ToolsRoutes from "./ToolsRoutes";
+import SettingRoutes from "./SettingRoutes";
 
 const PrivateRoutes = [
   ...SalesRoutes,
   ...PurchaseRoutes,
-  ...ReportsRoutes,
+  ...ReportRoutes,
   ...UserRoutes,
   ...CustomerRoutes,
   ...ProductRoutes,
+  ...InventoryRoutes,
+  ...AccountRoutes,
+  ...ExpenseRoutes,
+  ...ToolsRoutes,
+  ...SettingRoutes,
 ];
 
 export default PrivateRoutes;

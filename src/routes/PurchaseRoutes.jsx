@@ -1,8 +1,9 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
-// import SalesDashboard from "../components/sales/SalesDashboard";
-// import CreateSale from "../components/sales/CreateSale";
+import PurchaseDashboard from "../components/purchase/PurchaseDashboard";
+import ComingSoon from "../components/ComingSoon";
+
 
 const PurchaseRoutes = [
   {
@@ -12,10 +13,16 @@ const PurchaseRoutes = [
         <Outlet />
       </ProtectedRoute>
     ),
-    // children: [
-    //   { path: "", element: <SalesDashboard /> },
-    //   { path: "create", element: <CreateSale /> },
-    // ],
+    children: [
+      { path: "", element: <PurchaseDashboard /> },
+      { path: "invoice/create", element: <ComingSoon/> },
+      { path: "invoice/search", element: <ComingSoon/> },
+      { path: "order", element: <ComingSoon/> },
+      { path: "return", element: <ComingSoon/> },
+      { path: "debit_note", element: <ComingSoon/> },
+      { path: "credit_note", element: <ComingSoon/> },
+      { path: "supplier", element: <ComingSoon/> },
+    ],
   },
 ];
 

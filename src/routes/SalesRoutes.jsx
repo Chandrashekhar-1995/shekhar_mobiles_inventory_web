@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import SalesDashboard from "../components/sales/SalesDashboard";
 import CreateInvoice from "../components/sales/CreateInvoice";
+import ComingSoon from "../components/ComingSoon";
+
 ;
 
 const SalesRoutes = [
@@ -16,7 +18,14 @@ const SalesRoutes = [
     children: [
       { path: "", element: <SalesDashboard /> },
       { path: "invoice/create", element: <CreateInvoice/> },
-      // { path: "invoice/search", element: <CreateInvoice/> },
+      { path: "invoice/search", element: <ComingSoon/> },
+      { path: "return", element: <ComingSoon/> },
+      { path: "quotation", element: <ComingSoon/> },
+      { path: "delivery_note", element: <ComingSoon/> },
+      { path: "proforma_invoice", element: <ComingSoon/> },
+      { path: "order", element: <ComingSoon/> },
+      { path: "credit_note", element: <ComingSoon/> },
+      { path: "debit_note", element: <ComingSoon/> },
     ],
   },
 ];

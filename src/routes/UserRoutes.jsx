@@ -8,7 +8,9 @@ import AdminDashboardPc from "../components/dextop/user/AdminDashboard";
 import UserProfile from "../components/user/UserProfile";
 import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
 import CreateCustomer from "../components/customer/CreateCustomer";
-
+import ComingSoon from "../components/ComingSoon";
+import CustomerDashboard from "../components/customer/CustomerDashboard";
+import BulkUploadCustomer from "../components/customer/BulkUploadCustomer";
 
 const UserRoutes = [
     {
@@ -19,19 +21,19 @@ const UserRoutes = [
           </ProtectedRoute>
         ),
         children: [
-          { 
-            path: "",
-            element: <UserDashboard/>,
-          },
-          {
-            path:"profile",
-            element:<UserProfile />
-          },
-          {
-            path: "create",
-            element: (
+          { path: "",element: <UserDashboard/>},
+          { path:"profile", element:<UserProfile />},
+          { path: "create", element: 
+            (
               <ProtectedRoute roles={["Admin"]}>
                 <CreateUser/>
+              </ProtectedRoute>
+            ),
+          },
+          { path: "manage", element: 
+            (
+              <ProtectedRoute roles={["Admin"]}>
+                <ComingSoon/>
               </ProtectedRoute>
             ),
           },
@@ -45,13 +47,8 @@ const UserRoutes = [
           </ProtectedRoute>
         ),
         children: [
-          {
-            path: "",
-            element: <Admin/>,
-          },
-          {
-            path: "dashboard",
-            element: <AdminDashboardPc />,
+          { path: "", element: <Admin/>},
+          { path: "dashboard", element: <AdminDashboardPc />,
           },
         ],
     },
@@ -63,26 +60,11 @@ const UserRoutes = [
         </ProtectedRoute>
       ),
       children: [
-        { 
-          path: "",
-          element: <CreateCustomer/>,
-        },
-        {
-          path: "add",
-          element: (
-            <ProtectedRoute>
-              <CreateCustomerPc /> 
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "create",
-          element: (
-            <ProtectedRoute>
-              <CreateCustomer/>
-            </ProtectedRoute>
-          ),
-        },
+        { path: "", element: <CustomerDashboard/> },
+        { path: "add", element: <CreateCustomerPc /> },
+        { path: "create", element: <CreateCustomer/> },
+        { path: "bulk-upload", element: <BulkUploadCustomer/> },
+        { path: "loan", element: <ComingSoon/> },
       ],
     },
 ];
