@@ -13,21 +13,21 @@ const Sidebar = () => {
 
   // Sidebar menu structure
   const menuItems = [
-    // {
-    //   text: "Sale",
-    //   icon: <BarChart />,
-    //   subMenu: [
-    //     { text: "New Invoice", link: "/sales/invoice/create" },
-    //     { text: "Search Invoice", link: "/sales/invoice/search" },
-    //     // { text: "Sale Return", link: "/sales/return" },
-    //     // { text: "Quotation", link: "/sales/quotation" },
-    //     // { text: "Delivery Note", link: "/sales/delivery_note" },
-    //     // { text: "Proforma Invoice", link: "/sales/proforma_invoice" },
-    //     { text: "Sale Order", link: "/sales/order" },
-    //     // { text: "Credit Note", link: "/sales/credit_note" },
-    //     // { text: "Debit Note", link: "/sales/debit_note" },
-    //   ],
-    // },
+    {
+      text: "Sale",
+      icon: <BarChart />,
+      subMenu: [
+        { text: "New Invoice", link: "/sales/invoice/create" },
+        { text: "Manage Invoice", link: "/sales/invoice" },
+        // { text: "Sale Return", link: "/sales/return" },
+        // { text: "Quotation", link: "/sales/quotation" },
+        // { text: "Delivery Note", link: "/sales/delivery_note" },
+        // { text: "Proforma Invoice", link: "/sales/proforma_invoice" },
+        { text: "Sale Order", link: "/sales/order" },
+        // { text: "Credit Note", link: "/sales/credit_note" },
+        // { text: "Debit Note", link: "/sales/debit_note" },
+      ],
+    },
     // {
     //   text: "Purchase",
     //   icon: <ShoppingCart />,

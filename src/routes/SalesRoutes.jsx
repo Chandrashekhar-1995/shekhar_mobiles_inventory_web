@@ -17,6 +17,7 @@ const SalesRoutes = [
     ),
     children: [
       { path: "", element: <SalesDashboard /> },
+      { path: "invoice", element: <ComingSoon/> },
       { path: "invoice/create", element: <CreateInvoice/> },
       { path: "invoice/search", element: <ComingSoon/> },
       { path: "return", element: <ComingSoon/> },
