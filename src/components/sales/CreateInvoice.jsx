@@ -124,7 +124,7 @@ const CreateInvoice = () => {
   };
   return (
     <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
-      <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto">
+      <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
       <div className="flex items-center justify-between">
           <h2 className="font-semibold mb-4 text-sm">Unsaved Invoice</h2>
           <button onClick={console.log("go back clicked")} className="hover:bg-red-600 rounded-lg p-2"> X </button>
@@ -141,7 +141,7 @@ const CreateInvoice = () => {
         )}
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
           {/* Invoice Details */}
           <div className="border border-gray-300 relative">
             <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
@@ -398,8 +398,8 @@ const CreateInvoice = () => {
 
           {/* Total amount etc */}
           <div>
-            <div className="grid grid-cols-3 gap-4 items-center mx-2 mt-4 mb-2">
-            <div className="col-span-1 grid grid-cols-2 gap-4 items-center">
+            <div className="grid grid-cols-4 gap-4 mx-2 mt-4 mb-2">
+            <div className="col-span-1 grid grid-cols-2 gap-4">
                 <div className="col-span-1 flex flex-col">
                     <label className="text-xs font-medium text-gray-600">Total Quantity</label>
                     <input type="text"  className="border bg-yellow-100 border-gray-300 rounded px-2 py-1 text-xs"/>
@@ -418,35 +418,111 @@ const CreateInvoice = () => {
                       <option value="user3" >User 3</option>
                     </select>
                 </div>
+
+                {/* Discount */}
+                <div className="col-span-1 flex flex-col">
+                    <label className="text-xs font-medium text-gray-600">Discount</label>
+                </div>
+                <div className="col-span-1 flex flex-col">
+                  <input type="text"  className="border border-gray-300 rounded px-2 py-1 text-xs"/>
+                </div>
+                {/* Sold by */}
+                <div className="col-span-1 flex flex-col">
+                    <label className="text-xs font-medium text-gray-600">Add Refrance</label>    
+                </div>
+                <div className="col-span-1 flex flex-col">
+                    <label className="text-xs font-medium text-gray-600"></label>    
+                </div>
+                <div className="col-span-1 flex flex-col">
+                    <label className="text-xs font-medium text-gray-600">Add Shipping</label>    
+                </div>
             </div>
-            {/* Invoice Number */}
+
+            {/* notes */}
             <div className="col-span-1 flex flex-col">
-                <label className="text-xs font-medium text-gray-600"> Invoice Number </label>
-                <input type="text" name="documentNo" 
-                className="border border-gray-300 rounded px-2 py-1 text-xs"
-                value={formData.documentNo} onChange={handleChange} />
+              <div className="border border-gray-300 mb-2 relative">
+                <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold"> Delivery Terms
+                </div>
+                <div className="mt-3 m-1">
+                  <textarea name="" className="bg-white w-full border-b border-gray-400">
+                  </textarea>
+                </div>
+              </div>
+              <div className="border border-gray-300 mt-2 relative">
+                <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold"> Remarks (Private use)
+                </div>
+                <div className="mt-3 m-1">
+                  <textarea name="" className="bg-white w-full border-b border-gray-400">
+                  </textarea>
+                </div>
+              </div>
             </div>
-            {/* Invoice Date  */}
-            <div className="col-span-1 flex flex-col">
-                <label className="text-xs font-medium text-gray-600">Date</label>
-              <input type="date"  name="dateOfBirth"    
-              className="border border-gray-300 rounded px-2 py-1 text-xs"
-              value={formData.dateOfBirth}  
-              onChange=  {handleChange} />
+
+            {/* Paymeny  */}
+            <div className="col-span-1 flex flex-col shadow-lg p-2 relative">
+              <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
+                Payment
+              </div>
+
+              <div className="col-span-1 grid grid-cols-3 gap-1">
+                    <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Date</label>
+                    <input 
+                    type="date"  
+                    name="dateOfBirth" 
+                    className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"/>
+
+                {/* Mode */}
+                    <label className="text-xs font-medium text-gray-600 col-span-1">Mode</label>
+                    <select
+                      name="category"
+                      className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
+                      required
+                    >
+                      <option value="user1" >Cash</option>
+                      <option value="user2" >Phone Pay</option>
+                      <option value="user3" >Bharat Pay</option>
+                    </select>
+
+                {/* Tranxation Id */}
+                    <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Txn. ID</label>
+                    <input 
+                    type="text" name="dateOfBirth" className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"/>
+                {/* Amount */}
+                    <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Amount</label>
+                    <input 
+                    type="text" name="dateOfBirth" className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"/>
+              </div>
             </div>
+
+            {/* Total Amount */}
+            <div className="col-span-1 flex flex-col shadow-lg p-2">
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-medium text-gray-600">
+                  Total Amount:
+                </label>
+                <span className="text-sm font-medium text-gray-800">₹ 00.00{formData.items?.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</span>
+              </div>
             </div>
 
           </div>
+          </div>
 
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            className="bg-blue-500 hover:bg-blue-600 text-white"
-            disabled={loading}
-          >
-            {loading ? <CircularProgress size={24} className="text-white" /> : "Save"}
-          </Button>
+          {/* Tools and Submit Button */}
+          <div className="bg-gray-300 my-2 p-2 flex justify-between">
+            <div className="">comming soon tools</div>
+            <div className="flex justify-between ">
+              {/* Total Amount */}
+                <div className="flex justify-between items-center mr-8 ">
+                  <label className="font-medium text-gray-600 px-4">
+                    Balance:
+                  </label>
+                  <span className="font-medium text-gray-800 ">₹ 00.00 </span>
+                </div>
+              <Button type="submit" variant="contained" fullWidth className="bg-blue-500 hover:bg-blue-600 text-white" disabled={loading} >
+                  {loading ? <CircularProgress size={24} className="text-white" /> : "Save"}
+              </Button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
