@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Button, TextField, CircularProgress, Alert } from '@mui/material';
+
+const API_BASE_URL = "http://localhost:7777/api/v1/";
 
 const CreateInvoice = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [showMoreFields, setShowMoreFields] = useState(false);
   const [customerType, setCustomerType] = useState("cash");
   const [searchCustomer, setSearchCustomer] = useState("");
   const [customerSuggestions, setCustomerSuggestions] = useState([]);
+  const [showNameDropdown, setShowNameDropdown] = useState(false);
+  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
 
   const [formData, setFormData] = useState({
-    invoiceType:"Non GST",         // optional dropdown ["Non GST", "GST", "Bill of Supply"]
-    invoiceNumber: undefined,      // required   auto generate
-    date: undefined,              // required   
-    dueDate: undefined,           // optional   
-    placeOfSupply:undefined,      // optional (state)
-    billTo: "Cash",               // optional (radio button ["Cash", "Customer"]) 
-    customer:undefined,           // optional (if billTo==="Customer" then select customer from database)  
+    invoiceType:"Non GST",
+    invoiceNumber: "",
+    date: "",  
+    dueDate: "",   
+    placeOfSupply:"",
+    billTo: "Cash",
+    customer:"",
+    customerName:"",
+    mobileNumber:"",
+    address:"",
     items:undefined,              // required
     //( in items section includes = 
     // [
@@ -37,6 +43,7 @@ const CreateInvoice = () => {
     discountAmount: undefined,          // optional  (number, want to give discount on totalAmount )  
     totalPayableAmount: undefined,      // required   (totalAmount - discountAmount)
     paymentAccount: undefined,          // required (mongoose.Schema.Types.ObjectId == "Account")
+    paymentDate: undefined,          // required (mongoose.Schema.Types.ObjectId == "Account")
     privateNote: "",                    // optional    
     customerNote: "",                   // optional   
     receivedAmount: undefined,          // optional   
@@ -44,6 +51,40 @@ const CreateInvoice = () => {
     soldBy:undefined,                   // user id optional   
     deliveryTerm: "",                   // optional
   });
+
+  useEffect(() => {
+    const fetchLastInvoice = async () => {
+      try {
+        const response = await axios.get("http://localhost:7777/api/v1/invoice/last-invoice");
+        if (response.data) {
+          const lastInvoiceNumber = response.data.data.lastInvoice.invoiceNumber;
+          const match = lastInvoiceNumber.match(/^([A-Za-z-]+)(\d+)$/);
+          if (match) {
+            const prefix = match[1];
+            const numericPart = match[2];
+            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
+            const nextInvoiceNumber = `${prefix}${nextNumber}`;
+            setFormData((prev) => ({ ...prev, invoiceNumber: nextInvoiceNumber }));
+          } else {
+            console.error('Invalid invoice number format');
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching the last invoice:", error);
+      }
+    };
+  
+    fetchLastInvoice();
+  }, []);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setFormData((prev) => ({ ...prev, date: today, paymentDate:today }));
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("Updated customerSuggestions:", customerSuggestions);
+  // }, [customerSuggestions]);
 
   const seletedItems = [
     {
@@ -84,11 +125,11 @@ const CreateInvoice = () => {
     },
   ]
 
-  const handleCustomerSearch = async (query) => {
+  const fetchCustomerSuggestions = async (query) => {
     if (query.length > 1) {
       try {
-        const response = await axios.get(`/api/customers?search=${query}`);
-        setCustomerSuggestions(response.data);
+        const response = await axios.get(`${API_BASE_URL}auth/customer?search=${query}`);
+      setCustomerSuggestions(response.data.data);
       } catch (error) {
         console.error("Error fetching customers:", error);
       }
@@ -96,6 +137,29 @@ const CreateInvoice = () => {
       setCustomerSuggestions([]);
     }
   };
+
+  const handleCustomerNameChange = (e) => {
+    const name = e.target.value;
+    setFormData((prev) => ({ ...prev, customerName: name }));
+    if (name.length >= 2) {
+      fetchCustomerSuggestions(name);
+      setShowNameDropdown(true);
+    } else {
+      setShowNameDropdown(false);
+    }
+  };
+
+  const handleMobileChange = (e) => {
+    const mobile = e.target.value;
+    setFormData((prev) => ({ ...prev, mobileNumber: mobile }));
+    if (mobile.length >= 2) {
+      fetchCustomerSuggestions(mobile);
+      setShowMobileDropdown(true);
+    } else {
+      setShowMobileDropdown(false);
+    }
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,7 +173,7 @@ const CreateInvoice = () => {
     setSuccessMessage("");
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/auth/customer/create",
+        `${API_BASE_URL}auth/invoice/create`,
         formData,
         {
           withCredentials:true
@@ -127,7 +191,7 @@ const CreateInvoice = () => {
       <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
       <div className="flex items-center justify-between">
           <h2 className="font-semibold mb-4 text-sm">Unsaved Invoice</h2>
-          <button onClick={console.log("go back clicked")} className="hover:bg-red-600 rounded-lg p-2"> X </button>
+          <button className="hover:bg-red-600 rounded-lg p-2"> X </button>
 
           {errorMessage && (
           <Alert severity="error" className="mb-4">
@@ -152,23 +216,27 @@ const CreateInvoice = () => {
             <div className="grid grid-cols-3 gap-4 items-center mx-2 mt-4 mb-2">
               {/* Invoice Type */}
             <div className="col-span-1 flex flex-col">
-                <label className="text-xs font-medium text-gray-600"> Invoice Type</label>
-                <input type="text" name="invoiceType" 
-                className="border border-gray-300 rounded px-2 py-1 text-xs"  value={formData.invoiceType} onChange={handleChange} />
+                <label htmlFor="invoiceType" className="text-xs font-medium text-gray-600"> Invoice Type</label>
+                <select id="invoiceType" name="invoiceType" className="border border-gray-300 rounded px-2 py-1 text-xs"  value={formData.invoiceType} onChange={handleChange}>
+                    <option value="Non GST">Non GST</option>
+                    <option value="GST">GST</option>
+                    <option value="Bill of Supply">Bill of Supply</option>
+                </select>
             </div>
             {/* Invoice Number */}
             <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600"> Invoice Number </label>
-                <input type="text" name="documentNo" 
+                <input type="text" name="invoiceNumber"
                 className="border border-gray-300 rounded px-2 py-1 text-xs"
-                value={formData.documentNo} onChange={handleChange} />
+                value={formData.invoiceNumber} onChange={handleChange} 
+                readOnly  />
             </div>
             {/* Invoice Date  */}
             <div className="col-span-1 flex flex-col">
-                <label className="text-xs font-medium text-gray-600">Date</label>
-              <input type="date"  name="dateOfBirth"    
+              <label className="text-xs font-medium text-gray-600">Date</label>
+              <input type="date"  name="date"    
               className="border border-gray-300 rounded px-2 py-1 text-xs"
-              value={formData.dateOfBirth}  
+              value={formData.date || ""}  
               onChange=  {handleChange} />
             </div>
             </div>
@@ -205,36 +273,76 @@ const CreateInvoice = () => {
               <label className="text-xs font-medium text-gray-600">Mobile No</label>
                 <input
                   type="text"
-                  value={searchCustomer}
-                  onChange={(e) => {
-                    setSearchCustomer(e.target.value);
-                    handleCustomerSearch(e.target.value);
-                  }}
+                  value={formData.mobileNumber}
+                  onChange={handleMobileChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="Type Customer Number"
                 />
+                {/* Mobile Dropdown */}
+                {showMobileDropdown && customerSuggestions.length > 0 && (
+                  <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
+                    {customerSuggestions.map((customer) => (
+                      <li
+                        key={customer._id}
+                        onClick={() => {
+                          setFormData({
+                            ...formData,
+                            customer: customer._id,
+                            customerName: customer.name,
+                            mobileNumber: customer.mobileNumber,
+                            address: customer.address,
+                          });
+                          setShowNameDropdown(false);
+                        }}
+                        className="px-2 py-2 cursor-pointer hover:bg-gray-200"
+                      >
+                        {customer.mobileNumber}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Customer Name</label>
                 <input
                 type="text"
-                value={searchCustomer}
-                onChange={(e) => {
-                  setSearchCustomer(e.target.value);
-                  handleCustomerSearch(e.target.value);
-                }}
+                value={formData.customerName}
+                onChange={handleCustomerNameChange}
                 className="border border-gray-300 rounded px-2 py-1 text-xs"
                 placeholder="Type Customer Name"
                 />
+                {/* Name Dropdown */}
+                {showNameDropdown && customerSuggestions.length > 0 && (
+                  <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
+                    {customerSuggestions.map((customer) => (
+                      <li
+                        key={customer._id}
+                        onClick={() => {
+                          setFormData({
+                            ...formData,
+                            customer: customer._id,
+                            customerName: customer.name,
+                            mobileNumber: customer.mobileNumber,
+                            address: customer.address,
+                          });
+                          setShowNameDropdown(false);
+                        }}
+                        className="px-2 py-2 cursor-pointer hover:bg-gray-200"
+                      >
+                        {customer.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Address</label>
                 <input
                 type="text"
-                value={searchCustomer}
+                value={formData.address}
                 onChange={(e) => {
                   setSearchCustomer(e.target.value);
-                  handleCustomerSearch(e.target.value);
+                  handleCustomerNameChange(e.target.value);
                 }}
                 className="border border-gray-300 rounded px-2 py-1 text-xs"
                 placeholder="Address"
@@ -349,7 +457,7 @@ const CreateInvoice = () => {
                 value={searchCustomer}
                 onChange={(e) => {
                   setSearchCustomer(e.target.value);
-                  handleCustomerSearch(e.target.value);
+                  handleCustomerNameChange(e.target.value);
                 }}
                 className="border border-gray-300 rounded px-2 py-1 text-xs"
                 placeholder="Item Description"
@@ -458,7 +566,7 @@ const CreateInvoice = () => {
               </div>
             </div>
 
-            {/* Paymeny  */}
+            {/* Payment  */}
             <div className="col-span-1 flex flex-col shadow-lg p-2 relative">
               <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
                 Payment
@@ -468,7 +576,9 @@ const CreateInvoice = () => {
                     <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Date</label>
                     <input 
                     type="date"  
-                    name="dateOfBirth" 
+                    name="paymentDate" 
+                    value={formData.paymentDate}
+                    onChange={handleChange}
                     className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"/>
 
                 {/* Mode */}
@@ -516,7 +626,7 @@ const CreateInvoice = () => {
                   <label className="font-medium text-gray-600 px-4">
                     Balance:
                   </label>
-                  <span className="font-medium text-gray-800 ">₹ 00.00 </span>
+                  <span className="font-medium text-gray-800 w-20">₹ 00.00 </span>
                 </div>
               <Button type="submit" variant="contained" fullWidth className="bg-blue-500 hover:bg-blue-600 text-white" disabled={loading} >
                   {loading ? <CircularProgress size={24} className="text-white" /> : "Save"}

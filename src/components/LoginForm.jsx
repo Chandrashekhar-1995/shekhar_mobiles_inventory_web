@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = "http://localhost:7777/api/v1/";
+
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     identifier: '', // For mobile number or email
@@ -33,7 +35,7 @@ const LoginForm = () => {
     setSuccessMessage("");
 
     try {
-      const res = await axios.post("http://localhost:7777/api/v1/auth/login", formData, {
+      const res = await axios.post(`${API_BASE_URL}auth/login`, formData, {
         withCredentials: true,
       });
 
