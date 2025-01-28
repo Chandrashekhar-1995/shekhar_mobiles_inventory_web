@@ -280,27 +280,27 @@ const CreateInvoice = () => {
                 />
                 {/* Mobile Dropdown */}
                 {showMobileDropdown && customerSuggestions.length > 0 && (
-                  <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
-                    {customerSuggestions.map((customer) => (
-                      <li
-                        key={customer._id}
-                        onClick={() => {
-                          setFormData({
-                            ...formData,
-                            customer: customer._id,
-                            customerName: customer.name,
-                            mobileNumber: customer.mobileNumber,
-                            address: customer.address,
-                          });
-                          setShowNameDropdown(false);
-                        }}
-                        className="px-2 py-2 cursor-pointer hover:bg-gray-200"
-                      >
-                        {customer.mobileNumber}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+  <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
+    {customerSuggestions.map((customer) => (
+      <li
+        key={customer._id}
+        onClick={() => {
+          setFormData({
+            ...formData,
+            customer: customer._id,
+            customerName: customer.name,
+            mobileNumber: customer.mobileNumber,
+            address: customer.address,
+          });
+          setShowMobileDropdown(false); // Close the mobile dropdown
+        }}
+        className="px-2 py-2 cursor-pointer hover:bg-gray-200"
+      >
+        {customer.mobileNumber}
+      </li>
+    ))}
+  </ul>
+)}
               </div>
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Customer Name</label>
