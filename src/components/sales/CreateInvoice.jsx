@@ -14,6 +14,11 @@ const CreateInvoice = () => {
   const [customerSuggestions, setCustomerSuggestions] = useState([]);
   const [showNameDropdown, setShowNameDropdown] = useState(false);
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
+  const [searchItem, setSearchItem] = useState("");
+  const [itemSuggestions, setItemSuggestions] = useState([]);
+  const [showItemDropdown, setShowItemDropdown] = useState(false);
+  const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
+
 
   const [formData, setFormData] = useState({
     invoiceType:"Non GST",
@@ -26,19 +31,18 @@ const CreateInvoice = () => {
     customerName:"",
     mobileNumber:"",
     address:"",
-    items:undefined,              // required
-    //( in items section includes = 
-    // [
-    // item all details fetch from item database and auto fill in below fields
-    // unit
-    // quantity
-    // salePrice
-    // mrp
-    // discount
-    // tax
-    // cess
-    // total   (quantity*salePrice)-discount
-    //])
+    productName:"",
+    itemCode:"",
+    tag:undefined,
+    quantity:undefined,
+    unit:undefined,
+    unitPrice:undefined,
+    salePrice:undefined,
+    mrp:undefined,
+    netPrice:undefined,
+    discount:undefined,
+    total:undefined,
+    items:[], // required
     totalAmount: undefined,             // required (calculat every items total)
     discountAmount: undefined,          // optional  (number, want to give discount on totalAmount )  
     totalPayableAmount: undefined,      // required   (totalAmount - discountAmount)
@@ -83,8 +87,8 @@ const CreateInvoice = () => {
   }, []);
 
   // useEffect(() => {
-  //   console.log("Updated customerSuggestions:", customerSuggestions);
-  // }, [customerSuggestions]);
+  //   console.log("Updated itemSuggestions:", itemSuggestions);
+  // }, [itemSuggestions]);
 
   const seletedItems = [
     {
@@ -160,6 +164,65 @@ const CreateInvoice = () => {
     }
   };
 
+  const fetchItemSuggestions = async (query) => {
+    if (query.length > 1) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}product/auth/product?search=${query}`);
+      setItemSuggestions(response.data.data);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    } else {
+      setItemSuggestions([]);
+    }
+  };
+
+  const handleItemNameChange = (e) => {
+    const name = e.target.value;
+    setFormData((prev) => ({ ...prev, productName: name }));
+    if (name.length >= 2) {
+      fetchItemSuggestions(name);
+      setShowItemDropdown(true);
+    } else {
+      setShowItemDropdown(false);
+    }
+  };
+
+  const handleItemCodeChange = (e) => {
+    const itemCode = e.target.value;
+    setFormData((prev) => ({ ...prev, itemCode: itemCode }));
+    if (itemCode.length >= 2) {
+      fetchItemSuggestions(itemCode);
+      setShowItemCodeDropdown(true);
+    } else {
+      setShowItemCodeDropdown(false);
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setFormData((prev) => ({
+      ...prev,
+      quantity: isNaN(value) || value < 1 ? 1 : value, // Prevent negative or empty values
+    }));
+  };
+
+  const handleDiscountChange = (e) => {
+    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      discount: value >= 0 ? value : 0,
+    }));
+  };
+
+  const calculateTotalAmount = () => {
+    const { quantity, salePrice, discount } = formData;
+    if (!quantity || !salePrice) return "";
+  
+    const total = quantity * salePrice;
+    return discount > 0 ? total - (total * discount) / 100 : total;
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -360,26 +423,82 @@ const CreateInvoice = () => {
 
             {/* Product info & Calculation */}
             <div className="grid grid-cols-10 gap-4 items-center mx-2 mt-4 mb-2">
+
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Item Code</label>
                 <input
                   type="text"
+                  value={formData.itemCode}
+                  onChange={handleItemCodeChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
-                  placeholder="Item Code"
+                  placeholder="item code"
                 />
+                {/* Item code Dropdown */}
+                {showItemCodeDropdown && itemSuggestions.length > 0 && (
+                    <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
+                      {itemSuggestions.map((item) => (
+                            <li
+                            key={item._id}
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                itemCode: item.itemCode,
+                                productName: item.productName,
+                                unit: item.unit,
+                                salePrice: item.mrp,
+                                mrp: item.mrp,
+                                quantity:1,
+                              });
+                              setShowItemCodeDropdown(false);
+                            }}
+                            className="px-2 py-2 cursor-pointer hover:bg-gray-200"
+                          >
+                            {item.itemCode}
+                          </li>
+                          ))}
+                        </ul>
+                      )}
               </div>
               <div className="col-span-3 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Item Name</label>
                 <input
                   type="text"
+                  value={formData.productName}
+                  onChange={handleItemNameChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
-                  placeholder="Item Name"
+                  placeholder="item code"
                 />
+                {/* Item Name Dropdown */}
+                  {showItemDropdown && itemSuggestions.length > 0 && (
+                    <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
+                      {itemSuggestions.map((item) => (
+                            <li
+                            key={item._id}
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                itemCode: item.itemCode,
+                                productName: item.productName,
+                                unit: item.unit,
+                                salePrice: item.mrp,
+                                mrp: item.mrp,
+                                quantity:1,
+                              });
+                              setShowItemDropdown(false);
+                            }}
+                            className="px-2 py-2 cursor-pointer hover:bg-gray-200"
+                          >
+                            {item.productName}
+                          </li>
+                          ))}
+                        </ul>
+                      )}
               </div>
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Unit</label>
                 <input
                   type="text"
+                  value={formData.unit}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="Unit"
                 />
@@ -387,15 +506,18 @@ const CreateInvoice = () => {
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Quantity</label>
                 <input
-                  type="text"
-                  className="border border-gray-300 rounded px-2 py-1 text-xs"
-                  placeholder="Quantity"
-                />
+                    type="number"
+                    value={formData.quantity ?? ""}
+                    onChange={(e) => handleQuantityChange(e)}
+                    className="border border-gray-300 rounded px-2 py-1 text-xs"
+                    placeholder="quantity"
+                  />
               </div>
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Sale Price</label>
                 <input
                   type="text"
+                  value={formData.salePrice ?? ""}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="Sale Price"
                 />
@@ -404,6 +526,7 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">M.R.P.</label>
                 <input
                   type="text"
+                  value={formData.mrp ?? ""}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="M.R.P."
                 />
@@ -411,17 +534,22 @@ const CreateInvoice = () => {
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Disc (%)</label>
                 <input
-                  type="text"
+                  type="number"
+                  value={formData.discount ?? ""}
+                  onChange={handleDiscountChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
-                  placeholder=""
+                  placeholder="Enter discount %"
                 />
               </div>
+
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Amount</label>
                 <input
                   type="text"
+                  value={calculateTotalAmount()}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder=""
+                  readOnly
                 />
               </div>
             </div>
