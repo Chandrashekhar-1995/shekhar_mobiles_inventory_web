@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { Button, TextField, CircularProgress, Alert } from '@mui/material';
+import { Button, CircularProgress, Alert } from '@mui/material';
 
 const API_BASE_URL = "http://localhost:7777/api/v1/";
 
@@ -10,11 +9,9 @@ const CreateInvoice = () => {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [customerType, setCustomerType] = useState("cash");
-  const [searchCustomer, setSearchCustomer] = useState("");
   const [customerSuggestions, setCustomerSuggestions] = useState([]);
   const [showNameDropdown, setShowNameDropdown] = useState(false);
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
-  const [searchItem, setSearchItem] = useState("");
   const [itemSuggestions, setItemSuggestions] = useState([]);
   const [showItemDropdown, setShowItemDropdown] = useState(false);
   const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
@@ -27,33 +24,35 @@ const CreateInvoice = () => {
     dueDate: "",   
     placeOfSupply:"",
     billTo: "Cash",
-    customer:"",
+    customerId:"",
     customerName:"",
     mobileNumber:"",
     address:"",
-    productName:"",
-    itemCode:"",
-    tag:undefined,
-    quantity:undefined,
-    unit:undefined,
-    unitPrice:undefined,
-    salePrice:undefined,
-    mrp:undefined,
-    netPrice:undefined,
-    discount:undefined,
-    total:undefined,
-    items:[], // required
-    totalAmount: undefined,             // required (calculat every items total)
-    discountAmount: undefined,          // optional  (number, want to give discount on totalAmount )  
-    totalPayableAmount: undefined,      // required   (totalAmount - discountAmount)
-    paymentAccount: undefined,          // required (mongoose.Schema.Types.ObjectId == "Account")
-    paymentDate: undefined,          // required (mongoose.Schema.Types.ObjectId == "Account")
+    item:"",              //items me - item (_id)
+    productName:"",       //items me - productName
+    itemCode:"",          //items me - itemCode
+    unit:"",              //items me - unit
+    quantity:"",          //items me - quantity
+    salePrice:"",         //items me - salePrice
+    mrp:"",               //items me - mrp
+    discount:"",          //items me - discount
+    total:"",             //items me - total
+    itemDescription:"",   //items me - itemDescription
+    unitPrice:"",   
+    netPrice:"",
+    items:[],
+    totalAmount:"",             // required (calculat every items total)
+    discountAmount: "",          // optional  (number, want to give discount on totalAmount )  
+    totalPayableAmount: "",      // required 
+    paymentAccount: "",          // required (mongoose.Schema.Types.ObjectId == "Account")
+    paymentDate: "",          // required (mongoose.Schema.Types.ObjectId == "Account")
     privateNote: "",                    // optional    
     customerNote: "",                   // optional   
-    receivedAmount: undefined,          // optional   
+    receivedAmount: "",          // optional   
     status:"Unpaid",                    // optional
-    soldBy:undefined,                   // user id optional   
+    soldBy:"",                   // user id optional   
     deliveryTerm: "",                   // optional
+    srNumber:""
   });
 
   useEffect(() => {
@@ -86,48 +85,9 @@ const CreateInvoice = () => {
     setFormData((prev) => ({ ...prev, date: today, paymentDate:today }));
   }, []);
 
-  // useEffect(() => {
-  //   console.log("Updated itemSuggestions:", itemSuggestions);
-  // }, [itemSuggestions]);
-
-  const seletedItems = [
-    {
-      srNumber:1,
-      itemName:"ABC",
-      tag:"abc",
-      quantity:10,
-      unit:"PCS",
-      unitPrice:"PCS",
-      untiPrice:20,
-      netPrice:200,
-      discount:10,
-      totalAmount:180,
-    },
-    {
-      srNumber:2,
-      itemName:"ABC",
-      tag:"abc",
-      quantity:10,
-      unit:"PCS",
-      untiPrice:"PCS",
-      unitPrice:20,
-      netPrice:200,
-      discount:10,
-      totalAmount:180,
-    },
-    {
-      srNumber:3,
-      itemName:"ABC",
-      tag:"abc",
-      quantity:10,
-      unit:"PCS",
-      untiPrice:"PCS",
-      unitPrice:20,
-      netPrice:200,
-      discount:10,
-      totalAmount:180,
-    },
-  ]
+  useEffect(() => {
+    console.log("Added item:", formData.items);
+  }, [formData.items]);
 
   const fetchCustomerSuggestions = async (query) => {
     if (query.length > 1) {
@@ -223,10 +183,59 @@ const CreateInvoice = () => {
     return discount > 0 ? total - (total * discount) / 100 : total;
   };
   
+  const handleAddItem = (event) => {
+    event.preventDefault();
+  
+    const { item, itemCode, productName, quantity, unit, salePrice, mrp, discount, itemDescription } = formData;
+  
+    if (!productName || !quantity || !salePrice) {
+      alert("Please fill in all required fields before adding an item.");
+      return;
+    }
+  
+    const newItem = {
+      item,
+      itemCode,
+      productName,
+      quantity: quantity || 1,
+      unit,
+      salePrice,
+      mrp,
+      discount: discount || 0,
+      total: calculateTotalAmount(),
+      itemDescription,
+    };
+  
+    setFormData((prev) => ({
+      ...prev,
+      items: [...prev.items, newItem],
+      itemCode: "",
+      productName: "",
+      quantity: "",
+      unit: "",
+      salePrice: "",
+      mrp: "",
+      discount: "",
+      itemDescription:"",
+    }));
+  };
+
+const totalItemQuantity = formData.items.reduce((total, item) => total + item.quantity, 0);
+
+const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
+    
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    if (name === "salePrice" && !/^\d*\.?\d*$/.test(value)) {
+      return;
+    }
+  
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -236,13 +245,22 @@ const CreateInvoice = () => {
     setSuccessMessage("");
     try {
       const response = await axios.post(
-        `${API_BASE_URL}auth/invoice/create`,
+        "http://localhost:7777/api/v1/invoice/create",
         formData,
         {
           withCredentials:true
         }
       );
-      setSuccessMessage("Customer Creared successful !");
+      setSuccessMessage("Invoice Created successful !");
+
+      // Extract the invoice ID from response and navigate
+      console.log(response.data.data.newInvoice._id);
+      
+      const invoiceId = response.data.data.newInvoice._id;
+      if (invoiceId) {
+          navigate(`/edit/invoice/${invoiceId}`);
+      }
+
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
     } finally {
@@ -306,36 +324,39 @@ const CreateInvoice = () => {
             
             {/* Customer information */}
             <div className="grid grid-cols-4 gap-4 items-center mx-2 mt-4 mb-4">
-              {/* Bill To */}
+                {/* Bill To */}
               <div className="col-span-1 flex flex-col">
-              <label className="text-xs font-medium text-gray-600">Bill To</label>
+                <label className="text-xs font-medium text-gray-600">Bill To</label>
                 <div>
                   <label className="mr-4">
                     <input
                       type="radio"
-                      value="cash"
+                      value="Cash"
+                      name="billTo"
                       className="mx-2"
-                      checked={customerType === "cash"}
-                      onChange={() => setCustomerType("cash")}
-                    />{" "}
+                      checked={formData.billTo === "Cash"}
+                      onChange={(e) => setFormData({ ...formData, billTo: e.target.value })}
+                    />
                     Cash
                   </label>
                   <label>
                     <input
                       type="radio"
-                      value="customer"
-                      checked={customerType === "customer"}
-                      onChange={() => setCustomerType("customer")}
-                    />{" "}
+                      value="Customer"
+                      name="billTo"
+                      checked={formData.billTo === "Customer"}
+                      onChange={(e) => setFormData({ ...formData, billTo: e.target.value })}
+                    />
                     Customer
                   </label>
                 </div>
-            </div>
+              </div>
             {/* Customer Search */}
               <div className="col-span-1 flex flex-col">
               <label className="text-xs font-medium text-gray-600">Mobile No</label>
                 <input
                   type="text"
+                  name="mobileNumber"
                   value={formData.mobileNumber}
                   onChange={handleMobileChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
@@ -343,27 +364,27 @@ const CreateInvoice = () => {
                 />
                 {/* Mobile Dropdown */}
                 {showMobileDropdown && customerSuggestions.length > 0 && (
-  <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
-    {customerSuggestions.map((customer) => (
-      <li
-        key={customer._id}
-        onClick={() => {
-          setFormData({
-            ...formData,
-            customer: customer._id,
-            customerName: customer.name,
-            mobileNumber: customer.mobileNumber,
-            address: customer.address,
-          });
-          setShowMobileDropdown(false); // Close the mobile dropdown
-        }}
-        className="px-2 py-2 cursor-pointer hover:bg-gray-200"
-      >
-        {customer.mobileNumber}
-      </li>
-    ))}
-  </ul>
-)}
+                    <ul className="list-none border border-gray-300 bg-white max-h-40 overflow-y-auto absolute z-50 m-0 p-0">
+                      {customerSuggestions.map((customer) => (
+                        <li
+                          key={customer._id}
+                          onClick={() => {
+                            setFormData({
+                              ...formData,
+                              customerId: customer._id,
+                              customerName: customer.name,
+                              mobileNumber: customer.mobileNumber,
+                              address: customer.address,
+                            });
+                            setShowMobileDropdown(false);
+                          }}
+                          className="px-2 py-2 cursor-pointer hover:bg-gray-200"
+                        >
+                          {customer.mobileNumber}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </div>
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Customer Name</label>
@@ -383,7 +404,7 @@ const CreateInvoice = () => {
                         onClick={() => {
                           setFormData({
                             ...formData,
-                            customer: customer._id,
+                            customerId: customer._id,
                             customerName: customer.name,
                             mobileNumber: customer.mobileNumber,
                             address: customer.address,
@@ -402,16 +423,13 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">Address</label>
                 <input
                 type="text"
+                name="address"
                 value={formData.address}
-                onChange={(e) => {
-                  setSearchCustomer(e.target.value);
-                  handleCustomerNameChange(e.target.value);
-                }}
+                onChange={handleChange}
                 className="border border-gray-300 rounded px-2 py-1 text-xs"
                 placeholder="Address"
                 />
               </div>
-
             </div>
           </div>
 
@@ -428,6 +446,7 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">Item Code</label>
                 <input
                   type="text"
+                  name="itemCode"
                   value={formData.itemCode}
                   onChange={handleItemCodeChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
@@ -443,9 +462,10 @@ const CreateInvoice = () => {
                               setFormData({
                                 ...formData,
                                 itemCode: item.itemCode,
+                                item:item._id,
                                 productName: item.productName,
                                 unit: item.unit,
-                                salePrice: item.mrp,
+                                salePrice: item.salePrice,
                                 mrp: item.mrp,
                                 quantity:1,
                               });
@@ -463,10 +483,11 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">Item Name</label>
                 <input
                   type="text"
+                  name="productName"
                   value={formData.productName}
                   onChange={handleItemNameChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
-                  placeholder="item code"
+                  placeholder="item name"
                 />
                 {/* Item Name Dropdown */}
                   {showItemDropdown && itemSuggestions.length > 0 && (
@@ -479,8 +500,9 @@ const CreateInvoice = () => {
                                 ...formData,
                                 itemCode: item.itemCode,
                                 productName: item.productName,
+                                item:item._id,
                                 unit: item.unit,
-                                salePrice: item.mrp,
+                                salePrice: item.salePrice,
                                 mrp: item.mrp,
                                 quantity:1,
                               });
@@ -498,6 +520,7 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">Unit</label>
                 <input
                   type="text"
+                  name="unit"
                   value={formData.unit}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="Unit"
@@ -507,6 +530,7 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">Quantity</label>
                 <input
                     type="number"
+                    name="quantity"
                     value={formData.quantity ?? ""}
                     onChange={(e) => handleQuantityChange(e)}
                     className="border border-gray-300 rounded px-2 py-1 text-xs"
@@ -517,7 +541,9 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">Sale Price</label>
                 <input
                   type="text"
+                  name="salePrice"
                   value={formData.salePrice ?? ""}
+                  onChange={handleChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="Sale Price"
                 />
@@ -526,7 +552,9 @@ const CreateInvoice = () => {
                 <label className="text-xs font-medium text-gray-600">M.R.P.</label>
                 <input
                   type="text"
+                  name="mrp"
                   value={formData.mrp ?? ""}
+                  onChange={handleChange}
                   className="border border-gray-300 rounded px-2 py-1 text-xs"
                   placeholder="M.R.P."
                 />
@@ -541,7 +569,6 @@ const CreateInvoice = () => {
                   placeholder="Enter discount %"
                 />
               </div>
-
               <div className="col-span-1 flex flex-col">
                 <label className="text-xs font-medium text-gray-600">Amount</label>
                 <input
@@ -554,42 +581,29 @@ const CreateInvoice = () => {
               </div>
             </div>
 
-            {/* Tag and item description */}
+            {/* item description */}
             <div className="grid grid-cols-4 gap-4 items-center mx-2 mt-4 mb-4">
-              <div className="col-span-1 flex flex-col">
-                <div>
-                  <label className="text-xs font-medium text-gray-600">
-                    <input
-                      type="radio"
-                      value="cash"
-                      className="mx-2"
-                      checked={customerType === "cash"}
-                      onChange={() => setCustomerType("cash")}
-                    />{" "}
-                    Item Tag
-                  </label>
-                  <label className="text-xs font-medium text-gray-600 mx-4">
-                    <input
-                      type="radio"
-                      value="customer"
-                      checked={customerType === "customer"}
-                      onChange={() => setCustomerType("customer")}
-                    />{" "}
-                    Item Code
-                  </label>
-                </div>
-              </div>
               <div className="col-span-3 flex flex-col">
                 <input
                 type="text"
-                value={searchCustomer}
-                onChange={(e) => {
-                  setSearchCustomer(e.target.value);
-                  handleCustomerNameChange(e.target.value);
-                }}
+                name="itemDescription"
+                value={formData.itemDescription}
+                onChange={handleChange}
                 className="border border-gray-300 rounded px-2 py-1 text-xs"
                 placeholder="Item Description"
                 />
+              </div>
+              <div className="col-span-1 flex flex-col">
+              {/* Add Button */}
+              <div className="col-span-1 flex flex-col">
+                <button
+                  type="button"
+                  onClick={handleAddItem}
+                  className="bg-blue-500 text-white text-xs font-medium px-3 py-1 rounded hover:bg-blue-600 transition"
+                >
+                  Add
+                </button>
+              </div>
               </div>
             </div>
 
@@ -599,31 +613,29 @@ const CreateInvoice = () => {
                   {/* Header */}
                   <thead className="bg-blue-500 text-white">
                       <tr className="bg-blue-500 text-white text-left">
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>S.No.</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "28%" }}>Item Name</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Tag</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Quantity</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Unit</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Unit Price</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Net Price</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Disc (%)</th>
-                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "8%" }}>Amount</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>S.No.</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "29%" }}>Item Name</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>Quantity</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>Unit</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>Unit Price</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>Net Price</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>Disc (%)</th>
+                      <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "9%" }}>Amount</th>
                     </tr>
                   </thead>
                   {/* Body */}
                   <tbody className="align-top">
-                      {seletedItems.length>0 && (
-                        seletedItems.map((item, index) =>(
+                      {formData.items.length>0 && (
+                        formData.items.map((item, index) =>(
                           <tr key={index} className="text-gray-700 align-top">
                             <td className="px-4 py-2">{item.srNumber}</td>
-                            <td className="px-4 py-2">{item.itemName}</td>
-                            <td className="px-4 py-2">{item.tag}</td>
+                            <td className="px-4 py-2">{item.productName}</td>
                             <td className="px-4 py-2">{item.quantity}</td>
                             <td className="px-4 py-2">{item.unit}</td>
-                            <td className="px-4 py-2">{item.unitPrice}</td>
-                            <td className="px-4 py-2">{item.netPrice}</td>
-                            <td className="px-4 py-2">{item.discount}</td>
-                            <td className="px-4 py-2">{item.totalAmount}</td>
+                            <td className="px-4 py-2">{item.mrp}</td>
+                            <td className="px-4 py-2">{item.salePrice}</td>
+                            <td className="px-4 py-2">{item.discount>0 ? item.discount : "" }</td>
+                            <td className="px-4 py-2">{item.total}</td>
                           </tr>
                         ))
                       )}
@@ -638,7 +650,8 @@ const CreateInvoice = () => {
             <div className="col-span-1 grid grid-cols-2 gap-4">
                 <div className="col-span-1 flex flex-col">
                     <label className="text-xs font-medium text-gray-600">Total Quantity</label>
-                    <input type="text"  className="border bg-yellow-100 border-gray-300 rounded px-2 py-1 text-xs"/>
+                    <input type="text"  className="border bg-yellow-100 border-gray-300 rounded px-2 py-1 text-xs"
+                    value={totalItemQuantity}/>
                 </div>
 
                 {/* Sold by */}
@@ -657,12 +670,18 @@ const CreateInvoice = () => {
 
                 {/* Discount */}
                 <div className="col-span-1 flex flex-col">
-                    <label className="text-xs font-medium text-gray-600">Discount</label>
+                    <label className="text-xs font-medium text-gray-600">Discount Rs</label>
                 </div>
                 <div className="col-span-1 flex flex-col">
-                  <input type="text"  className="border border-gray-300 rounded px-2 py-1 text-xs"/>
+                  <input 
+                  type="text"
+                  name="discountAmount"  
+                  value={formData.discountAmount}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded px-2 py-1 text-xs"
+                  placeholder="discount in rs"/>
                 </div>
-                {/* Sold by */}
+                {/* Add Refrancey */}
                 <div className="col-span-1 flex flex-col">
                     <label className="text-xs font-medium text-gray-600">Add Refrance</label>    
                 </div>
@@ -712,13 +731,14 @@ const CreateInvoice = () => {
                 {/* Mode */}
                     <label className="text-xs font-medium text-gray-600 col-span-1">Mode</label>
                     <select
-                      name="category"
+                      name="paymentAccount"
+                      value={formData.paymentAccount}                      
                       className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
                       required
                     >
-                      <option value="user1" >Cash</option>
-                      <option value="user2" >Phone Pay</option>
-                      <option value="user3" >Bharat Pay</option>
+                      <option value="Cash" >Cash</option>
+                      <option value="Phone Pay" >Phone Pay</option>
+                      <option value="Bharat Pay" >Bharat Pay</option>
                     </select>
 
                 {/* Tranxation Id */}
@@ -728,20 +748,46 @@ const CreateInvoice = () => {
                 {/* Amount */}
                     <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Amount</label>
                     <input 
-                    type="text" name="dateOfBirth" className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"/>
+                    type="text" 
+                    name="receivedAmount" 
+                    value={formData.receivedAmount}
+                    onChange={handleChange}
+                    className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"/>
               </div>
             </div>
 
             {/* Total Amount */}
             <div className="col-span-1 flex flex-col shadow-lg p-2">
-              <div className="flex justify-between items-center">
+              {/* if item add thain show */}
+              {formData.items.length>0 &&(
+                <div className="flex justify-between items-center">
                 <label className="text-xs font-medium text-gray-600">
+                  Sub Amount:
+                </label>
+                <span className="text-sm font-medium text-gray-800">₹ {totalItemPrice} </span>
+              </div>
+              )}
+
+              {/* if add discount on total amount */}
+              {formData.discountAmount > 0 &&(
+                <div className="flex justify-between items-center">
+                <label className="text-xs font-medium text-gray-600">
+                  Discount:
+                </label>
+                <span className="text-sm font-medium text-gray-800"> - ₹ {formData.discountAmount} </span>
+              </div>
+              )}
+
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-bold text-gray-800">
                   Total Amount:
                 </label>
-                <span className="text-sm font-medium text-gray-800">₹ 00.00{formData.items?.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</span>
+                <span
+                name="totalPayableAmount" 
+                value={formData.totalPayableAmount}
+                className="text-sm font-bold text-gray-800">₹ {formData.items.length>0 ? totalItemPrice - formData.discountAmount: "00.00"} </span>
               </div>
             </div>
-
           </div>
           </div>
 
@@ -754,7 +800,7 @@ const CreateInvoice = () => {
                   <label className="font-medium text-gray-600 px-4">
                     Balance:
                   </label>
-                  <span className="font-medium text-gray-800 w-20">₹ 00.00 </span>
+                  <span className="font-medium text-gray-800 w-20">₹ {formData.items.length>0 ? (totalItemPrice - formData.discountAmount) - formData.receivedAmount: "00.00"}</span>
                 </div>
               <Button type="submit" variant="contained" fullWidth className="bg-blue-500 hover:bg-blue-600 text-white" disabled={loading} >
                   {loading ? <CircularProgress size={24} className="text-white" /> : "Save"}

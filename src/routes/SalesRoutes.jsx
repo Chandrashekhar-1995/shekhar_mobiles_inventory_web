@@ -20,6 +20,7 @@ const SalesRoutes = [
       { path: "invoice", element: <ComingSoon/> },
       { path: "invoice/create", element: <CreateInvoice/> },
       { path: "invoice/search", element: <ComingSoon/> },
+      { path: "edit/invoice/:id", element: <ComingSoon/> },
       { path: "return", element: <ComingSoon/> },
       { path: "quotation", element: <ComingSoon/> },
       { path: "delivery_note", element: <ComingSoon/> },
