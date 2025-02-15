@@ -2,6 +2,7 @@ import React from "react";
 
 const CustomerDetails = ({
   formData,
+  setFormData,
   handleChange,
   handleCustomerNameChange,
   handleMobileChange,
@@ -76,6 +77,13 @@ const CustomerDetails = ({
                       value: customer.address,
                     },
                   });
+                  setFormData({
+                    ...formData,
+                    customerId: customer._id,
+                    customerName: customer.name,
+                    mobileNumber: customer.mobileNumber,
+                    address: customer.address,
+                  });
                   setShowMobileDropdown(false);
                 }}
                 className="px-2 py-2 cursor-pointer hover:bg-gray-200"
@@ -120,6 +128,13 @@ const CustomerDetails = ({
                       name: "address",
                       value: customer.address,
                     },
+                  });
+                  setFormData({
+                    ...formData,
+                    customerId: customer._id,
+                    customerName: customer.name,
+                    mobileNumber: customer.mobileNumber,
+                    address: customer.address,
                   });
                   setShowNameDropdown(false);
                 }}

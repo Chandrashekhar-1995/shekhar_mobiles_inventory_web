@@ -647,6 +647,7 @@ const totalItemPrice = formData.items.reduce((total, item) => total + item.total
           {/* Total amount etc */}
           <div>
             <div className="grid grid-cols-4 gap-4 mx-2 mt-4 mb-2">
+              {/* discount section */}
             <div className="col-span-1 grid grid-cols-2 gap-4">
                 <div className="col-span-1 flex flex-col">
                     <label className="text-xs font-medium text-gray-600">Total Quantity</label>

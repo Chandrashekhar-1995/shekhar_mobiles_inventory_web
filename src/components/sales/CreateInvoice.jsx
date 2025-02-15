@@ -8,6 +8,9 @@ import InvoiceTable from "./CreateInvoice/InvoiceTable";
 import PaymentDetails from "./CreateInvoice/PaymentDetails";
 import InvoiceSummary from "./CreateInvoice/InvoiceSummary";
 import SubmitSection from "./CreateInvoice/SubmitSection";
+import DiscountSection from "./CreateInvoice/DiscountSection";
+import NotesSection from "./CreateInvoice/NotesSection";
+// import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = "http://localhost:7777/api/v1/";
 
@@ -21,6 +24,7 @@ const CreateInvoice = () => {
   const [itemSuggestions, setItemSuggestions] = useState([]);
   const [showItemDropdown, setShowItemDropdown] = useState(false);
   const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
+  // const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     invoiceType: "Non GST",
@@ -50,7 +54,7 @@ const CreateInvoice = () => {
     discountAmount: "",
     totalPayableAmount: "",
     paymentDate: "",
-    paymentAccount: "",
+    paymentAccount: "Cash",
     privateNote: "",
     customerNote: "",
     receivedAmount: "",
@@ -176,6 +180,14 @@ const CreateInvoice = () => {
     }));
   };
 
+  const handlefinalDiscountChange = (e) => {
+    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      discountAmount: value >= 0 ? value : 0,
+    }));
+  };
+
   const calculateTotalAmount = () => {
     const { quantity, salePrice, discount } = formData;
     if (!quantity || !salePrice) return "";
@@ -221,8 +233,6 @@ const CreateInvoice = () => {
     }));
   };
 
-  const totalItemQuantity = formData.items.reduce((total, item) => total + item.quantity, 0);
-
   const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
 
   const handleChange = (e) => {
@@ -261,49 +271,22 @@ const CreateInvoice = () => {
       );
       setSuccessMessage("Invoice Created successfully!");
 
-      const invoiceId = response.data.data.newInvoice._id;
-      if (invoiceId) {
-        navigate(`/edit/invoice/${invoiceId}`);
-      }
+      // const invoiceId = response.data.data.newInvoice._id;
+      // if (invoiceId) {
+      //   navigate(`/edit/invoice/${invoiceId}`);
+      // }
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   setErrorMessage("");
-  //   setSuccessMessage("");
-  //   try {
-  //     console.log("hi");
-  //   } catch (err) {
-  //     setErrorMessage(err.response?.data?.message || "An unexpected error occurred"); 
-  //   } finally {
-      
-  //   }
-    
-  // }
-
   return (
     <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
       <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold mb-4 text-sm">Unsaved Invoice</h2>
           <button className="hover:bg-red-600 rounded-lg p-2"> X </button>
-
-          {errorMessage && (
-            <Alert severity="error" className="mb-4">
-              {errorMessage}
-            </Alert>
-          )}
-          {successMessage && (
-            <Alert severity="success" className="mb-4">
-              {successMessage}
-            </Alert>
-          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
@@ -313,6 +296,7 @@ const CreateInvoice = () => {
           {/* Customer Details */}
           <CustomerDetails
             formData={formData}
+            setFormData={setFormData}
             handleChange={handleChange}
             handleCustomerNameChange={handleCustomerNameChange}
             handleMobileChange={handleMobileChange}
@@ -344,11 +328,46 @@ const CreateInvoice = () => {
           {/* Invoice Table */}
           <InvoiceTable formData={formData} />
 
-          {/* Payment Details */}
-          <PaymentDetails formData={formData} handleChange={handleChange} />
+          {/* Total amount etc */}
+          <div className="grid grid-cols-4 gap-4 mx-2 mt-4 mb-2">
+            {/* discount section */}
+            <div className="col-span-1 grid grid-cols-2 gap-4">
+              <DiscountSection 
+              formData={formData}
+              handleChange={handleChange}
+              handlefinalDiscountChange={handlefinalDiscountChange}
+              />
+            </div>
 
-          {/* Invoice Summary */}
-          <InvoiceSummary formData={formData} totalItemPrice={totalItemPrice} />
+            {/* notes */}
+            <div className="col-span-1 flex flex-col">
+              <NotesSection
+              formData={formData}
+              />
+            </div>
+
+            {/* Payment Details */}
+            <div className="col-span-1 flex flex-col shadow-lg p-2 relative">
+              <PaymentDetails formData={formData} handleChange={handleChange} />
+            </div>
+
+            {/* Invoice Summary */}
+            <div className="col-span-1 flex flex-col shadow-lg p-2">
+              <InvoiceSummary formData={formData} totalItemPrice={totalItemPrice} />
+            </div>
+
+          </div>
+
+          {errorMessage && (
+            <Alert severity="error" className="mb-4">
+              {errorMessage}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert severity="success" className="mb-4">
+              {successMessage}
+            </Alert>
+          )}
 
           {/* Submit Section */}
           <SubmitSection
