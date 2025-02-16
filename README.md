@@ -38,3 +38,4 @@
 -   fix set product details in invoice 
 -   create invoice done
 -   manage invoice table
+-   set invoice table
