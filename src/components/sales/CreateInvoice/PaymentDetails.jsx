@@ -19,8 +19,8 @@ const PaymentDetails = ({ formData, handleChange }) => {
         {/* Payment Mode */}
         <label className="text-xs font-medium text-gray-600 col-span-1">Mode</label>
         <select
-          name="paymentAccount"
-          value={formData.paymentAccount}
+          name="paymentMode"
+          value={formData.paymentMode}
           className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
           onChange={handleChange}
         >

@@ -54,7 +54,7 @@ const CreateInvoice = () => {
     discountAmount: "",
     totalPayableAmount: "",
     paymentDate: "",
-    paymentAccount: "Cash",
+    paymentMode: "Cash",
     privateNote: "",
     customerNote: "",
     receivedAmount: "",
@@ -343,6 +343,7 @@ const CreateInvoice = () => {
             <div className="col-span-1 flex flex-col">
               <NotesSection
               formData={formData}
+              handleChange={handleChange}
               />
             </div>
 

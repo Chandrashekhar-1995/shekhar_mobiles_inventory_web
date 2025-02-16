@@ -1,22 +1,37 @@
 import React from 'react'
 
-const NotesSection = ({ formData, handleChange }) => {
+const NotesSection = ({
+  formData,
+  handleChange
+}) => {
   return (
-    <div className="border border-gray-300 rounded-lg p-2">
-      <label htmlFor="customerNote" className="block text-sm font-medium text-gray-700">
-        Customer Note
-      </label>
-      <textarea
-        id="customerNote"
-        name="customerNote"
-        value={formData.customerNote}  // Bind to formData
-        onChange={handleChange}        // Update formData on change
-        className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        rows="4"
-        placeholder="Enter any notes for the customer"
-      />
-    </div>
-  );
-};
+    <>
+        <div className="border border-gray-300 mb-2 relative">
+                <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold"> Delivery Terms
+                </div>
+                <div className="mt-3 m-1">
+                  <textarea 
+                  name="deliveryTerm"
+                  value={formData.deliveryTerm}
+                  onChange={handleChange}
+                  className="bg-white w-full border-b border-gray-400">
+                  </textarea>
+                </div>
+              </div>
+              <div className="border border-gray-300 mt-2 relative">
+                <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold"> Remarks (Private use)
+                </div>
+                <div className="mt-3 m-1">
+                  <textarea 
+                  name="privateNote"
+                  value={formData.privateNote} 
+                  onChange={handleChange}
+                  className="bg-white w-full border-b border-gray-400">
+                  </textarea>
+                </div>
+              </div>
+    </>
+  )
+}
 
-export default NotesSection;
+export default NotesSection
