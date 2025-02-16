@@ -4,6 +4,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import SalesDashboard from "../components/sales/SalesDashboard";
 import CreateInvoice from "../components/sales/CreateInvoice";
 import ComingSoon from "../components/ComingSoon";
+import ManageInvoice from "../components/sales/ManageInvoice";
 
 ;
 
@@ -16,8 +17,8 @@ const SalesRoutes = [
       </ProtectedRoute>
     ),
     children: [
-      { path: "", element: <SalesDashboard /> },
-      { path: "invoice", element: <ComingSoon/> },
+      { path: "", element: <SalesDashboard /> }, 
+      { path: "invoice", element: <ManageInvoice/> },
       { path: "invoice/create", element: <CreateInvoice/> },
       { path: "invoice/search", element: <ComingSoon/> },
       { path: "edit/invoice/:id", element: <ComingSoon/> },

@@ -37,3 +37,4 @@
 -   component done for bulk upload customer
 -   fix set product details in invoice 
 -   create invoice done
+-   manage invoice table

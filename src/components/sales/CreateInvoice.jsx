@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../utils/const";
 import { Alert } from "@mui/material";
 import InvoiceDetails from "./CreateInvoice/InvoiceDetails";
 import CustomerDetails from "./CreateInvoice/CustomerDetails";
@@ -11,8 +12,6 @@ import SubmitSection from "./CreateInvoice/SubmitSection";
 import DiscountSection from "./CreateInvoice/DiscountSection";
 import NotesSection from "./CreateInvoice/NotesSection";
 // import { useNavigate } from "react-router-dom";
-
-const API_BASE_URL = "http://localhost:7777/api/v1/";
 
 const CreateInvoice = () => {
   const [errorMessage, setErrorMessage] = useState("");
