@@ -6,7 +6,6 @@ import CreateInvoice from "../components/sales/CreateInvoice";
 import ComingSoon from "../components/ComingSoon";
 import ManageInvoice from "../components/sales/ManageInvoice";
 
-;
 
 const SalesRoutes = [
   {
@@ -21,7 +20,7 @@ const SalesRoutes = [
       { path: "invoice", element: <ManageInvoice/> },
       { path: "invoice/create", element: <CreateInvoice/> },
       { path: "invoice/search", element: <ComingSoon/> },
-      { path: "edit/invoice/:id", element: <ComingSoon/> },
+      { path: "edit/invoice/:id", element: <CreateInvoice isEditMode={true}/> },
       { path: "return", element: <ComingSoon/> },
       { path: "quotation", element: <ComingSoon/> },
       { path: "delivery_note", element: <ComingSoon/> },

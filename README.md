@@ -39,3 +39,4 @@
 -   create invoice done
 -   manage invoice table
 -   set invoice table
+-   edit invoice component done

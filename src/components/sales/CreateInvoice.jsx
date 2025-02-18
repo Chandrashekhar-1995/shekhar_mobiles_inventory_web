@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { API_BASE_URL } from "../../utils/const";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {API_BASE_URL} from "../../utils/const";
+import { useNavigate, useParams } from 'react-router-dom';
 import { Alert } from "@mui/material";
 import InvoiceDetails from "./CreateInvoice/InvoiceDetails";
 import CustomerDetails from "./CreateInvoice/CustomerDetails";
@@ -11,281 +12,303 @@ import InvoiceSummary from "./CreateInvoice/InvoiceSummary";
 import SubmitSection from "./CreateInvoice/SubmitSection";
 import DiscountSection from "./CreateInvoice/DiscountSection";
 import NotesSection from "./CreateInvoice/NotesSection";
-// import { useNavigate } from "react-router-dom";
 
-const CreateInvoice = () => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [customerSuggestions, setCustomerSuggestions] = useState([]);
-  const [showNameDropdown, setShowNameDropdown] = useState(false);
-  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
-  const [itemSuggestions, setItemSuggestions] = useState([]);
-  const [showItemDropdown, setShowItemDropdown] = useState(false);
-  const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
-  // const navigate = useNavigate();
-
+const CreateInvoice = ({ isEditMode = false }) => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+    const [customerSuggestions, setCustomerSuggestions] = useState([]);
+    const [showNameDropdown, setShowNameDropdown] = useState(false);
+    const [showMobileDropdown, setShowMobileDropdown] = useState(false);
+    const [itemSuggestions, setItemSuggestions] = useState([]);
+    const [showItemDropdown, setShowItemDropdown] = useState(false);
+    const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
   const [formData, setFormData] = useState({
-    invoiceType: "Non GST",
-    invoiceNumber: "",
-    date: "",
-    dueDate: "",
-    placeOfSupply: "",
-    billTo: "Cash",
-    customerId: "",
-    customerName: "Cash",
-    mobileNumber: "",
-    address: "",
-    item: "",
-    productName: "",
-    itemCode: "",
-    unit: "",
-    quantity: "",
-    salePrice: "",
-    mrp: "",
-    discount: "",
-    total: "",
-    itemDescription: "",
-    unitPrice: "",
-    netPrice: "",
-    items: [],
-    totalAmount: "",
-    discountAmount: "",
-    totalPayableAmount: "",
-    paymentDate: "",
-    paymentMode: "Cash",
-    privateNote: "",
-    customerNote: "",
-    receivedAmount: "",
-    status: "Unpaid",
-    soldBy: "",
-    deliveryTerm: "",
-    srNumber: "",
-  });
-
-  useEffect(() => {
-    const fetchLastInvoice = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}invoice/last-invoice`);
-        if (response.data) {
-          const lastInvoiceNumber = response.data.data.lastInvoice.invoiceNumber;
-          const match = lastInvoiceNumber.match(/^([A-Za-z-]+)(\d+)$/);
-          if (match) {
-            const prefix = match[1];
-            const numericPart = match[2];
-            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
-            const nextInvoiceNumber = `${prefix}${nextNumber}`;
-            setFormData((prev) => ({ ...prev, invoiceNumber: nextInvoiceNumber }));
-          } else {
-            console.error('Invalid invoice number format');
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching the last invoice:", error);
-      }
-    };
-
-    fetchLastInvoice();
-  }, []);
-
-  useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
-    setFormData((prev) => ({ ...prev, date: today, paymentDate: today }));
-  }, []);
-
-  const fetchCustomerSuggestions = async (query) => {
-    if (query.length > 1) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}auth/customer?search=${query}`);
-        setCustomerSuggestions(response.data.data);
-      } catch (error) {
-        console.error("Error fetching customers:", error);
-      }
-    } else {
-      setCustomerSuggestions([]);
-    }
-  };
-
-  const handleCustomerNameChange = (e) => {
-    const name = e.target.value;
-    setFormData((prev) => ({ ...prev, customerName: name }));
-    if (name.length >= 2) {
-      fetchCustomerSuggestions(name);
-      setShowNameDropdown(true);
-    } else {
-      setShowNameDropdown(false);
-    }
-  };
-
-  const handleMobileChange = (e) => {
-    const mobile = e.target.value;
-    setFormData((prev) => ({ ...prev, mobileNumber: mobile, }));
-    if (mobile.length >= 2) {
-      fetchCustomerSuggestions(mobile);
-      setShowMobileDropdown(true);
-    } else {
-      setShowMobileDropdown(false);
-    }
-  };
-
-  const fetchItemSuggestions = async (query) => {
-    if (query.length > 1) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}product/auth/product?search=${query}`);
-        setItemSuggestions(response.data.data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    } else {
-      setItemSuggestions([]);
-    }
-  };
-
-  const handleItemNameChange = (e) => {
-    const name = e.target.value;
-    setFormData((prev) => ({ ...prev, productName: name }));
-    if (name.length >= 2) {
-      fetchItemSuggestions(name);
-      setShowItemDropdown(true);
-    } else {
-      setShowItemDropdown(false);
-    }
-  };
-
-  const handleItemCodeChange = (e) => {
-    const itemCode = e.target.value;
-    setFormData((prev) => ({ ...prev, itemCode: itemCode }));
-    if (itemCode.length >= 2) {
-      fetchItemSuggestions(itemCode);
-      setShowItemCodeDropdown(true);
-    } else {
-      setShowItemCodeDropdown(false);
-    }
-  };
-
-  const handleQuantityChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    setFormData((prev) => ({
-      ...prev,
-      quantity: isNaN(value) || value < 1 ? 1 : value,
-    }));
-  };
-
-  const handleDiscountChange = (e) => {
-    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
-    setFormData((prev) => ({
-      ...prev,
-      discount: value >= 0 ? value : 0,
-    }));
-  };
-
-  const handlefinalDiscountChange = (e) => {
-    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
-    setFormData((prev) => ({
-      ...prev,
-      discountAmount: value >= 0 ? value : 0,
-    }));
-  };
-
-  const calculateTotalAmount = () => {
-    const { quantity, salePrice, discount } = formData;
-    if (!quantity || !salePrice) return "";
-
-    const total = quantity * salePrice;
-    return discount > 0 ? total - (total * discount) / 100 : total;
-  };
-
-  const handleAddItem = (event) => {
-    event.preventDefault();
-
-    const { item, itemCode, productName, quantity, unit, salePrice, mrp, discount, itemDescription } = formData;
-
-    if (!productName || !quantity || !salePrice) {
-      alert("Please fill in all required fields before adding an item.");
-      return;
-    }
-
-    const newItem = {
-      item,
-      itemCode,
-      productName,
-      quantity: quantity || 1,
-      unit,
-      salePrice,
-      mrp,
-      discount: discount || 0,
-      total: calculateTotalAmount(),
-      itemDescription,
-    };
-
-    setFormData((prev) => ({
-      ...prev,
-      items: [...prev.items, newItem],
-      itemCode: "",
+      invoiceType: "Non GST",
+      invoiceNumber: "",
+      date: "",
+      dueDate: "",
+      placeOfSupply: "",
+      billTo: "Cash",
+      customerId: "",
+      customerName: "Cash",
+      mobileNumber: "",
+      address: "",
+      item: "",
       productName: "",
-      quantity: "",
+      itemCode: "",
       unit: "",
+      quantity: "",
       salePrice: "",
       mrp: "",
       discount: "",
+      total: "",
       itemDescription: "",
-    }));
-  };
+      unitPrice: "",
+      netPrice: "",
+      items: [],
+      totalAmount: "",
+      discountAmount: "",
+      totalPayableAmount: "",
+      paymentDate: "",
+      paymentMode: "Cash",
+      privateNote: "",
+      customerNote: "",
+      receivedAmount: "",
+      status: "Unpaid",
+      soldBy: "",
+      deliveryTerm: "",
+      srNumber: "",
+    });
 
-  const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "salePrice" && !/^\d*\.?\d*$/.test(value)) {
-      return;
-    }
-
-    if(name==="billTo" && value==="Cash"){
-      setFormData((prev) => ({ ...prev, customerName: "Cash", address:"", mobileNumber:"" }));
-    }
-
-    if(name==="billTo" && value==="Customer"){
-      setFormData((prev) => ({ ...prev, customerName: "", address:"", mobileNumber:"" }));
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}invoice/create`,
-        formData,
-        {
-          withCredentials: true,
+    // fetch invoice details if edit
+    useEffect(() => {
+        const fetchInvoiceData = async () => {
+        if (isEditMode && id) {
+          try {
+              const response = await axios.get(`${API_BASE_URL}invoice/${id}`);
+            if (response.data && response.data.data) {
+            setFormData(response.data.data.invoice);
+          }
+            } catch (error) {
+                console.error('Error fetching invoice data:', error);
+                setErrorMessage('Failed to load invoice data.');
         }
-      );
-      setSuccessMessage("Invoice Created successfully!");
+      }
+    };
 
-      // const invoiceId = response.data.data.newInvoice._id;
-      // if (invoiceId) {
-      //   navigate(`/edit/invoice/${invoiceId}`);
-      // }
-    } catch (err) {
-      setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchInvoiceData();
+    }, [isEditMode, id]);
+
+    // fetch last invoice
+    useEffect(() => {
+        const fetchLastInvoice = async () => {
+          try {
+            const response = await axios.get(`${API_BASE_URL}invoice/last-invoice`);
+            if (response.data) {
+              const lastInvoiceNumber = response.data.data.lastInvoice.invoiceNumber;
+              const match = lastInvoiceNumber.match(/^([A-Za-z-]+)(\d+)$/);
+              if (match) {
+                const prefix = match[1];
+                const numericPart = match[2];
+                const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
+                const nextInvoiceNumber = `${prefix}${nextNumber}`;
+                setFormData((prev) => ({ ...prev, invoiceNumber: nextInvoiceNumber }));
+              } else {
+                console.error('Invalid invoice number format');
+              }
+            }
+          } catch (error) {
+            console.error("Error fetching the last invoice:", error);
+          }
+        };
+    
+        fetchLastInvoice();
+      }, []);
+    
+    // date set today
+    useEffect(() => {
+        const today = new Date().toISOString().split("T")[0];
+        setFormData((prev) => ({ ...prev, date: today, paymentDate: today }));
+      }, []);
+
+      const fetchCustomerSuggestions = async (query) => {
+        if (query.length > 1) {
+          try {
+            const response = await axios.get(`${API_BASE_URL}auth/customer?search=${query}`);
+            setCustomerSuggestions(response.data.data);
+          } catch (error) {
+            console.error("Error fetching customers:", error);
+          }
+        } else {
+          setCustomerSuggestions([]);
+        }
+      };
+    
+      const handleCustomerNameChange = (e) => {
+        const name = e.target.value;
+        setFormData((prev) => ({ ...prev, customerName: name }));
+        if (name.length >= 2) {
+          fetchCustomerSuggestions(name);
+          setShowNameDropdown(true);
+        } else {
+          setShowNameDropdown(false);
+        }
+      };
+    
+      const handleMobileChange = (e) => {
+        const mobile = e.target.value;
+        setFormData((prev) => ({ ...prev, mobileNumber: mobile, }));
+        if (mobile.length >= 2) {
+          fetchCustomerSuggestions(mobile);
+          setShowMobileDropdown(true);
+        } else {
+          setShowMobileDropdown(false);
+        }
+      };
+    
+      const fetchItemSuggestions = async (query) => {
+        if (query.length > 1) {
+          try {
+            const response = await axios.get(`${API_BASE_URL}product/auth/product?search=${query}`);
+            setItemSuggestions(response.data.data);
+          } catch (error) {
+            console.error("Error fetching items:", error);
+          }
+        } else {
+          setItemSuggestions([]);
+        }
+      };
+    
+      const handleItemNameChange = (e) => {
+        const name = e.target.value;
+        setFormData((prev) => ({ ...prev, productName: name }));
+        if (name.length >= 2) {
+          fetchItemSuggestions(name);
+          setShowItemDropdown(true);
+        } else {
+          setShowItemDropdown(false);
+        }
+      };
+    
+      const handleItemCodeChange = (e) => {
+        const itemCode = e.target.value;
+        setFormData((prev) => ({ ...prev, itemCode: itemCode }));
+        if (itemCode.length >= 2) {
+          fetchItemSuggestions(itemCode);
+          setShowItemCodeDropdown(true);
+        } else {
+          setShowItemCodeDropdown(false);
+        }
+      };
+
+      const handleQuantityChange = (e) => {
+        const value = parseInt(e.target.value, 10);
+        setFormData((prev) => ({
+          ...prev,
+          quantity: isNaN(value) || value < 1 ? 1 : value,
+        }));
+      };
+    
+      const handleDiscountChange = (e) => {
+        const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+        setFormData((prev) => ({
+          ...prev,
+          discount: value >= 0 ? value : 0,
+        }));
+      };
+    
+      const handlefinalDiscountChange = (e) => {
+        const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+        setFormData((prev) => ({
+          ...prev,
+          discountAmount: value >= 0 ? value : 0,
+        }));
+      };
+    
+      const calculateTotalAmount = () => {
+        const { quantity, salePrice, discount } = formData;
+        if (!quantity || !salePrice) return "";
+    
+        const total = quantity * salePrice;
+        return discount > 0 ? total - (total * discount) / 100 : total;
+      };
+    
+      const handleAddItem = (event) => {
+        event.preventDefault();
+    
+        const { item, itemCode, productName, quantity, unit, salePrice, mrp, discount, itemDescription } = formData;
+    
+        if (!productName || !quantity || !salePrice) {
+          alert("Please fill in all required fields before adding an item.");
+          return;
+        }
+    
+        const newItem = {
+          item,
+          itemCode,
+          productName,
+          quantity: quantity || 1,
+          unit,
+          salePrice,
+          mrp,
+          discount: discount || 0,
+          total: calculateTotalAmount(),
+          itemDescription,
+        };
+    
+        setFormData((prev) => ({
+          ...prev,
+          items: [...prev.items, newItem],
+          itemCode: "",
+          productName: "",
+          quantity: "",
+          unit: "",
+          salePrice: "",
+          mrp: "",
+          discount: "",
+          itemDescription: "",
+        }));
+      };
+
+      const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+    
+        if (name === "salePrice" && !/^\d*\.?\d*$/.test(value)) {
+          return;
+        }
+    
+        if(name==="billTo" && value==="Cash"){
+          setFormData((prev) => ({ ...prev, customerName: "Cash", address:"", mobileNumber:"" }));
+        }
+    
+        if(name==="billTo" && value==="Customer"){
+          setFormData((prev) => ({ ...prev, customerName: "", address:"", mobileNumber:"" }));
+        }
+    
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setErrorMessage("");
+        setSuccessMessage("");
+
+        try {
+            if (isEditMode) {
+                await axios.patch(`${API_BASE_URL}invoice/${id}`, formData, {
+                withCredentials: true,
+                });
+                setSuccessMessage('Invoice updated successfully!');
+            } else {
+                await axios.post(`${API_BASE_URL}invoice/create`, formData, {
+                withCredentials: true,
+                });
+                setSuccessMessage('Invoice created successfully!');
+            }
+            //   navigate('/invoices'); 
+        } catch (err) {
+            setErrorMessage(err.response?.data?.message || 'An unexpected error occurred' );
+        } finally {
+            setLoading(false);
+        }
+        };
+
   return (
-    <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
+    <>
+        <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
       <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold mb-4 text-sm">Unsaved Invoice</h2>
-          <button className="hover:bg-red-600 rounded-lg p-2"> X </button>
+          <h2 className="font-semibold mb-4 text-sm">{isEditMode ? "Edit Invoice" : "Unsaved Invoice"}</h2>
+          <button className="hover:bg-red-600 rounded-lg p-2" onClick={() => navigate(-1)}> X </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
@@ -379,6 +402,54 @@ const CreateInvoice = () => {
         </form>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div className='container mx-auto p-4'>
+      <h2 className='text-2xl font-bold mb-4'>{isEditMode ? 'Edit Invoice' : 'Create Invoice'}</h2>
+      {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
+      {successMessage && <p className='text-green-500'>{successMessage}</p>}
+
+      <form onSubmit={handleSubmit}>
+        <label className='block mb-2'>Customer Name:</label>
+        <input
+          type='text'
+          name='customerName'
+          value={formData.customerName}
+          onChange={handleChange}
+          className='border p-2 w-full mb-4'
+          required
+          />
+
+        <label className='block mb-2'>Date:</label>
+        <input
+          type='date'
+          name='date'
+          value={formData.date}
+          onChange={handleChange}
+          className='border p-2 w-full mb-4'
+          required
+          />
+
+        <button
+          type='submit'
+          className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+          disabled={loading}
+          >
+          {loading ? 'Saving...' : isEditMode ? 'Update Invoice' : 'Create Invoice'}
+        </button>
+      </form>
+    </div>
+    </>
   );
 };
 

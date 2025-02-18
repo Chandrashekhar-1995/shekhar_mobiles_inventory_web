@@ -37,7 +37,7 @@ const InvoiceTable = () => {
                                 <td className="border px-4 py-2">{invoice.totalAmount}</td>
                                 <td className="border px-4 py-2">
                                     <Link 
-                                        to={`/invoice/${invoice._id}`} 
+                                        to={`/sales/edit/invoice/${invoice._id}`} 
                                         className="text-blue-500 hover:underline"
                                     >
                                         View/Edit
