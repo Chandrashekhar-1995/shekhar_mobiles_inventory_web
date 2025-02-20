@@ -11,12 +11,18 @@ const CustomerDetails = ({
   customerSuggestions,
   setShowNameDropdown,
   setShowMobileDropdown,
+  navigate
 }) => {
   return (
     <div className="grid grid-cols-4 gap-4 items-center mx-2 mt-4 mb-4">
       {/* Bill To */}
       <div className="col-span-1 flex flex-col">
+        <div className="flex justify-between">
         <label className="text-xs font-medium text-gray-600">Bill To</label>
+        {formData.billTo==="Customer" &&
+          <button className=" bg-primary text-white font-bold px-2" onClick={() => navigate("/auth/user/customer/create")}>+</button>
+        }
+        </div>
         <div>
           <label className="mr-4">
             <input

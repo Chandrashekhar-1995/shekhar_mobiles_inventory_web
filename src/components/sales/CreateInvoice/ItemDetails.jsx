@@ -14,6 +14,7 @@ const ItemDetails = ({
   setShowItemDropdown,
   setShowItemCodeDropdown,
   handleAddItem,
+  navigate
 }) => {
   return (
     <div className="border border-gray-300 relative">
@@ -93,7 +94,10 @@ const ItemDetails = ({
         </div>
         {/* Item Name */}
         <div className="col-span-3 flex flex-col">
+          <div className="flex justify-between">
           <label className="text-xs font-medium text-gray-600">Item Name</label>
+          <button className=" bg-primary text-white font-bold px-2" onClick={() => navigate("/product/create")}>+</button>
+          </div>
           <input
             type="text"
             name="productName"

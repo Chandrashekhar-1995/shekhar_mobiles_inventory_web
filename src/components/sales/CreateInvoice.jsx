@@ -327,6 +327,7 @@ const CreateInvoice = ({ isEditMode = false }) => {
             customerSuggestions={customerSuggestions}
             setShowNameDropdown={setShowNameDropdown}
             setShowMobileDropdown={setShowMobileDropdown}
+            navigate={navigate}
           />
 
           {/* Item Details */}
@@ -344,6 +345,7 @@ const CreateInvoice = ({ isEditMode = false }) => {
             setShowItemDropdown={setShowItemDropdown}
             setShowItemCodeDropdown={setShowItemCodeDropdown}
             handleAddItem={handleAddItem}
+            navigate={navigate}
           />
 
 
