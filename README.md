@@ -40,3 +40,4 @@
 -   manage invoice table
 -   set invoice table
 -   edit invoice component done
+-   update some invoice workflow using navigate

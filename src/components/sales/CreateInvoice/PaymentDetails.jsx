@@ -33,6 +33,8 @@ const PaymentDetails = ({ formData, handleChange }) => {
         <input
           type="text"
           name="transactionId"
+          value={formData.transactionId}
+          onChange={handleChange}
           className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
         />
         {/* Received Amount */}

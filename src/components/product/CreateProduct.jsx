@@ -89,6 +89,7 @@ const CreateProduct = () => {
         }
       );
       setSuccessMessage("Product created successfully !");
+      navigate(-1)
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
     } finally {

@@ -57,6 +57,7 @@ const CreateInvoice = ({ isEditMode = false }) => {
       privateNote: "",
       customerNote: "",
       receivedAmount: "",
+      transactionId:"",
       status: "Unpaid",
       soldBy: "",
       deliveryTerm: "",
@@ -294,7 +295,7 @@ const CreateInvoice = ({ isEditMode = false }) => {
                 });
                 setSuccessMessage('Invoice created successfully!');
             }
-            //   navigate('/invoices'); 
+            navigate("/auth/admin"); 
         } catch (err) {
             setErrorMessage(err.response?.data?.message || 'An unexpected error occurred' );
         } finally {
@@ -403,53 +404,6 @@ const CreateInvoice = ({ isEditMode = false }) => {
           />
         </form>
       </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-    <div className='container mx-auto p-4'>
-      <h2 className='text-2xl font-bold mb-4'>{isEditMode ? 'Edit Invoice' : 'Create Invoice'}</h2>
-      {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
-      {successMessage && <p className='text-green-500'>{successMessage}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <label className='block mb-2'>Customer Name:</label>
-        <input
-          type='text'
-          name='customerName'
-          value={formData.customerName}
-          onChange={handleChange}
-          className='border p-2 w-full mb-4'
-          required
-          />
-
-        <label className='block mb-2'>Date:</label>
-        <input
-          type='date'
-          name='date'
-          value={formData.date}
-          onChange={handleChange}
-          className='border p-2 w-full mb-4'
-          required
-          />
-
-        <button
-          type='submit'
-          className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-          disabled={loading}
-          >
-          {loading ? 'Saving...' : isEditMode ? 'Update Invoice' : 'Create Invoice'}
-        </button>
-      </form>
     </div>
     </>
   );

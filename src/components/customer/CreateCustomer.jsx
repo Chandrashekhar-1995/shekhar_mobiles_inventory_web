@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 const CreateCustomer = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [showMoreFields, setShowMoreFields] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     avatar:"",                // optional
@@ -56,6 +58,7 @@ const CreateCustomer = () => {
         }
       );
       setSuccessMessage("Customer Creared successful !");
+      navigate("/sales/invoice/create")
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
     } finally {
