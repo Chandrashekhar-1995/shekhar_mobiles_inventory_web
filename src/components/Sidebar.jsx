@@ -38,7 +38,8 @@ const Sidebar = () => {
         // { text: "Purchase Return", link: "/purchase/return" },
         // { text: "Debit Note", link: "/purchase/debit_note" },
         // { text: "Credit Note", link: "/purchase/credit_note" },
-        { text: "Supplier", link: "/purchase/supplier" },
+        { text: "Manage Supplier", link: "/purchase/supplier" },
+        { text: "Add Supplier", link: "/purchase/supplier/create" },
       ],
     },
     // {

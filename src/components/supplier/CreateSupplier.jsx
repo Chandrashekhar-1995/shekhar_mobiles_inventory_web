@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
-const CreateCustomer = () => {
+const CreateSupplier = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -11,32 +11,33 @@ const CreateCustomer = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    avatar:"",                // optional
-    name: "",                 // required   
-    address: "",              // required   
-    city:undefined,           // optional   
-    state: undefined,         // optional   
-    pinCode:undefined,        // optional   
-    country:undefined,        // optional   
-    email:undefined,          // optional   
-    contactNumber: undefined,        // optional   
-    mobileNumber: "",         // required   
-    panNo: "",                // optional   
-    gstin: "",                // optional   
-    gstType: "Unregistered",  // optional   
-    tradeName: "",            // optional   
-    accountType: "Debit",     // optional   
-    openingBalance: 0,        // optional   
-    documentType: "",         // optional   
-    documentNo: "",           // optional   
-    gender:undefined,            // optional
-    refferedBy:"",            // optional
-    dateOfBirth: undefined,  // optional  
-    marrigeAniversary: undefined,    // optional  
-    creditAllowed: "No",      // optional   
-    creditLimit: 0,           // optional  
-    remark: "",               // optional   
-    bio:"",                   // optional
+    avatar:"",                
+    name: "",                   
+    address: "",                
+    city:"",             
+    state:"", 
+    pinCode:"",  
+    country:"",
+    email:undefined,  
+    contactNumber:undefined,  
+    mobileNumber: "",  
+    panNo: "",  
+    gstin: "",               
+    gstType: "Unregistered", 
+    tradeName: "",           
+    accountType: "Credit",    
+    openingBalance: 0,       
+    documentType: "",        
+    documentNo: "",          
+    gender:undefined,        
+    refferedBy:"",          
+    dateOfBirth: undefined, 
+    marrigeAniversary: undefined,
+    creditAllowed: "No",
+    creditLimit: 0,        
+    remark: "",         
+    bio:"",   
+    designation:"Supplier"
   });
 
   const handleChange = (e) => {
@@ -58,7 +59,7 @@ const CreateCustomer = () => {
         }
       );
       setSuccessMessage("Customer Created successful !");
-      navigate("/sales/invoice/create")
+      navigate("/auth/admin")
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
     } finally {
@@ -68,7 +69,7 @@ const CreateCustomer = () => {
   return (
     <div className="flex items-center justify-center mb-8 bg-gray-100">
       <div className="w-full max-w-sm bg-white mb-8 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Customer Information</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">Supplier Information</h2>
         {errorMessage && (
           <Alert severity="error" className="mb-4">
             {errorMessage}
@@ -345,4 +346,4 @@ const CreateCustomer = () => {
   );
 };
 
-export default CreateCustomer
+export default CreateSupplier

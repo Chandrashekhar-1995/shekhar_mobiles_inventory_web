@@ -41,3 +41,5 @@
 -   set invoice table
 -   edit invoice component done
 -   update some invoice workflow using navigate
+-   add purchade details
+-   create supplier
