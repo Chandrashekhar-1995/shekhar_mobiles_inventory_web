@@ -1,9 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import useSupplier from "../../../hooks/useSupplier";
 
 const InvoiceDetails = ({ formData, handleChange }) => {
-  useSupplier();
   const suppliers = useSelector(store=>store.suppliers.allSuppliers);
   return suppliers && (
     <div className="border border-gray-300 relative">
@@ -55,23 +53,22 @@ const InvoiceDetails = ({ formData, handleChange }) => {
         {/* Suppliers */}
         <div className="col-span-1 flex flex-col">
         <label className="text-xs font-medium text-gray-600">Supplier</label>
-          <select
+        <select
             name="supplierName"
             className="border border-gray-300 rounded px-2 py-1 text-xs"
             value={formData.supplierName}
             onChange={handleChange}
             required
           >
-            <option value="" disabled>
-              Select Category
-            </option>
-            {suppliers.map((supplier, index) => (
-              <option key={index} value={supplier.name}>
+            <option value="" disabled>Select Supplier</option>
+            {suppliers.map((supplier) => (
+              <option key={supplier._id} value={supplier.name}>
                 {supplier.name}
               </option>
             ))}
             <option value="create-new-category">Create New Supplier</option>
-          </select>
+        </select>
+
         </div>
 
         {/* Due Date */}

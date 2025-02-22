@@ -72,6 +72,12 @@ const ItemDetails = ({
                     });
                     handleChange({
                       target: {
+                        name: "purchasePrice",
+                        value: item.purchasePrice,
+                      },
+                    });
+                    handleChange({
+                      target: {
                         name: "mrp",
                         value: item.mrp,
                       },
@@ -95,8 +101,8 @@ const ItemDetails = ({
         {/* Item Name */}
         <div className="col-span-3 flex flex-col">
           <div className="flex justify-between">
-          <label className="text-xs font-medium text-gray-600">Item Name</label>
-          <button className=" bg-primary text-white font-bold px-2" onClick={() => navigate("/product/create")}>+</button>
+            <label className="text-xs font-medium text-gray-600">Item Name</label>
+            <button className="bg-primary text-white font-bold px-2" onClick={() => navigate("/product/create")}>+</button>
           </div>
           <input
             type="text"
@@ -145,6 +151,12 @@ const ItemDetails = ({
                     });
                     handleChange({
                       target: {
+                        name: "purchasePrice",
+                        value: item.purchasePrice,
+                      },
+                    });
+                    handleChange({
+                      target: {
                         name: "mrp",
                         value: item.mrp,
                       },
@@ -172,6 +184,7 @@ const ItemDetails = ({
             type="text"
             name="unit"
             value={formData.unit}
+            onChange={handleChange} // Added onChange handler
             className="border border-gray-300 rounded px-2 py-1 text-xs"
             placeholder="Unit"
           />
@@ -186,6 +199,18 @@ const ItemDetails = ({
             onChange={handleQuantityChange}
             className="border border-gray-300 rounded px-2 py-1 text-xs"
             placeholder="quantity"
+          />
+        </div>
+        {/* Purchase Price */}
+        <div className="col-span-1 flex flex-col">
+          <label className="text-xs font-medium text-gray-600">Purchase Price</label>
+          <input
+            type="text"
+            name="purchasePrice"
+            value={formData.purchasePrice ?? ""}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-2 py-1 text-xs"
+            placeholder="Purchase Price"
           />
         </div>
         {/* Sale Price */}
@@ -235,31 +260,29 @@ const ItemDetails = ({
           />
         </div>
       </div>
-      {/* item description */}
+      {/* Item Description */}
       <div className="grid grid-cols-4 gap-4 items-center mx-2 mt-4 mb-4">
-              <div className="col-span-3 flex flex-col">
-                <input
-                type="text"
-                name="itemDescription"
-                value={formData.itemDescription}
-                onChange={handleChange}
-                className="border border-gray-300 rounded px-2 py-1 text-xs"
-                placeholder="Item Description"
-                />
-              </div>
-              <div className="col-span-1 flex flex-col">
-              {/* Add Button */}
-              <div className="col-span-1 flex flex-col">
-                <button
-                  type="button"
-                  onClick={handleAddItem}
-                  className="bg-blue-500 text-white text-xs font-medium px-3 py-1 rounded hover:bg-blue-600 transition"
-                >
-                  Add
-                </button>
-              </div>
-              </div>
-            </div>
+        <div className="col-span-3 flex flex-col">
+          <input
+            type="text"
+            name="itemDescription"
+            value={formData.itemDescription}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-2 py-1 text-xs"
+            placeholder="Item Description"
+          />
+        </div>
+        <div className="col-span-1 flex flex-col">
+          {/* Add Button */}
+          <button
+            type="button"
+            onClick={handleAddItem}
+            className="bg-blue-500 text-white text-xs font-medium px-3 py-1 rounded hover:bg-blue-600 transition"
+          >
+            Add
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -3,8 +3,9 @@ import axios from "axios";
 import { API_BASE_URL } from "../../utils/const";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
+import useSupplier from "../../hooks/useSupplier";
+import { useSelector } from "react-redux";
 import InvoiceDetails from "./CreatePurchaseInvoice/InvoiceDetails";
-import CustomerDetails from "./CreatePurchaseInvoice/CustomerDetails";
 import ItemDetails from "./CreatePurchaseInvoice/ItemDetails";
 import InvoiceTable from "./CreatePurchaseInvoice/InvoiceTable";
 import PaymentDetails from "./CreatePurchaseInvoice/PaymentDetails";
@@ -18,9 +19,6 @@ const CreatePurchaseInvoice = ({ isEditMode = false }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [supplierSuggestions, setSupplierSuggestions] = useState([]);
-  const [showNameDropdown, setShowNameDropdown] = useState(false);
-  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
   const [itemSuggestions, setItemSuggestions] = useState([]);
   const [showItemDropdown, setShowItemDropdown] = useState(false);
   const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
@@ -31,11 +29,12 @@ const CreatePurchaseInvoice = ({ isEditMode = false }) => {
     dueDate: "",
     placeOfSupply: "",
     billFrom: "Cash",
-    supplierId: "",
+    supplierId: "",  //mongoose id
     supplierName: "",
     mobileNumber: "",
     address: "",
-    item: "",
+    items: [],
+    item: "", //id
     productName: "",
     itemCode: "",
     unit: "",
@@ -47,63 +46,55 @@ const CreatePurchaseInvoice = ({ isEditMode = false }) => {
     itemDescription: "",
     unitPrice: "",
     netPrice: "",
-    items: [],
     totalAmount: "",
     discountAmount: "",
     totalPayableAmount: "",
     paymentDate: "",
     paymentMode: "Cash",
+    paymentAccount:"",  //id
     privateNote: "",
     supplierNote: "",
-    receivedAmount: "",
+    paidAmount: "",
     transactionId: "",
     status: "Unpaid",
-    soldBy: "",
+    purchaseBy: "",  //id
     deliveryTerm: "",
     srNumber: "",
   });
 
+  useSupplier();
+  const suppliers = useSelector(store=>store.suppliers.allSuppliers);
+
+  // fetch last invoice
+  useEffect(() => {
+    const fetchLastInvoice = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}purchase-invoice/last-invoice`);
+        if (response.data) {
+          const lastInvoiceNumber = response.data.data.lastPurchaseInvoice.invoiceNumber;
+          const match = lastInvoiceNumber.match(/^([A-Za-z-]+)(\d+)$/);
+          if (match) {
+            const prefix = match[1];
+            const numericPart = match[2];
+            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
+            const nextInvoiceNumber = `${prefix}${nextNumber}`;
+            setFormData((prev) => ({ ...prev, invoiceNumber: nextInvoiceNumber }));
+          } else {
+            console.error('Invalid invoice number format');
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching the last invoice:", error);
+      }
+    };
+
+    fetchLastInvoice();
+  }, []);
   // Set today's date
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     setFormData((prev) => ({ ...prev, date: today, paymentDate: today }));
   }, []);
-
-  // Fetch supplier suggestions
-  const fetchSupplierSuggestions = async (query) => {
-    if (query.length > 1) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}supplier?search=${query}`);
-        setSupplierSuggestions(response.data.data);
-      } catch (error) {
-        console.error("Error fetching suppliers:", error);
-      }
-    } else {
-      setSupplierSuggestions([]);
-    }
-  };
-
-  const handleSupplierNameChange = (e) => {
-    const name = e.target.value;
-    setFormData((prev) => ({ ...prev, supplierName: name }));
-    if (name.length >= 2) {
-      fetchSupplierSuggestions(name);
-      setShowNameDropdown(true);
-    } else {
-      setShowNameDropdown(false);
-    }
-  };
-
-  const handleMobileChange = (e) => {
-    const mobile = e.target.value;
-    setFormData((prev) => ({ ...prev, mobileNumber: mobile }));
-    if (mobile.length >= 2) {
-      fetchSupplierSuggestions(mobile);
-      setShowMobileDropdown(true);
-    } else {
-      setShowMobileDropdown(false);
-    }
-  };
 
   // Fetch item suggestions
   const fetchItemSuggestions = async (query) => {
@@ -213,25 +204,26 @@ const CreatePurchaseInvoice = ({ isEditMode = false }) => {
   const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
 
-    if (name === "purchasePrice" && !/^\d*\.?\d*$/.test(value)) {
-      return;
-    }
-
-    if (name === "billFrom" && value === "Cash") {
-      setFormData((prev) => ({ ...prev, supplierName: "Cash", address: "", mobileNumber: "" }));
-    }
-
-    if (name === "billFrom" && value === "Supplier") {
-      setFormData((prev) => ({ ...prev, supplierName: "", address: "", mobileNumber: "" }));
-    }
-
+  if (name === "supplierName") {
+    const selectedSupplier = suppliers.find((supplier) => supplier.name === value);
+    
+    setFormData((prev) => ({
+      ...prev,
+      supplierName: value,
+      supplierId: selectedSupplier ? selectedSupplier._id : "",
+      mobileNumber: selectedSupplier ? selectedSupplier.mobileNumber : "",
+      address: selectedSupplier ? selectedSupplier.address : "",
+    }));
+  } else {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -268,21 +260,6 @@ const CreatePurchaseInvoice = ({ isEditMode = false }) => {
           <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
             {/* Invoice Details */}
             <InvoiceDetails formData={formData} handleChange={handleChange} />
-
-            {/* Supplier Details (customer desiganation is supplier) */}
-            <CustomerDetails
-              formData={formData}
-              setFormData={setFormData}
-              handleChange={handleChange}
-              handleSupplierNameChange={handleSupplierNameChange}
-              handleMobileChange={handleMobileChange}
-              showNameDropdown={showNameDropdown}
-              showMobileDropdown={showMobileDropdown}
-              supplierSuggestions={supplierSuggestions}
-              setShowNameDropdown={setShowNameDropdown}
-              setShowMobileDropdown={setShowMobileDropdown}
-              navigate={navigate}
-            />
 
             {/* Item Details */}
             <ItemDetails

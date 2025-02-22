@@ -43,3 +43,4 @@
 -   update some invoice workflow using navigate
 -   add purchade details
 -   create supplier
+-   purchase invoice done

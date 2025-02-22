@@ -27,7 +27,7 @@ const InvoiceTable = ({ formData }) => {
                 <td className="px-4 py-2">{item.quantity}</td>
                 <td className="px-4 py-2">{item.unit}</td>
                 <td className="px-4 py-2">{item.mrp}</td>
-                <td className="px-4 py-2">{item.salePrice}</td>
+                <td className="px-4 py-2">{item.purchasePrice}</td>
                 <td className="px-4 py-2">{item.discount > 0 ? item.discount : ""}</td>
                 <td className="px-4 py-2">{item.total}</td>
               </tr>
