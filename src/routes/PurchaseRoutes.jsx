@@ -7,6 +7,7 @@ import ComingSoon from "../components/ComingSoon";
 import SupplierDashboard from "../components/supplier/SupplierDashboard";
 import SupplierProfile from "../components/supplier/SupplierProfile";
 import CreateSupplier from "../components/supplier/CreateSupplier";
+import Purchase from "../components/purchase/Purchase";
 
 
 const PurchaseRoutes = [
@@ -20,7 +21,7 @@ const PurchaseRoutes = [
     children: [
       { path: "", element: <PurchaseDashboard /> },
       { path: "invoice/create", element: <CreatePurchaseInvoice/> },
-      { path: "invoice", element: <ComingSoon/> },
+      { path: "invoice", element: <Purchase/> },
       { path: "invoice/search", element: <ComingSoon/> },
       { path: "order", element: <ComingSoon/> },
       { path: "return", element: <ComingSoon/> },

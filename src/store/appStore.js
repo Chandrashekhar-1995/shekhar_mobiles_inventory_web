@@ -3,6 +3,7 @@ import userReducer from "./userSlice";
 import brandReducer from "./brandSlice";
 import categoryReducer from "./categorySlice";
 import invoiceReducer from './invoiceSlice';
+import purchaseInvoicesReducer from './purchaseInvoiceSlice';
 import supplierReducer from './supplierSlice';
 
 // Load user from localStorage
@@ -27,6 +28,7 @@ const appStore = configureStore({
         brands:brandReducer,
         categories:categoryReducer,
         invoices: invoiceReducer,
+        purchaseInvoices: purchaseInvoicesReducer,
         suppliers: supplierReducer,
     },
     preloadedState,

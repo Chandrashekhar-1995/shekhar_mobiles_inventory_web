@@ -44,3 +44,4 @@
 -   add purchade details
 -   create supplier
 -   purchase invoice done
+-   manage purchase invoice
