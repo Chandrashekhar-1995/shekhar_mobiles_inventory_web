@@ -28,18 +28,19 @@ const Sidebar = () => {
         // { text: "Debit Note", link: "/sales/debit_note" },
       ],
     },
-    // {
-    //   text: "Purchase",
-    //   icon: <ShoppingCart />,
-    //   subMenu: [
-    //     { text: "Purchase Bill", link: "/purchase/invoice/create" },// isi me link rahega create ka
-    //     // { text: "Purchase Order", link: "/purchase/order" }, // isi me link rahega create ka
-    //     // { text: "Purchase Return", link: "/purchase/return" },
-    //     // { text: "Debit Note", link: "/purchase/debit_note" },
-    //     // { text: "Credit Note", link: "/purchase/credit_note" },
-    //     { text: "Supplier", link: "/purchase/supplier" },
-    //   ],
-    // },
+    {
+      text: "Purchase",
+      icon: <ShoppingCart />,
+      subMenu: [
+        { text: "New Purchase", link: "/purchase/invoice/create" },
+        { text: "Manage Purchase", link: "/purchase/invoice" },
+        // { text: "Purchase Order", link: "/purchase/order" }, // isi me link rahega create ka
+        // { text: "Purchase Return", link: "/purchase/return" },
+        // { text: "Debit Note", link: "/purchase/debit_note" },
+        // { text: "Credit Note", link: "/purchase/credit_note" },
+        { text: "Supplier", link: "/purchase/supplier" },
+      ],
+    },
     // {
     //   text: "Inventory",
     //   icon: <Inventory />,

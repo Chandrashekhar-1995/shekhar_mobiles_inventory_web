@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import PurchaseDashboard from "../components/purchase/PurchaseDashboard";
+import CreatePurchaseInvoice from "../components/purchase/CreatePurchaseInvoice";
 import ComingSoon from "../components/ComingSoon";
 
 
@@ -15,7 +16,8 @@ const PurchaseRoutes = [
     ),
     children: [
       { path: "", element: <PurchaseDashboard /> },
-      { path: "invoice/create", element: <ComingSoon/> },
+      { path: "invoice/create", element: <CreatePurchaseInvoice/> },
+      { path: "invoice", element: <ComingSoon/> },
       { path: "invoice/search", element: <ComingSoon/> },
       { path: "order", element: <ComingSoon/> },
       { path: "return", element: <ComingSoon/> },

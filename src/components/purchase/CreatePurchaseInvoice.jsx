@@ -1,0 +1,360 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { API_BASE_URL } from "../../utils/const";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
+import InvoiceDetails from "./CreatePurchaseInvoice/InvoiceDetails";
+import CustomerDetails from "./CreatePurchaseInvoice/CustomerDetails";
+import ItemDetails from "./CreatePurchaseInvoice/ItemDetails";
+import InvoiceTable from "./CreatePurchaseInvoice/InvoiceTable";
+import PaymentDetails from "./CreatePurchaseInvoice/PaymentDetails";
+import InvoiceSummary from "./CreatePurchaseInvoice/InvoiceSummary";
+import SubmitSection from "./CreatePurchaseInvoice/SubmitSection";
+import DiscountSection from "./CreatePurchaseInvoice/DiscountSection";
+import NotesSection from "./CreatePurchaseInvoice/NotesSection";
+
+const CreatePurchaseInvoice = ({ isEditMode = false }) => {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [supplierSuggestions, setSupplierSuggestions] = useState([]);
+  const [showNameDropdown, setShowNameDropdown] = useState(false);
+  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
+  const [itemSuggestions, setItemSuggestions] = useState([]);
+  const [showItemDropdown, setShowItemDropdown] = useState(false);
+  const [showItemCodeDropdown, setShowItemCodeDropdown] = useState(false);
+  const [formData, setFormData] = useState({
+    invoiceType: "Non GST",
+    invoiceNumber: "",
+    date: "",
+    dueDate: "",
+    placeOfSupply: "",
+    billFrom: "Cash",
+    supplierId: "",
+    supplierName: "",
+    mobileNumber: "",
+    address: "",
+    item: "",
+    productName: "",
+    itemCode: "",
+    unit: "",
+    quantity: "",
+    purchasePrice: "",
+    mrp: "",
+    discount: "",
+    total: "",
+    itemDescription: "",
+    unitPrice: "",
+    netPrice: "",
+    items: [],
+    totalAmount: "",
+    discountAmount: "",
+    totalPayableAmount: "",
+    paymentDate: "",
+    paymentMode: "Cash",
+    privateNote: "",
+    supplierNote: "",
+    receivedAmount: "",
+    transactionId: "",
+    status: "Unpaid",
+    soldBy: "",
+    deliveryTerm: "",
+    srNumber: "",
+  });
+
+  // Set today's date
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setFormData((prev) => ({ ...prev, date: today, paymentDate: today }));
+  }, []);
+
+  // Fetch supplier suggestions
+  const fetchSupplierSuggestions = async (query) => {
+    if (query.length > 1) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}supplier?search=${query}`);
+        setSupplierSuggestions(response.data.data);
+      } catch (error) {
+        console.error("Error fetching suppliers:", error);
+      }
+    } else {
+      setSupplierSuggestions([]);
+    }
+  };
+
+  const handleSupplierNameChange = (e) => {
+    const name = e.target.value;
+    setFormData((prev) => ({ ...prev, supplierName: name }));
+    if (name.length >= 2) {
+      fetchSupplierSuggestions(name);
+      setShowNameDropdown(true);
+    } else {
+      setShowNameDropdown(false);
+    }
+  };
+
+  const handleMobileChange = (e) => {
+    const mobile = e.target.value;
+    setFormData((prev) => ({ ...prev, mobileNumber: mobile }));
+    if (mobile.length >= 2) {
+      fetchSupplierSuggestions(mobile);
+      setShowMobileDropdown(true);
+    } else {
+      setShowMobileDropdown(false);
+    }
+  };
+
+  // Fetch item suggestions
+  const fetchItemSuggestions = async (query) => {
+    if (query.length > 1) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}product/auth/product?search=${query}`);
+        setItemSuggestions(response.data.data);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    } else {
+      setItemSuggestions([]);
+    }
+  };
+
+  const handleItemNameChange = (e) => {
+    const name = e.target.value;
+    setFormData((prev) => ({ ...prev, productName: name }));
+    if (name.length >= 2) {
+      fetchItemSuggestions(name);
+      setShowItemDropdown(true);
+    } else {
+      setShowItemDropdown(false);
+    }
+  };
+
+  const handleItemCodeChange = (e) => {
+    const itemCode = e.target.value;
+    setFormData((prev) => ({ ...prev, itemCode: itemCode }));
+    if (itemCode.length >= 2) {
+      fetchItemSuggestions(itemCode);
+      setShowItemCodeDropdown(true);
+    } else {
+      setShowItemCodeDropdown(false);
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setFormData((prev) => ({
+      ...prev,
+      quantity: isNaN(value) || value < 1 ? 1 : value,
+    }));
+  };
+
+  const handleDiscountChange = (e) => {
+    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      discount: value >= 0 ? value : 0,
+    }));
+  };
+
+  const handlefinalDiscountChange = (e) => {
+    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      discountAmount: value >= 0 ? value : 0,
+    }));
+  };
+
+  const calculateTotalAmount = () => {
+    const { quantity, purchasePrice, discount } = formData;
+    if (!quantity || !purchasePrice) return "";
+
+    const total = quantity * purchasePrice;
+    return discount > 0 ? total - (total * discount) / 100 : total;
+  };
+
+  const handleAddItem = (event) => {
+    event.preventDefault();
+
+    const { item, itemCode, productName, quantity, unit, purchasePrice, mrp, discount, itemDescription } = formData;
+
+    if (!productName || !quantity || !purchasePrice) {
+      alert("Please fill in all required fields before adding an item.");
+      return;
+    }
+
+    const newItem = {
+      item,
+      itemCode,
+      productName,
+      quantity: quantity || 1,
+      unit,
+      purchasePrice,
+      mrp,
+      discount: discount || 0,
+      total: calculateTotalAmount(),
+      itemDescription,
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      items: [...prev.items, newItem],
+      itemCode: "",
+      productName: "",
+      quantity: "",
+      unit: "",
+      purchasePrice: "",
+      mrp: "",
+      discount: "",
+      itemDescription: "",
+    }));
+  };
+
+  const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "purchasePrice" && !/^\d*\.?\d*$/.test(value)) {
+      return;
+    }
+
+    if (name === "billFrom" && value === "Cash") {
+      setFormData((prev) => ({ ...prev, supplierName: "Cash", address: "", mobileNumber: "" }));
+    }
+
+    if (name === "billFrom" && value === "Supplier") {
+      setFormData((prev) => ({ ...prev, supplierName: "", address: "", mobileNumber: "" }));
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}purchase-invoice/create`, formData, {
+        withCredentials: true,
+      });
+      setSuccessMessage("Purchase invoice created successfully!");
+      navigate("/auth/admin");
+    } catch (err) {
+      setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100">
+        <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto">
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold mb-4 text-sm">
+              {isEditMode ? "Edit Purchase Invoice" : "Unsaved Purchase Invoice"}
+            </h2>
+            <button className="hover:bg-red-600 rounded-lg p-2" onClick={() => navigate(-1)}>
+              X
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
+            {/* Invoice Details */}
+            <InvoiceDetails formData={formData} handleChange={handleChange} />
+
+            {/* Supplier Details (customer desiganation is supplier) */}
+            <CustomerDetails
+              formData={formData}
+              setFormData={setFormData}
+              handleChange={handleChange}
+              handleSupplierNameChange={handleSupplierNameChange}
+              handleMobileChange={handleMobileChange}
+              showNameDropdown={showNameDropdown}
+              showMobileDropdown={showMobileDropdown}
+              supplierSuggestions={supplierSuggestions}
+              setShowNameDropdown={setShowNameDropdown}
+              setShowMobileDropdown={setShowMobileDropdown}
+              navigate={navigate}
+            />
+
+            {/* Item Details */}
+            <ItemDetails
+              formData={formData}
+              handleChange={handleChange}
+              handleItemNameChange={handleItemNameChange}
+              handleItemCodeChange={handleItemCodeChange}
+              handleQuantityChange={handleQuantityChange}
+              handleDiscountChange={handleDiscountChange}
+              calculateTotalAmount={calculateTotalAmount}
+              showItemDropdown={showItemDropdown}
+              showItemCodeDropdown={showItemCodeDropdown}
+              itemSuggestions={itemSuggestions}
+              setShowItemDropdown={setShowItemDropdown}
+              setShowItemCodeDropdown={setShowItemCodeDropdown}
+              handleAddItem={handleAddItem}
+              navigate={navigate}
+            />
+
+            {/* Invoice Table */}
+            <InvoiceTable formData={formData} />
+
+            {/* Total amount etc */}
+            <div className="grid grid-cols-4 gap-4 mx-2 mt-4 mb-2">
+              {/* Discount Section */}
+              <div className="col-span-1 grid grid-cols-2 gap-4">
+                <DiscountSection
+                  formData={formData}
+                  handleChange={handleChange}
+                  handlefinalDiscountChange={handlefinalDiscountChange}
+                />
+              </div>
+
+              {/* Notes Section */}
+              <div className="col-span-1 flex flex-col">
+                <NotesSection formData={formData} handleChange={handleChange} />
+              </div>
+
+              {/* Payment Details */}
+              <div className="col-span-1 flex flex-col shadow-lg p-2 relative">
+                <PaymentDetails formData={formData} handleChange={handleChange} />
+              </div>
+
+              {/* Invoice Summary */}
+              <div className="col-span-1 flex flex-col shadow-lg p-2">
+                <InvoiceSummary formData={formData} totalItemPrice={totalItemPrice} />
+              </div>
+            </div>
+
+            {errorMessage && (
+              <Alert severity="error" className="mb-4">
+                {errorMessage}
+              </Alert>
+            )}
+            {successMessage && (
+              <Alert severity="success" className="mb-4">
+                {successMessage}
+              </Alert>
+            )}
+
+            {/* Submit Section */}
+            <SubmitSection
+              formData={formData}
+              totalItemPrice={totalItemPrice}
+              loading={loading}
+              handleSubmit={handleSubmit}
+            />
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CreatePurchaseInvoice;
