@@ -1,6 +1,6 @@
 import React from "react";
 import useFetchInvoices from "../../hooks/useFetchInvoices";
-import Sidebar from "../Sidebar";
+import Sidebar from "../Dashboard/Sidebar";
 import InvoiceTable from "./InvoiceTable";
 
 const ManageInvoice = () => {

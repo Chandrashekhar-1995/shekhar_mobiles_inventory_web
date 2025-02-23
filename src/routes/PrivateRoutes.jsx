@@ -9,6 +9,7 @@ import AccountRoutes from "./AccountRoutes";
 import ExpenseRoutes from "./ExpenseRoutes";
 import ToolsRoutes from "./ToolsRoutes";
 import SettingRoutes from "./SettingRoutes";
+import RepairingRoutes from "./RepairingRoutes";
 
 const PrivateRoutes = [
   ...SalesRoutes,
@@ -22,6 +23,7 @@ const PrivateRoutes = [
   ...ExpenseRoutes,
   ...ToolsRoutes,
   ...SettingRoutes,
+  ...RepairingRoutes,
 ];
 
 export default PrivateRoutes;

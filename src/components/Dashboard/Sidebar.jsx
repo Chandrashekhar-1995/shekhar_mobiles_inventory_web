@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemIcon, ListItemText,  Popover, } from "@mui/material";
 import { ShoppingCart, Inventory, People,  BarChart,  Settings,  AccountBalance,  AssignmentLate,  InterpreterMode,  AutoFixHigh,  AllInclusive,} from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
+import ConstructionIcon from '@mui/icons-material/Construction';
 
 const Sidebar = () => {
   const [open,setOpen] = useState(true);
@@ -26,6 +27,14 @@ const Sidebar = () => {
         { text: "Sale Order", link: "/sales/order" },
         // { text: "Credit Note", link: "/sales/credit_note" },
         // { text: "Debit Note", link: "/sales/debit_note" },
+      ],
+    },
+    {
+      text: "Repairs",
+      icon: <ConstructionIcon/>,
+      subMenu: [
+        { text: "Book Repairing", link: "/repair/booking" },
+        { text: "Manage Repairing", link: "/repair" },
       ],
     },
     {
