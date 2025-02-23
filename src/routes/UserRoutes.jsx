@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UserDashboard from "../components/user/UserDashboard";
 import CreateUser from "../components/user/CreateUser";
-import Admin from "../components/user/Admin";
 import AdminDashboardPc from "../components/dextop/user/AdminDashboard";
 import UserProfile from "../components/user/UserProfile";
 import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
@@ -11,6 +10,7 @@ import CreateCustomer from "../components/customer/CreateCustomer";
 import ComingSoon from "../components/ComingSoon";
 import CustomerDashboard from "../components/customer/CustomerDashboard";
 import BulkUploadCustomer from "../components/customer/BulkUploadCustomer";
+import AdminDashboard from "../pages/AdminDashboard";
 
 const UserRoutes = [
     {
@@ -47,7 +47,7 @@ const UserRoutes = [
           </ProtectedRoute>
         ),
         children: [
-          { path: "", element: <Admin/>},
+          { path: "", element: <AdminDashboard/>},
           { path: "dashboard", element: <AdminDashboardPc />,
           },
         ],
