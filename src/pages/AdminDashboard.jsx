@@ -1,13 +1,15 @@
-import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
+import React from 'react';
+import Sidebar from '../components/Dashboard/Sidebar';
+import Dashboard from '../components/Dashboard/Dashboard';
 
 const AdminDashboard = () => {
   return (
-    <div className="flex pt-16">
+    <div className="flex">
       <Sidebar />
-      <div className="flex-1 ml-64 p-4">
-        <Outlet />
-      </div>
+      <main className="flex-1 p-4 bg-gray-100">
+        <h1 className="text-2xl font-bold mb-4">Hitech BillSoft 8.9 - Chandra Shekhar Paswan - Shekhar Mobile Shop (CHANDRA)</h1>
+        <Dashboard />
+      </main>
     </div>
   );
 };
