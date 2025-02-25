@@ -1,16 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
-import UserDashboard from "../components/user/UserDashboard";
+import UserDashboard from "../pages/UserDashboard";
 import CreateUser from "../components/user/CreateUser";
-import AdminDashboardPc from "../components/dextop/user/AdminDashboard";
-import UserProfile from "../components/user/UserProfile";
-import CreateCustomerPc from "../components/dextop/customer/CreateCustomer";
-import CreateCustomer from "../components/customer/CreateCustomer";
-import ComingSoon from "../components/ComingSoon";
-import CustomerDashboard from "../components/customer/CustomerDashboard";
-import BulkUploadCustomer from "../components/customer/BulkUploadCustomer";
 import AdminDashboard from "../pages/AdminDashboard";
+import UserProfile from "../components/user/UserProfile";
+import CreateCustomer from "../components/customer/CreateCustomer";
+import ComingSoon from "../pages/ComingSoon";
+import CustomerDashboard from "../pages/CustomerDashboard";
+import BulkUploadCustomer from "../components/customer/BulkUploadCustomer";
 
 const UserRoutes = [
     {
@@ -48,8 +46,6 @@ const UserRoutes = [
         ),
         children: [
           { path: "", element: <AdminDashboard/>},
-          { path: "dashboard", element: <AdminDashboardPc />,
-          },
         ],
     },
     {
@@ -61,7 +57,6 @@ const UserRoutes = [
       ),
       children: [
         { path: "", element: <CustomerDashboard/> },
-        { path: "add", element: <CreateCustomerPc /> },
         { path: "create", element: <CreateCustomer/> },
         { path: "bulk-upload", element: <BulkUploadCustomer/> },
         { path: "loan", element: <ComingSoon/> },

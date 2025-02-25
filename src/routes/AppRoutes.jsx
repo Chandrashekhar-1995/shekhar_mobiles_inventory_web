@@ -1,8 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import HomePage from "../pages/HomePage";
-import RegisterForm from "../components/RegisterForm";
-import LoginForm from "../components/LoginForm";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PrivateRoutes from "./PrivateRoutes";
@@ -23,10 +23,10 @@ const appRouter = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { path: "/", element: <HomePage /> },
-      { path: "*", element: <HomePage /> },
-      { path: "register", element: <RegisterForm /> },
-      { path: "login", element: <LoginForm /> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login/> },
       ...PrivateRoutes,
+      { path: "*", element: <HomePage /> },
     ],
   },
 ]);

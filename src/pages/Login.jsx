@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = "http://localhost:7777/api/v1/";
 
-const LoginForm = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     identifier: '', // For mobile number or email
     password: '',
@@ -143,4 +143,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Dialog } from "@mui/material";
 import CreateInvoice from "./sales/CreateInvoice";
-import CreateQuotation from "./sales/CreateQuotation";
-import CreateCustomer from "./dextop/customer/CreateCustomer";
-import Purchase from "./purchase/Purchase";
-import AddExpense from "./account/AddExpense";
-import ComingSoon from "./reminder/comingsoon";
-import PaymentIn from "./account/PaumentIn";
-import PaymentOut from "./account/PaymenyOut";
+// import CreateQuotation from "./sales/CreateQuotation";
+// import CreateCustomer from "./dextop/customer/CreateCustomer";
+// import Purchase from "./purchase/Purchase";
+// import AddExpense from "./account/AddExpense";
+// import ComingSoon from "./reminder/comingsoon";
+// import PaymentIn from "./account/PaumentIn";
+// import PaymentOut from "./account/PaymenyOut";
 
 
 const ActionButtons = () => {
@@ -15,13 +15,13 @@ const ActionButtons = () => {
 
   const buttons = [
     { label: "New Invoice", action: () => setActiveForm("NewInvoice") },
-    { label: "New Quotation", action: () => setActiveForm("NewQuotation") },
-    { label: "Add Purchase", action: () => setActiveForm("AddPurchase") },
-    { label: "Add Expense", action: () => setActiveForm("AddExpense") },
-    { label: "Add Customer", action: () => setActiveForm("AddCustomer") },
-    { label: "Add Reminder", action: () => setActiveForm("AddReminder") },
-    { label: "Payment In", action: () => setActiveForm("PaymentIn") },
-    { label: "Payment Out", action: () => setActiveForm("PaymentOut") },
+    // { label: "New Quotation", action: () => setActiveForm("NewQuotation") },
+    // { label: "Add Purchase", action: () => setActiveForm("AddPurchase") },
+    // { label: "Add Expense", action: () => setActiveForm("AddExpense") },
+    // { label: "Add Customer", action: () => setActiveForm("AddCustomer") },
+    // { label: "Add Reminder", action: () => setActiveForm("AddReminder") },
+    // { label: "Payment In", action: () => setActiveForm("PaymentIn") },
+    // { label: "Payment Out", action: () => setActiveForm("PaymentOut") },
   ];
 
   const closeForm = () => setActiveForm(null); // Closes the active form
@@ -30,20 +30,20 @@ const ActionButtons = () => {
     switch (activeForm) {
       case "NewInvoice":
         return <CreateInvoice onClose={closeForm} />;
-      case "NewQuotation":
-        return <CreateQuotation onClose={closeForm} />;
-      case "AddPurchase":
-        return <Purchase onClose={closeForm} />;
-      case "AddExpense":
-        return <AddExpense onClose={closeForm} />;
-      case "AddCustomer":
-        return <CreateCustomer onClose={closeForm} />;
-      case "AddReminder":
-        return <ComingSoon onClose={closeForm} />;
-      case "PaymentIn":
-        return <PaymentIn onClose={closeForm} />;
-      case "PaymentOut":
-        return <PaymentOut onClose={closeForm} />;
+      // case "NewQuotation":
+      //   return <CreateQuotation onClose={closeForm} />;
+      // case "AddPurchase":
+      //   return <Purchase onClose={closeForm} />;
+      // case "AddExpense":
+      //   return <AddExpense onClose={closeForm} />;
+      // case "AddCustomer":
+      //   return <CreateCustomer onClose={closeForm} />;
+      // case "AddReminder":
+      //   return <ComingSoon onClose={closeForm} />;
+      // case "PaymentIn":
+      //   return <PaymentIn onClose={closeForm} />;
+      // case "PaymentOut":
+      //   return <PaymentOut onClose={closeForm} />;
       default:
         return null;
     }

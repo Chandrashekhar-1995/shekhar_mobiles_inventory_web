@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
-const RegisterForm = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email:"",
@@ -138,4 +138,4 @@ const togglePasswordVisibility = () => {
   );
 };
 
-export default RegisterForm;
+export default Register;

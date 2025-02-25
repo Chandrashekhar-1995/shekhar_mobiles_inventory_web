@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,  Link } from "react-router-dom";
 import { List, ListItem, ListItemIcon, ListItemText,  Popover, } from "@mui/material";
 import { ShoppingCart, Inventory, People,  BarChart,  Settings,  AccountBalance,  AssignmentLate,  InterpreterMode,  AutoFixHigh,  AllInclusive,} from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,7 +12,7 @@ const Sidebar = () => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Sidebar menu structure
+  // Sidebar menu structure 
   const menuItems = [
     {
       text: "Sale",
@@ -71,13 +71,13 @@ const Sidebar = () => {
     //   // { text: "Tax Payment", link: "/account/tax_payment" },
     // ] 
     // },
-    // {
-    //   text: "Expense", icon: <AssignmentLate/>, subMenu: [
-    //   { text: "Direct Expense", link: "/expense/direct" },
-    //   { text: "Indirect Expense", link: "/expense/indirect" },      
-    // ]
+    {
+      text: "Expense", icon: <AssignmentLate/>, subMenu: [
+      { text: "Direct Expense", link: "/expense/direct" },
+      { text: "Indirect Expense", link: "/expense/indirect" },      
+    ]
 
-    // },
+    },
     {
       text: "Customer", icon: <People/>, subMenu: [
       
@@ -256,9 +256,9 @@ const Sidebar = () => {
           </svg>
         </button>
       )}
-      <div className={`fixed left-0 h-full bg-primary w-64 text-white text-xl shadow-md transition-transform transform ${
-          open ? 'translate-x-0' : '-translate-x-full'
-        }`}>
+       {/* transition-transform transform ${ open ? 'translate-x-0' : '-translate-x-full'}  ye line niche rahega*/}
+      <div className={`fixed left-0 h-full bg-primary w-64 text-white text-xl shadow-md
+        `}>
         {/* Sidebar Menu */}
               <List>
                 {menuItems.map((menuItem, index) => (
@@ -311,8 +311,8 @@ const Sidebar = () => {
                     <ListItem
                       key={subIndex}
                       type="button"
-                      component="a"
-                      href={subItem.link}
+                      component={Link}
+                      to={subItem.link}
                       sx={{
                         "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
                       }}

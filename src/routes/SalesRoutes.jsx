@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import SalesDashboard from "../components/sales/SalesDashboard";
 import CreateInvoice from "../components/sales/CreateInvoice";
-import ComingSoon from "../components/ComingSoon";
+import ComingSoon from "../pages/ComingSoon";
 import ManageInvoice from "../components/sales/ManageInvoice";
 
 
