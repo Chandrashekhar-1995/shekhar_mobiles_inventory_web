@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {API_BASE_URL} from "../../utils/const";
 import { useNavigate, useParams } from 'react-router-dom';
-import { Alert } from "@mui/material";
+import { Alert, Dialog } from "@mui/material";
 import InvoiceDetails from "./CreateInvoice/InvoiceDetails";
 import CustomerDetails from "./CreateInvoice/CustomerDetails";
 import ItemDetails from "./CreateInvoice/ItemDetails";
@@ -13,7 +13,7 @@ import SubmitSection from "./CreateInvoice/SubmitSection";
 import DiscountSection from "./CreateInvoice/DiscountSection";
 import NotesSection from "./CreateInvoice/NotesSection";
 
-const CreateInvoice = ({ isEditMode = false }) => {
+const CreateInvoice = ({ isEditMode = false, onClose }) => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [errorMessage, setErrorMessage] = useState("");
@@ -114,6 +114,14 @@ const CreateInvoice = ({ isEditMode = false }) => {
         const today = new Date().toISOString().split("T")[0];
         setFormData((prev) => ({ ...prev, date: today, paymentDate: today }));
       }, []);
+
+      const handleClose = () => {
+        if(onClose) {
+          onClose();
+        } else {
+          navigate(-1); 
+        }
+      };
 
       const fetchCustomerSuggestions = async (query) => {
         if (query.length > 1) {
@@ -304,12 +312,18 @@ const CreateInvoice = ({ isEditMode = false }) => {
         };
 
   return (
-    <>
+    <Dialog 
+      open={true} 
+      onClose={handleClose} 
+      fullWidth 
+      maxWidth="lg"
+    >
         <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
       <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold mb-4 text-sm">{isEditMode ? "Edit Invoice" : "Unsaved Invoice"}</h2>
-          <button className="hover:bg-red-600 rounded-lg p-2" onClick={() => navigate(-1)}> X </button>
+          <button className="hover:bg-red-600 rounded-lg p-2"  onClick={() => handleClose()}
+            > X </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
@@ -405,7 +419,7 @@ const CreateInvoice = ({ isEditMode = false }) => {
         </form>
       </div>
     </div>
-    </>
+    </Dialog>
   );
 };
 
