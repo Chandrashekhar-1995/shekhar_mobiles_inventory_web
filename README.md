@@ -6,3 +6,5 @@
 - install react-router-dom
 - npm install redux react-redux @reduxjs/toolkit
 - setup store
+- create Header
+- set strucher for my app
