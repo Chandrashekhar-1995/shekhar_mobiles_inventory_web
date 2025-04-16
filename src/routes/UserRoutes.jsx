@@ -37,7 +37,7 @@ const UserRoutes = [
           },
         ],
     },
-    {
+    { 
         path: "auth/admin",
         element: (
           <ProtectedRoute roles={["Admin"]}>
