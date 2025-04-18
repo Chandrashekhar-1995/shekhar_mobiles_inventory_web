@@ -1,140 +1,117 @@
-import React, { useState } from "react";
-import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Typography } from "@mui/material";
-import { ShoppingCart } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { handleLogout } from "../utils/logout";
-
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { removeUser } from '../store/userSlice';
+import { logout } from '../../service/authApi';
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const user = useSelector((store)=>store.user)
 
-  const user = useSelector((store)=> store.user);
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLogoutClick = async () => {
-    setAnchorEl(null);
-    await handleLogout(dispatch, navigate);
-  };
-
-  const handleProfileClick = async () =>{
-    if (user?.designation) {
-      const role = user.designation;
-      const userRoles = [
-        "Relationship Manager",
-        "Marketing Executive",
-        "Manager",
-        "Accountant",
-        "Clerk",
-        "Peon",
-        "Office Boy",
-        "Receptionist",
-        "Trainee",
-        "Admin",
-      ];
-
-      if (userRoles.includes(role)) {
-        navigate("/auth/user/profile");
-      } else {
-        navigate("/user/profile");
-      }
-    } else {
-      navigate("/login");
-    }
-  };
-
+  const handleProfileClick = () => {
+    navigate('/profile');
+  }
 
   const handleDashboardClick = () => {
-    if (user?.designation) {
+    if (user) {
       const role = user.designation;
       const userRoles = [
-        "Relationship Manager",
-        "Marketing Executive",
-        "Manager",
-        "Accountant",
-        "Clerk",
-        "Peon",
-        "Office Boy",
-        "Receptionist",
-        "Trainee",
-      ];
+      "relationship_manager",
+      "admin",
+      "marketing_executive", 
+      "manager", 
+      "accountant", 
+      "clerk", 
+      "peon", 
+      "office_boy", 
+      "receptionist", 
+      "trainee"
+    ];
 
-      if (role === "Admin") {
-        navigate("/auth/admin");
+      if (role === "admin") {
+        navigate('/user/admin');
       } else if (userRoles.includes(role)) {
-        navigate("/auth/user");
+        navigate("/user")
       } else {
-        navigate("/user/dashboard");
+        navigate("/customer/dashboard")
       }
     } else {
-      navigate("/login");
+      navigate("/login")
     }
   };
 
+  const handleSettingClick = () => {
+    navigate('/setting');
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+
+      dispatch(removeUser());
+      localStorage.removeItem('user');
+      navigate('/login');
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
-    <AppBar position="static" className="bg-primary">
-      <Toolbar className="flex justify-between items-center">
-        {/* Logo and Shop Name */}
-        <div className="flex items-center space-x-2">
-          <Typography variant="h6" className="font-bold text-white">
-            Shekhar Mobiles
-          </Typography>
+    <div className="navbar bg-primary shadow-sm sticky top-0">
+  <div className="flex-1">
+    <a className="btn btn-ghost text-xl text-white">JMD MOBILE SHOP</a>
+  </div>
+  <div className="flex-none">
+  <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+    <div className="dropdown dropdown-end">
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+        <div className="indicator">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /> </svg>
+          <span className="badge badge-sm indicator-item">8</span>
         </div>
-
-        {/* Navigation Links */}
-        <div className="hidden md:flex space-x-4">
-          <a href="/" className="text-white hover:underline">
-            Home
-          </a>
-          <a href="/services" className="text-white hover:underline">
-            Services
-          </a>
-          <a href="/shop" className="text-white hover:underline">
-            Shop
-          </a>
-          <a href="/about-us" className="text-white hover:underline">
-            About Us
-          </a>
-          <IconButton color="inherit" href="/cart">
-            <ShoppingCart />
-          </IconButton>
+      </div>
+      <div
+        tabIndex={0}
+        className="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow">
+        <div className="card-body">
+          <span className="text-lg font-bold">8 Items</span>
+          <span className="text-info">Subtotal: $999</span>
+          <div className="card-actions">
+            <button className="btn btn-primary btn-block">View cart</button>
+          </div>
         </div>
-
-        {/* Profile Avatar and Dropdown */}
-        <div className="relative">
-          <IconButton onClick={handleMenuOpen}>
-            <Avatar src="/path-to-avatar.jpg" alt="Profile" />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          >
-            <MenuItem onClick={handleProfileClick}> Profile </MenuItem>
-            <MenuItem onClick={handleDashboardClick}> Dashboard </MenuItem>
-
-            { user ? 
-            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem> : 
-            <MenuItem onClick={handleMenuClose} component="a" href="/login">
-                Login
-              </MenuItem>
-            }
-
-          </Menu>
+      </div>
+    </div>
+    <div className="dropdown dropdown-end">
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+        <div className="w-10 rounded-full">
+          <img
+            alt="Tailwind CSS Navbar component"
+            src={user ? user.avatar : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"} />
         </div>
-      </Toolbar>
-    </AppBar>
-  );
-};
+      </div>
+      <ul
+        tabIndex={0}
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <li>
+          <a className="justify-between" onClick={handleProfileClick}>
+            Profile
+            <span className="badge">New</span>
+          </a>
+        </li>
+        <li>
+          <a className="justify-between" onClick={handleDashboardClick}>
+            Dashboard
+            <span className="badge">New</span>
+          </a>
+        </li>
+        <li><a onClick={handleSettingClick}>Settings</a></li>
+        <li><a onClick={handleLogout}>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+  )
+}
 
-export default Header;
+export default Header

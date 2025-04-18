@@ -8,7 +8,7 @@ const createBrand = (formData) => {
     });
 };
 
-const allBrand = () => {
+const getAllBrand = () => {
     return apiClient.customFetch("/brand/all");
 };
 
@@ -36,7 +36,7 @@ const deleteBrand = (id) => {
 
 export {
     createBrand,
-    allBrand,
+    getAllBrand,
     getBrandById,
     searchBrand,
     updateBrand,

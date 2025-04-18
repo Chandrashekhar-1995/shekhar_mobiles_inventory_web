@@ -1,11 +1,15 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import Register from "../pages/Register";
-import Login from "../pages/Login";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 import PrivateRoutes from "./PrivateRoutes";
+import HomePage from "../pages/HomePage";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import PrivateLayout from "../components/layouts/PrivateLayout";
+import ProfileRoutes from "./ProfileRoutes";
+import CustomerRoutes from "./CustomerRoutes";
+
 
 const AppLayout = () => (
   <div className="app">
@@ -25,7 +29,12 @@ const appRouter = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login/> },
-      ...PrivateRoutes,
+      ...ProfileRoutes,
+      ...CustomerRoutes,
+      {
+        element:<PrivateLayout/>,
+        children:[...PrivateRoutes]
+      },
       { path: "*", element: <HomePage /> },
     ],
   },

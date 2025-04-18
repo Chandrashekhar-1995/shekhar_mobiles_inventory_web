@@ -6,4 +6,4 @@ const CustomerDashboard = () => {
   )
 }
 
-export default CustomerDashboard;
+export default CustomerDashboard

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { addUser } from '../store/userSlice';
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { register } from '../../service/authApi';
+
 
 const Register = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email:"",
@@ -14,12 +14,8 @@ const Register = () => {
     address:"",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [successMessage, setSuccessMessage] = useState("");
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,108 +30,136 @@ const Register = () => {
     setLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
+    try {
+      const data = await register(formData)
+      if(data.success){
+        setSuccessMessage(data.message)
+        navigate("/login");
+      }else{
+        setErrorMessage(data.message || "Signup failed")
+      }
+      
+    } catch (error) {
 
-    try { 
-    const res = await axios.post("http://localhost:7777/api/v1/auth/register", formData,{
-      withCredentials:true
-    });
-
-    // Dispatch the user data to the store
-    dispatch(addUser(res.data.data));
-
-    // Navigate to the related dashboard
-    const role = res.data.data.designation;
-    const userRoles = [
-      "Relationship Manager",
-      "Marketing Executive",
-      "Manager",
-      "Accountant",
-      "Clerk",
-      "Peon",
-      "Office Boy",
-      "Receptionist",
-      "Trainee",
-    ];
-
-    if (role === "Admin") {
-      navigate("/auth/admin");
-    } else if (userRoles.includes(role)) {
-      navigate("/auth/user");
-    } else {
-      navigate("/user/dashboard");
+    } finally{
+      setLoading(false);
     }
-
-    setSuccessMessage("Login successful!");
-  } catch (err) {
-    setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
-  } finally {
-    setLoading(false);
+    
   }
-};
-
-const togglePasswordVisibility = () => {
-  setShowPassword((prevShowPassword) => !prevShowPassword);
-};
-
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-500">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
-        {errorMessage && (
-                  <Alert severity="error" className="mb-4">
-                    {errorMessage}
-                  </Alert>
-                )}
         {successMessage && (
-          <Alert severity="success" className="mb-4">
-            {successMessage}
-          </Alert>
+          <div role="alert" className="alert alert-success">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{successMessage}</span>
+        </div>
         )}
-                
-        <form onSubmit={handleSubmit} className="space-y-4">
 
-          <TextField label="Name" variant="outlined" fullWidth name="name" value={formData.name} onChange={handleChange} required />
-
-          <TextField label="Email" variant="outlined" fullWidth name="email" value={formData.email} onChange={handleChange} required />
-
-          <TextField label="Mobile Number" variant="outlined" fullWidth name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} required />
-
-          <TextField label="Address" variant="outlined" fullWidth name="address" value={formData.address} onChange={handleChange} required />
-
-          <TextField
-                      label="Password"
-                      type={showPassword ? "text" : "password"}
-                      variant="outlined"
-                      fullWidth
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={togglePasswordVisibility} edge="end">
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-
-          <Button type="submit" variant="contained" fullWidth className="bg-blue-500 hover:bg-blue-600 text-white" disabled={loading} >
-            {loading ? <CircularProgress size={24} className="text-white" /> : "Register"}
-          </Button>
-          <div>
-          <p className="hover:text-blue-800" onClick={() => navigate('/login')}>
-    Already have an account? Login
-</p>
-
+        {errorMessage && (
+          <div role="alert" className="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{errorMessage}</span>
           </div>
+          )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-center">
+          
+        {/* name */}
+        <label className="input validator">
+          <input 
+            type="text" 
+            placeholder="name" 
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        {/* email */}
+        <label className="input validator">
+          <input 
+            type="email" 
+            placeholder="email" 
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        {/* mobile no */}
+        <label className="input validator">
+          <input 
+            type="tel" 
+            placeholder="Mobile Number" 
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            pattern="[0-9]*" 
+            minlength="10" 
+            maxlength="10" 
+            title="Must be 10 digits"
+            required
+          />
+        </label>
+        <p className="validator-hint hidden">Must be 10 digits</p>
+
+        {/* address */}
+        <label className="input validator">
+        <input 
+            type="text" 
+            placeholder="address" 
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+             minlength="3"
+            required
+          />
+        </label>
+
+        {/* password */}
+        <label className="input validator">
+          <input 
+            type="password" 
+            placeholder="Password" minlength="8" 
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+            title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" />
+        </label>
+        <p className="validator-hint hidden">
+         Must be more than 8 characters, including
+          <br/>At least one number
+          <br/>At least one lowercase letter
+          <br/>At least one uppercase letter
+        </p>
+
+        <button className="btn btn-primary items-center">
+          {loading ? "Registring..." : "Register"}
+        </button>
+
+        <p
+          className="hover:text-blue-800 cursor-pointer"
+          onClick={() => navigate('/login')}
+          >
+          Already have an account? Signup
+        </p>
+        
         </form>
+
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
-import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import axios from 'axios';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../store/userSlice';
-import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = "http://localhost:7777/api/v1/";
+import { login } from '../../service/authApi';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    identifier: '', // For mobile number or email
-    password: '',
-  });
-  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [formData, setFormData] = useState({
+    identifier: '', 
+    password: '',
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,118 +26,124 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMessage("");
-    setSuccessMessage("");
+      e.preventDefault();
+      setLoading(true);
+      setErrorMessage("");
+      setSuccessMessage("");
+      try {
+        const data = await login(formData);
 
-    try {
-      const res = await axios.post(`${API_BASE_URL}auth/login`, formData, {
-        withCredentials: true,
-      });
+        if(data.success){
+          setSuccessMessage(data.message)
+          dispatch(addUser(data.data))
+          const role = data.data.designation;
+          const userRoles = [
+            "relationship_manager",
+            "admin",
+            "marketing_executive", 
+            "manager", 
+            "accountant", 
+            "clerk", 
+            "peon", 
+            "office_boy", 
+            "receptionist", 
+            "trainee"
+          ];
 
-      // Dispatch the user data to the store
-      dispatch(addUser(res.data.data));
-
-      setSuccessMessage("Login successful!");
-
-      // Navigate to the related dashboard
-      const role = res.data.data.designation;
-      const userRoles = [
-        "Relationship Manager",
-        "Marketing Executive",
-        "Manager",
-        "Accountant",
-        "Clerk",
-        "Peon",
-        "Office Boy",
-        "Receptionist",
-        "Trainee",
-      ];
-
-      if (role === "Admin") {
-        navigate("/auth/admin");
-      } else if (userRoles.includes(role)) {
-        navigate("/auth/user");
-      } else {
-        navigate("/user/dashboard");
+          if (role === "admin") {
+            navigate("/user/admin");
+          } else if(role === "customer") {
+            navigate("/customer");
+          } else if (userRoles.includes(role)) {
+            navigate("/user");
+          } else {
+            navigate("/");
+          }
+      }else{
+        setErrorMessage(data.message || "Login failed")
       }
-
-    } catch (err) {
-      setErrorMessage(err.response?.data?.message || "An unexpected error occurred");
-    } finally {
-      setLoading(false);
+        
+      } catch (error) {
+        console.error(error)
+      } finally{
+        setLoading(false);
+      }
+      
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
-
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-500">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-        {errorMessage && (
-          <Alert severity="error" className="mb-4">
-            {errorMessage}
-          </Alert>
-        )}
+
         {successMessage && (
-          <Alert severity="success" className="mb-4">
-            {successMessage}
-          </Alert>
+          <div role="alert" className="alert alert-success">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{successMessage}</span>
+        </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <TextField
-            label="Mobile No or Email"
-            variant="outlined"
-            fullWidth
+
+        {errorMessage && (
+          <div role="alert" className="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{errorMessage}</span>
+          </div>
+          )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-center">
+          
+        {/* email or mobile number */}
+        <label className="input validator">
+          <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></g></svg>
+          <input 
+            type="text" 
+            placeholder="email or mobile number" 
             name="identifier"
             value={formData.identifier}
             onChange={handleChange}
             required
           />
-          <TextField
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            variant="outlined"
-            fullWidth
+        </label>
+
+        {/* password */}
+        <label className="input validator">
+          <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></g></svg>
+          <input 
+            type="password" 
+            placeholder="Password" minlength="8" 
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={togglePasswordVisibility} edge="end">
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            className="bg-blue-500 hover:bg-blue-600 text-white"
-            disabled={loading}
-          >
-            {loading ? <CircularProgress size={24} className="text-white" /> : "Login"}
-          </Button>
-          <div>
-            <p
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+            title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" />
+        </label>
+        <p className="validator-hint hidden">
+         Must be more than 8 characters, including
+          <br/>At least one number
+          <br/>At least one lowercase letter
+          <br/>At least one uppercase letter
+        </p>
+
+        <button className="btn btn-primary items-center">
+          {loading ? "Login..." : "Login"}
+        </button>
+
+        <p
               className="hover:text-blue-800 cursor-pointer"
               onClick={() => navigate('/register')}
             >
               Don't have an account? Signup
             </p>
-          </div>
+        
         </form>
+
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Login;

@@ -25,5 +25,4 @@ export {
     register,
     login,
     logout,
-    getProfile,
 }
