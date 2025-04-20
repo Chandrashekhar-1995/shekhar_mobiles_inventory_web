@@ -8,7 +8,7 @@ const createProduct = (formData) => {
     });
 };
 
-const allProduct = () => {
+const getAllProduct = () => {
     return apiClient.customFetch("/product/all");
 };
 
@@ -46,7 +46,7 @@ const bulkUploadProduct = (formData) => {
 
 export {
     createProduct,
-    allProduct,
+    getAllProduct,
     getProductById,
     searchProduct,
     updateProduct,
