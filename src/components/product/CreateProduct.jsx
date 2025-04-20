@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../../service/productApi";
 import useFetchCategories from "../../hooks/useFetchCategories";
 import useFetchBrands from "../../hooks/useFetchBrands";
@@ -9,8 +8,7 @@ import OtherDetails from "./productComponents/OtherDetails";
 
 const CreateProduct = () => {
     const [loading, setLoading] = useState(false);
-     const [showMoreFields, setShowMoreFields] = useState(false);
-    const navigate = useNavigate();
+    const [showMoreFields, setShowMoreFields] = useState(false);
   
     const [formData, setFormData] = useState({
       productName: "",
@@ -54,7 +52,6 @@ const CreateProduct = () => {
         const data = await createProduct(formData);
         if (data.success) { 
           alert(`✅ ${data.message}`)
-          // navigate(`/update/${data._id}`) // navigate update page for fix anythings
         } else {
           alert(`❌ ${data.message}` || "Product creation failed");
         }

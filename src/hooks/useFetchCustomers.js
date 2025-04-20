@@ -17,8 +17,6 @@ const useFetchCustomers = () => {
         };
 
         fetchCustomers();
-
-        // Clean up invoices when component unmounts
         return () => {
             dispatch(removeCustomer());
         };

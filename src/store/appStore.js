@@ -32,7 +32,7 @@ const appStore = configureStore({
         categories:categoryReducer,
         invoices: invoiceReducer,
         purchaseInvoices: purchaseInvoicesReducer,
-        customer:customerReducer,
+        customers:customerReducer,
         suppliers: supplierReducer,
     },
     preloadedState,

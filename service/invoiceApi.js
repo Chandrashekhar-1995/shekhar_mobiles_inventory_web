@@ -5,7 +5,7 @@ const lastInvoice = () => {
     return apiClient.customFetch("/invoice/last-invoice");
 };
 
-const createInvoice = (formData) => {
+const createNewInvoice = (formData) => {
     return apiClient.customFetch("/invoice/create", {
         method: "POST",
         body: JSON.stringify(formData)
@@ -40,7 +40,7 @@ const deleteInvoice = (id) => {
 
 export {
     lastInvoice,
-    createInvoice,
+    createNewInvoice,
     allInvoice,
     getInvoiceById,
     searchInvoice,

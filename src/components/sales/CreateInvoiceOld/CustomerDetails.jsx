@@ -4,14 +4,14 @@ const CustomerDetails = ({
   formData,
   setFormData,
   handleChange,
-  handleCustomerNameChange,
-  handleMobileChange,
-  showNameDropdown,
-  showMobileDropdown,
-  customerSuggestions,
-  setShowNameDropdown,
-  setShowMobileDropdown,
-  navigate
+  // handleCustomerNameChange,
+  // handleMobileChange,
+  // showNameDropdown,
+  // showMobileDropdown,
+  // customerSuggestions,
+  // setShowNameDropdown,
+  // setShowMobileDropdown,
+  // navigate
 }) => {
   return (
     <div className="grid grid-cols-4 gap-4 items-center mx-2 mt-4 mb-4">

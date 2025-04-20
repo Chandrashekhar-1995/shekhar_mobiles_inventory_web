@@ -9,7 +9,7 @@ const createCategory = (formData) => {
 };
 
 const createSubCategory = (formData) => {
-    return apiClient.customFetch("/category/subCategory/create", {
+    return apiClient.customFetch("/category/add-subcategory", {
         method: "POST",
         body: JSON.stringify(formData)
     });

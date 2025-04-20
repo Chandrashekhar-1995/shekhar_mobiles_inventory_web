@@ -1,19 +1,57 @@
 import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
+import { createBrand } from "../../../../service/brandApi";
+import useFetchBrands from "../../../hooks/useFetchBrands";
 
 const BrandDropdown = ({ formData, setFormData }) => {
   const [query, setQuery] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newBrandName, setNewBrandName] = useState("");
 
   const allBrands = useSelector((store) => store.brands.allBrands);
 
-  const filteredBrands = query === "" ? allBrands : allBrands.filter((brand) =>
+  const filteredBrands =
+    query === ""
+      ? allBrands
+      : allBrands.filter((brand) =>
           brand.brandName?.toLowerCase().includes(query.toLowerCase())
         );
 
   const handleSelect = (brandObj) => {
     setQuery(brandObj.brandName);
     setFormData({ ...formData, brand: brandObj.brandName });
+  };
+
+  const handleBlur = () => {
+    const brandExists = allBrands.some(
+      (b) => b.brandName.toLowerCase() === query.toLowerCase()
+    );
+    if (query && !brandExists) {
+      setNewBrandName(query);
+      setShowModal(true);
+    }
+  };
+
+  const addBrand = async () => {
+    try {
+      const data = await createBrand({
+        brandName: newBrandName,
+      });
+      
+      useFetchBrands();
+      setFormData({ ...formData, brand: newBrandName });
+    } catch (error) {
+      console.error("Brand create failed:", error);
+    } finally {
+      setShowModal(false);
+    }
+  };
+
+  const cancelCreate = () => {
+    setFormData({ ...formData, brand: "" });
+    setQuery("");
+    setShowModal(false);
   };
 
   return (
@@ -27,6 +65,7 @@ const BrandDropdown = ({ formData, setFormData }) => {
             <Combobox.Input
               className="input input-bordered w-full"
               onChange={(e) => setQuery(e.target.value)}
+              onBlur={handleBlur}
               displayValue={() => query}
               placeholder="Type Brand Name"
             />
@@ -49,6 +88,29 @@ const BrandDropdown = ({ formData, setFormData }) => {
             )}
           </div>
         </Combobox>
+
+        {/* Modal */}
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center opacity-80 bg-black  bg-op z-20">
+            <div className="bg-white p-6 rounded-lg shadow-md w-[90%] max-w-md text-center space-y-4">
+              <h2 className="text-lg font-semibold">Create new brand "{newBrandName}"?</h2>
+              <div className="flex justify-center gap-4">
+                <button
+                  className="btn btn-success btn-sm"
+                  onClick={addBrand}
+                >
+                  Yes
+                </button>
+                <button
+                  className="btn btn-error btn-sm"
+                  onClick={cancelCreate}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     )
   );
