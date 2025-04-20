@@ -2,10 +2,7 @@ import React from "react";
 
 const InvoiceDetails = ({ formData, handleChange }) => {
   return (
-    <div className="border border-base-300 relative rounded-md shadow-sm p-4 bg-base-100">
-      <div className="absolute -top-3 left-4 bg-base-100 px-2 text-sm font-semibold">
-        Invoice Information
-      </div>
+    <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {/* Invoice Type */}

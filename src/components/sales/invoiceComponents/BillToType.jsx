@@ -10,10 +10,7 @@ const BillToType = ({ formData, setFormData, handleChange }) => {
     navigate("/user/customer/create")
   }
   return (
-    <div className="border border-base-300 relative rounded-md shadow-sm p-4 bg-base-100">
-      <div className="absolute -top-3 left-4 bg-base-100 px-2 text-sm font-semibold">
-        Customer Information
-      </div>
+    <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
 
       <div className="form-control w-full mt-4">
         <label className="label">

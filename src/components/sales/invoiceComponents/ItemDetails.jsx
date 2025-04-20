@@ -3,11 +3,11 @@ import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const ItemDetails = ({ formData, setFormData, handleChange }) => {
+const ItemDetails = ({ formData, setFormData, handleChange,}) => {
   const [queryItemCode, setQueryItemCode] = useState("");
-    const [queryItemName, setQueryItemName] = useState("");
+  const [queryItemName, setQueryItemName] = useState("");
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const allProducts = useSelector((store) => store.products.allProducts);
 
@@ -38,16 +38,58 @@ const ItemDetails = ({ formData, setFormData, handleChange }) => {
       setQueryItemName(item.productName);
     };
   
-  const handleAddItem = (e) =>{
+  const calculateTotalAmount = () => {
+      const { quantity, salePrice, discount } = formData;
+      if (!quantity || !salePrice) return "";
+  
+      const total = quantity * salePrice;
+      return discount > 0 ? total - (total * discount) / 100 : total;
+    };
+
+  const handleAddItem = (event) => {
+      event.preventDefault();
+  
+      const { item, itemCode, productName, quantity, unit, salePrice, mrp, discount, itemDescription } = formData;
+  
+      if (!productName || !quantity || !salePrice) {
+        alert("Please fill in all required fields before adding an item.");
+        return;
+      }
+  
+      const newItem = {
+        item,
+        itemCode,
+        productName,
+        quantity: quantity || 1,
+        unit,
+        salePrice,
+        mrp,
+        discount: discount || 0,
+        total: calculateTotalAmount(),
+        itemDescription,
+      };
+  
+      setFormData((prev) => ({
+        ...prev,
+        items: [...prev.items, newItem],
+        itemCode: "",
+        productName: "",
+        quantity: "",
+        unit: "",
+        salePrice: "",
+        mrp: "",
+        discount: "",
+        itemDescription: "",
+      }));
+    };
+  
+  const handleCreateItem = (e) =>{
     e.preventDefault()
     navigate("/product/create")
   }
 
   return allProducts && (
-    <div className="border border-base-300 relative rounded-md shadow-sm p-4 bg-base-100">
-      <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
-        Particulars
-      </div>
+    <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
 
         {/* Item Code */}
@@ -85,14 +127,14 @@ const ItemDetails = ({ formData, setFormData, handleChange }) => {
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text text-xs">Item Name</span>
-            <button className=" bg-primary text-white font-bold px-2" onClick={handleAddItem}>+</button>
+            <button className=" bg-primary text-white font-bold px-2" onClick={handleCreateItem}>+</button>
           </label>
           <Combobox value={formData.productName} onChange={handleSelect}>
             <div className="relative">
               <Combobox.Input
                 className="input input-bordered input-sm text-xs"
                 onChange={(e) => setQueryItemName(e.target.value)}
-                displayValue={() => formData.itemCode || ""}
+                displayValue={() => formData.productName || ""}
                 placeholder="Type Item Name"
               />
               {filteredByName.length > 0 && (
@@ -197,9 +239,8 @@ const ItemDetails = ({ formData, setFormData, handleChange }) => {
             <input
               type="number"
               name="discount"
-              value={formData.discount ?? ""}
               onChange={handleChange}
-              // value={calculateTotalAmount()}
+              value={calculateTotalAmount()}
               className="input input-bordered input-sm text-xs"
               placeholder=""
               readOnly
@@ -219,6 +260,16 @@ const ItemDetails = ({ formData, setFormData, handleChange }) => {
               className="input input-bordered input-sm text-xs"
               placeholder="Item Description"
               />
+        </div>
+
+        <div className="col-span-1 flex flex-col">
+          <button
+            type="button"
+            onClick={handleAddItem}
+            className="bg-blue-500 text-white text-xs font-medium px-3 py-1 rounded hover:bg-blue-600 transition"
+          >
+            Add
+          </button>
         </div>
 
       </div>

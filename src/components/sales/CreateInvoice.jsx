@@ -6,6 +6,7 @@ import ItemDetails from "./invoiceComponents/ItemDetails";
 import useFetchCustomers from "../../hooks/useFetchCustomers";
 import BillToType from "./invoiceComponents/BillToType";
 import useFetchProducts from "../../hooks/useFetchProducts";
+import InvoiceTable from "./invoiceComponents/InvoiceTable";
 
 const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -170,6 +171,10 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
           setFormData={setFormData}
           handleChange={handleChange}
           />
+          <InvoiceTable
+          formData={formData}
+          />
+
         </form>
       </div>
     </div>
