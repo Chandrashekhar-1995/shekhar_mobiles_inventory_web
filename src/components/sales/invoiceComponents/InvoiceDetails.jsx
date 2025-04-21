@@ -17,9 +17,9 @@ const InvoiceDetails = ({ formData, handleChange }) => {
             value={formData.invoiceType}
             onChange={handleChange}
           >
-            <option value="Non GST">Non GST</option>
-            <option value="GST">GST</option>
-            <option value="Bill of Supply">Bill of Supply</option>
+            <option value="non_gst">Non GST</option>
+            <option value="gst">GST</option>
+            <option value="bill_of_supply">Bill of Supply</option>
           </select>
         </div>
 

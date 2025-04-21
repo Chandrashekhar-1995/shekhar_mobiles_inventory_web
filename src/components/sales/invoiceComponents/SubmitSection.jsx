@@ -1,11 +1,10 @@
 import React from "react";
-import { Button, CircularProgress } from "@mui/material";
 
 const SubmitSection = ({ formData, totalItemPrice, loading, handleSubmit }) => {
   return (
-    <div className="bg-gray-300 my-2 p-2 flex justify-between">
-      <div className="">Coming soon tools</div>
-      <div className="flex justify-between">
+    <div className="bg-gray-300 my-2 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+      <div className=""></div>
+
         {/* Balance */}
         <div className="flex justify-between items-center mr-8">
           <label className="font-medium text-gray-600 px-4">Balance:</label>
@@ -13,18 +12,17 @@ const SubmitSection = ({ formData, totalItemPrice, loading, handleSubmit }) => {
             ₹ {formData.items.length > 0 ? (totalItemPrice - formData.discountAmount) - formData.receivedAmount : "00.00"}
           </span>
         </div>
+
         {/* Submit Button */}
-        <Button
+        <button
           type="submit"
-          variant="contained"
-          fullWidth
-          className="bg-blue-500 hover:bg-blue-600 text-white"
           disabled={loading}
+          className={`btn btn-primary ${loading ? 'btn-disabled' : ''}`}
           onClick={handleSubmit}
         >
-          {loading ? <CircularProgress size={24} className="text-white" /> : "Save"}
-        </Button>
-      </div>
+          {loading ? <span className="loading loading-spinner ">Saving...</span> : "Save" }
+        </button>
+
     </div>
   );
 };

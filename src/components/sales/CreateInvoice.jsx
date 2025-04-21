@@ -9,6 +9,7 @@ import useFetchProducts from "../../hooks/useFetchProducts";
 import InvoiceTable from "./invoiceComponents/InvoiceTable";
 import OtherSection from "./invoiceComponents/OtherSection";
 import useFetchUsers from "../../hooks/useFetchUsers";
+import SubmitSection from "./invoiceComponents/SubmitSection";
 
 const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,8 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
         srNumber: "",
       });
 
+  const navigate = useNavigate();
+
   useFetchCustomers();
   useFetchProducts();
   useFetchUsers();
@@ -88,7 +91,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
     setFormData((prev) => ({ ...prev, date: today, paymentDate: today }));
   }, []);
   
-  const navigate = useNavigate();
+
   
   const handleClose = () => {
     if(onClose) {
@@ -119,6 +122,8 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
     }));
   };
 
+  const totalItemPrice = formData.items.reduce((total, item) => total + item.total, 0);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -131,14 +136,14 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
         } else {
           alert(`❌ ${data.message}` || "Update invoice failed");
         }
-
+        
       } else {
         const data = await createNewInvoice(formData);
-        console.log(data);
         
         if (data.success) { 
           alert(`✅ ${data.message}`)
-          isEditMode = true  
+          navigate("/sales/invoice")
+          isEditMode = true;
         } else {
           alert(`❌ ${data.message}` || "Invoice creation failed");
         }
@@ -182,8 +187,18 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
           <OtherSection
           formData={formData}
           setFormData={setFormData}
+          totalItemPrice={totalItemPrice}
           handleChange={handleChange}
           />
+
+          {/* Submit Section */}
+          <SubmitSection
+          formData={formData}
+          totalItemPrice={totalItemPrice}
+          loading={loading}
+          handleSubmit={handleSubmit}
+          />
+          
 
         </form>
       </div>

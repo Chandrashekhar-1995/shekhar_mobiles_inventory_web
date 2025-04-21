@@ -2,8 +2,8 @@ import React from "react";
 
 const PaymentDetails = ({ formData, handleChange }) => {
   return (
-    <div className="col-span-1 flex flex-col shadow-lg p-2 relative">
-      <div className="absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
+    <div className="col-span-1 flex flex-col shadow-lg p-2 md:relative">
+      <div className="md:absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
         Payment
       </div>
       <div className="col-span-1 grid grid-cols-3 gap-1">
@@ -24,9 +24,10 @@ const PaymentDetails = ({ formData, handleChange }) => {
           className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
           onChange={handleChange}
         >
-          <option value="Cash">Cash</option>
-          <option value="Phone Pay">Phone Pay</option>
-          <option value="Bharat Pay">Bharat Pay</option>
+          <option value="cash">Cash</option>
+          <option value="qr_code">Phone Pay</option>
+          <option value="qr_code">Bharat Pay</option>
+          <option value="razorpay">Razoray</option>
         </select>
         {/* Transaction ID */}
         <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Txn. ID</label>
