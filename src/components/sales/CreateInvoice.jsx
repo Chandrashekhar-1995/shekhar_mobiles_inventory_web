@@ -7,6 +7,8 @@ import useFetchCustomers from "../../hooks/useFetchCustomers";
 import BillToType from "./invoiceComponents/BillToType";
 import useFetchProducts from "../../hooks/useFetchProducts";
 import InvoiceTable from "./invoiceComponents/InvoiceTable";
+import OtherSection from "./invoiceComponents/OtherSection";
+import useFetchUsers from "../../hooks/useFetchUsers";
 
 const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +53,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
 
   useFetchCustomers();
   useFetchProducts();
+  useFetchUsers();
 
   // fetch last invoice
   useEffect(() => {
@@ -173,6 +176,13 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
           />
           <InvoiceTable
           formData={formData}
+          />
+
+          {/* Total amount etc */}
+          <OtherSection
+          formData={formData}
+          setFormData={setFormData}
+          handleChange={handleChange}
           />
 
         </form>

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import sidebarReducer from './sidebarSlice';
 import userReducer from "./userSlice";
+import allUserReducer from "./allUserSlice";
 import brandReducer from "./brandSlice";
 import categoryReducer from "./categorySlice";
 import productReducer from "./productSlice";
@@ -29,6 +30,7 @@ const appStore = configureStore({
     reducer:{
         sidebar: sidebarReducer,
         user: userReducer,
+        allUsers: allUserReducer,
         brands:brandReducer,
         categories:categoryReducer,
         products:productReducer,
