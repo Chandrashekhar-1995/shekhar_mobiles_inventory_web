@@ -8,7 +8,7 @@ const createUser = (formData) => {
     });
 };
 
-const allUser = () => {
+const getAllUser = () => {
     return apiClient.customFetch("/user/all");
 };
 
@@ -46,7 +46,7 @@ const bulkUploadUser = (formData) => {
 
 export {
     createUser,
-    allUser,
+    getAllUser,
     getUserById,
     searchUser,
     updateUser,
