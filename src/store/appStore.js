@@ -24,7 +24,7 @@ const loadUserFromLocalStorage = () => {
   // Initial State with LocalStorage
   const preloadedState = {
     user: loadUserFromLocalStorage(),
-  };
+  }; 
 
 const appStore = configureStore({
     reducer:{

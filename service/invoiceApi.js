@@ -12,7 +12,7 @@ const createNewInvoice = (formData) => {
     });
 };
 
-const allInvoice = () => {
+const getAllInvoice = () => {
     return apiClient.customFetch("/invoice/all");
 };
 
@@ -41,7 +41,7 @@ const deleteInvoice = (id) => {
 export {
     lastInvoice,
     createNewInvoice,
-    allInvoice,
+    getAllInvoice,
     getInvoiceById,
     searchInvoice,
     updateInvoice,

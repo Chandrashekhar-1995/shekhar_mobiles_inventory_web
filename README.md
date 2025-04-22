@@ -20,7 +20,7 @@
 - setup action Button form popups
 - CreateCustomer form done and work
 
-# Create mobile optimize app so optimize l;ike those
+# Create mobile optimize app so optimize like those
 -   make component like dashboar pc sapeate
 -   fix route issue
 -   set navigate after login 
@@ -49,3 +49,4 @@
 -   create central api
 -   delete dependency on mui
 -   create invoice done
+-   setup manage invoice table

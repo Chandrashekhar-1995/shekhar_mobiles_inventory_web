@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const InvoiceTable = () => {
-    const invoices = useSelector((state) => state.invoices);
+    const invoices = useSelector((store) => store.invoices.allInvoices);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB');
     };
-  return (
+  return invoices && (
     <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-300">
                     <thead>
@@ -24,7 +24,7 @@ const InvoiceTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {invoices.map((invoice, index) => (
+                        {invoices.invoices.map((invoice, index) => (
                             <tr 
                                 key={invoice._id} 
                                 className="odd:bg-white even:bg-gray-100"
@@ -37,7 +37,7 @@ const InvoiceTable = () => {
                                 <td className="border px-4 py-2">{invoice.totalAmount}</td>
                                 <td className="border px-4 py-2">
                                     <Link 
-                                        to={`/sales/edit/invoice/${invoice._id}`} 
+                                        to={`/sales/invoice/update/${invoice._id}`} 
                                         className="text-blue-500 hover:underline"
                                     >
                                         View/Edit
