@@ -52,3 +52,5 @@
 -   setup manage invoice table
 -   create invoice done
 -   add repair detail and repair type in create repair
+-   create api class for model no
+-   creating mobile component
