@@ -3,6 +3,7 @@ import sidebarReducer from './sidebarSlice';
 import userReducer from "./userSlice";
 import allUserReducer from "./allUserSlice";
 import brandReducer from "./brandSlice";
+import modelReducer from "./modelSlice";
 import mobileReducer from "./mobileSlice";
 import categoryReducer from "./categorySlice";
 import productReducer from "./productSlice";
@@ -33,6 +34,7 @@ const appStore = configureStore({
         user: userReducer,
         allUsers: allUserReducer,
         brands:brandReducer,
+        models:modelReducer,
         mobiles:mobileReducer,
         categories:categoryReducer,
         products:productReducer,
