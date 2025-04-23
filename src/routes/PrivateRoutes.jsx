@@ -1,5 +1,6 @@
 import ExpenseRoutes from "./ExpenseRoutes";
 import InvoiceRoutes from "./InvoiceRoutes";
+import MobileRoutes from "./MobileRoutes";
 import ProductRoutes from "./ProductRoutes";
 import PurchaseRoutes from "./PurchaseRoutes";
 import RepairRoutes from "./RepairRoutes";
@@ -10,6 +11,7 @@ const PrivateRoutes = [
     ...UserRoutes,
     ...InvoiceRoutes,
     ...RepairRoutes,
+    ...MobileRoutes,
     ...PurchaseRoutes,
     ...ExpenseRoutes,
     ...ProductRoutes,

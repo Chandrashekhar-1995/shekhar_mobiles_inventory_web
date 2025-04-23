@@ -217,6 +217,7 @@ const SidebarLayout = ({ children }) => {
         icon: <ArrowsRightLeftIcon className="h-5 w-5" />, 
         subMenu: [
           { text: "Add Product", link: "/product/create" },
+          { text: "Add Mobile", link: "/mobile/create" },
           // { text: "Add Service", link: "/service/create" },
           // { text: "Manage Services", link: "/service/create" },
           // { text: "Discount Schemes", link: "/service/create" },

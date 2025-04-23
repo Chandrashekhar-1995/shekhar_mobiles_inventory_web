@@ -26,8 +26,9 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           mobileNumber: "",
           address: "",
           repairing:[],
-          type:"",
-          mobile:[],
+          type:"mobile",
+          mobiles:[],
+          mobile:"",
           brandName:"",
           modelNumber:"",
           emeiNumber:"",
@@ -35,10 +36,12 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           email: "",
           anyDamage: "",
           otherDetails: "",
+          repairDescription:"",
           fault: [],
           problem: "",
           sinceLong: "",
           repairStatus: "",
+          repairPrice:"",
           repairItem: "",
           usedItems: [],
           item: "",
@@ -190,7 +193,7 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           />
 
           {/* Repair Type */}
-          <RepairType formData={formData} handleChange={handleChange} />
+          <RepairType formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
         </form>
       </div>

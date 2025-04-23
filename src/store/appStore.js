@@ -3,6 +3,7 @@ import sidebarReducer from './sidebarSlice';
 import userReducer from "./userSlice";
 import allUserReducer from "./allUserSlice";
 import brandReducer from "./brandSlice";
+import mobileReducer from "./mobileSlice";
 import categoryReducer from "./categorySlice";
 import productReducer from "./productSlice";
 import invoiceReducer from './invoiceSlice';
@@ -32,6 +33,7 @@ const appStore = configureStore({
         user: userReducer,
         allUsers: allUserReducer,
         brands:brandReducer,
+        mobiles:mobileReducer,
         categories:categoryReducer,
         products:productReducer,
         invoices: invoiceReducer,

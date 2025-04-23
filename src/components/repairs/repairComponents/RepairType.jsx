@@ -1,6 +1,7 @@
 import React from "react";
+import MobileDetails from "./MobileDetails";
 
-const RepairType = ({ formData, handleChange }) => {
+const RepairType = ({ formData, setFormData, handleChange }) => {
   return (
     <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -37,6 +38,12 @@ const RepairType = ({ formData, handleChange }) => {
                     />
                 </div>
             )}
+
+            {formData.type==="mobile" && 
+            <MobileDetails 
+                formData={formData}
+                setFormData={setFormData}
+                handleChange={handleChange} />}
 
             <div className="form-control w-full">
                 <label className="label">
