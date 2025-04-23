@@ -28,19 +28,21 @@ const BrandDropdown = ({ formData, setFormData }) => {
       (b) => b.brandName.toLowerCase() === query.toLowerCase()
     );
     if (query && !brandExists) {
-      setNewBrandName(query);
+      setNewBrandName(query);      
       setShowModal(true);
     }
   };
 
-  const addBrand = async () => {
+  const addBrand = async (e) => {
+    e.preventDefault();
     try {
       const data = await createBrand({
         brandName: newBrandName,
       });
-      
-      useFetchBrands();
+      if (data.success) {
       setFormData({ ...formData, brand: newBrandName });
+      }
+
     } catch (error) {
       console.error("Brand create failed:", error);
     } finally {
