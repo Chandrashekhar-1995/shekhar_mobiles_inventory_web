@@ -104,10 +104,6 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "salePrice" && !/^\d*\.?\d*$/.test(value)) {
-      return;
-    }
-
     if(name==="billTo" && value==="Cash"){
       setFormData((prev) => ({ ...prev, customerName: "Cash", address:"", mobileNumber:"" }));
     }
@@ -143,7 +139,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
         if (data.success) { 
           alert(`✅ ${data.message}`)
           navigate("/sales/invoice")
-          isEditMode = true;
+          // isEditMode = true;
         } else {
           alert(`❌ ${data.message}` || "Invoice creation failed");
         }

@@ -5,7 +5,7 @@ const lastRepair = () => {
     return apiClient.customFetch("/repair/last-repair");
 };
 
-const createRepair = (formData) => {
+const createNewRepair = (formData) => {
     return apiClient.customFetch("/repair/create", {
         method: "POST",
         body: JSON.stringify(formData)
@@ -40,7 +40,7 @@ const deleteRepair = (id) => {
 
 export {
     lastRepair,
-    createRepair,
+    createNewRepair,
     allRepair,
     getRepairById,
     searchRepair,

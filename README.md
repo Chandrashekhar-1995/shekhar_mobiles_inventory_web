@@ -50,3 +50,5 @@
 -   delete dependency on mui
 -   create invoice done
 -   setup manage invoice table
+-   create invoice done
+-   add repair detail and repair type in create repair
