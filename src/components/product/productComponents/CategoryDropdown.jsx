@@ -80,7 +80,6 @@ const CategoryDropdown = ({ formData, setFormData }) => {
   };
 
   return (
-    allCategories?.length > 0 && (
       <div className="form-control">
         <label className="label">
           <span className="label-text">Category *</span>
@@ -94,7 +93,7 @@ const CategoryDropdown = ({ formData, setFormData }) => {
               displayValue={() => query}
               placeholder="Type Category Name"
             />
-            {filteredCategories.length > 0 && (
+            {allCategories && filteredCategories.length > 0 && (
               <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                 {filteredCategories.map((category) => (
                   <Combobox.Option
@@ -182,7 +181,6 @@ const CategoryDropdown = ({ formData, setFormData }) => {
           </div>
         )}
       </div>
-    )
   );
 };
 

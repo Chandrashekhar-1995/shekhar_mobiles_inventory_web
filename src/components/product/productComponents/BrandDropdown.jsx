@@ -57,7 +57,6 @@ const BrandDropdown = ({ formData, setFormData }) => {
   };
 
   return (
-    allBrands?.length > 0 && (
       <div className="form-control">
         <label className="label">
           <span className="label-text">Brand *</span>
@@ -71,7 +70,7 @@ const BrandDropdown = ({ formData, setFormData }) => {
               displayValue={() => query}
               placeholder="Type Brand Name"
             />
-            {filteredBrands.length > 0 && (
+            {allBrands && filteredBrands.length > 0 && (
               <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                 {filteredBrands.map((brand) => (
                   <Combobox.Option
@@ -114,7 +113,6 @@ const BrandDropdown = ({ formData, setFormData }) => {
           </div>
         )}
       </div>
-    )
   );
 };
 
