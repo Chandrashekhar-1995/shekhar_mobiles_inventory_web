@@ -27,7 +27,7 @@ const RequiredFields = ({ formData, setFormData, handleChange }) => {
             name={name}
             value={formData[name]}
             onChange={handleChange}
-            className="input input-bordered w-full"
+            className="input input-bordered input-sm text-xs w-full"
             required={['itemCode', 'productName', 'purchasePrice', 'salePrice', 'unit'].includes(name)}
           />
         </div>

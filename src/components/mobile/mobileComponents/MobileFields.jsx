@@ -14,14 +14,14 @@ const MobileFields = ({ formData, setFormData, handleChange }) => {
       ].map(({ label, name }) => (
         <div className="form-control" key={name}>
           <label className="label">
-            <span className="label-text">{label} </span>
+            <span className="label-text text-xs">{label} </span>
           </label>
           <input
             type="text"
             name={name}
             value={formData[name]}
             onChange={handleChange}
-            className="input input-bordered w-full"
+            className="input input-bordered input-sm text-xs w-full"
           />
         </div>
       ))}

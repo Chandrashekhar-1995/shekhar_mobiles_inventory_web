@@ -4,7 +4,6 @@ import useFetchCustomers from "../../hooks/useFetchCustomers";
 import useFetchProducts from "../../hooks/useFetchProducts";
 import useFetchUsers from "../../hooks/useFetchUsers"
 import { createNewRepair, lastRepair } from "../../../service/repairApi";
-import InvoiceDetails from "../sales/invoiceComponents/InvoiceDetails";
 import RepairInvoiceDetails from "./repairComponents/RepairInvoiceDetails";
 import BillToType from "../sales/invoiceComponents/BillToType";
 import RepairType from "./repairComponents/RepairType";
@@ -12,7 +11,7 @@ import RepairType from "./repairComponents/RepairType";
 const BookingRepair = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-          invoiceType: "",
+          invoiceType: "mobile",
           repairNumber: "REP-0001",
           bookingDate: "",
           expectRepairingTime: [],
@@ -194,6 +193,34 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
 
           {/* Repair Type */}
           <RepairType formData={formData} setFormData={setFormData} handleChange={handleChange} />
+{/* 
+  invoiceType,
+            repairNumber, //
+            bookingDate,
+            expectRepairingTime,
+            placeOfSupply,
+            billTo,
+            customerId,
+            customerName,
+            mobileNumber,
+            address,
+            expectRepairingAmount,
+            discountAmount,
+            advanceAmount,
+            paymentMode,
+            paymentDate,
+            privateNote,
+            customerNote,
+            deliveryTerm,
+            deliveryDate,
+            bookBy,
+            repairing,
+            transactionId,
+            repairBy,
+            deliverBy,
+            receivedAmount,
+ */}
+
 
         </form>
       </div>

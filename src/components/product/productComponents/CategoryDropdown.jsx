@@ -11,6 +11,8 @@ const CategoryDropdown = ({ formData, setFormData }) => {
   const [showModal, setShowModal] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
 
+  useFetchCategories();
+
   const allCategories = useSelector((store) => store.categories.allCategories);
 
   const filteredCategories = query === "" ? allCategories : allCategories.filter((category) =>

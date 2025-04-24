@@ -12,7 +12,7 @@ const ModelNoDropdown = ({ formData, setFormData }) => {
   useFetchModels();
 
   const allModels = useSelector((store) => store.models.allModels);
-  
+
   const filteredModels = query === "" ? allModels : allModels.filter((model) =>
           model.modelNo?.toLowerCase().includes(query.toLowerCase())
         );
@@ -56,15 +56,14 @@ const ModelNoDropdown = ({ formData, setFormData }) => {
   };
 
   return (
-    // allBrands?.length > 0 && (
       <div className="form-control">
         <label className="label">
-          <span className="label-text">Model *</span>
+          <span className="label-text text-xs">Model *</span>
         </label>
         <Combobox value={query} onChange={handleSelect}>
           <div className="relative">
             <Combobox.Input
-              className="input input-bordered w-full"
+              className="input input-bordered input-sm text-xs w-full"
               onChange={(e) => setQuery(e.target.value)}
               onBlur={handleBlur}
               displayValue={() => query}

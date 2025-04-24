@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { createProduct } from "../../../service/productApi";
-import useFetchCategories from "../../hooks/useFetchCategories";
-import useFetchBrands from "../../hooks/useFetchBrands";
 import RequiredFields from "./productComponents/RequiredFields";
 import OptionalFields from "./productComponents/OptionalFields";
 import OtherDetails from "./productComponents/OtherDetails";
@@ -36,9 +34,6 @@ const CreateProduct = () => {
       printSerialNo: false,
       notForSale: false,
     });
-
-    useFetchCategories();
-    useFetchBrands();
 
     const handleChange = (e) => {
       const { name, value } = e.target;

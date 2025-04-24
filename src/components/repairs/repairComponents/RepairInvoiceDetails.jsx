@@ -37,7 +37,7 @@ const RepairInvoiceDetails = ({ formData, handleChange }) => {
           />
         </div>
 
-        {/* Invoice Date */}
+        {/* Booking Date */}
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text text-xs">Booking Date</span>

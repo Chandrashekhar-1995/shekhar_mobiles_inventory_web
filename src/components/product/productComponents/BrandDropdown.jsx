@@ -9,6 +9,8 @@ const BrandDropdown = ({ formData, setFormData }) => {
   const [showModal, setShowModal] = useState(false);
   const [newBrandName, setNewBrandName] = useState("");
 
+  useFetchBrands();
+
   const allBrands = useSelector((store) => store.brands.allBrands);
 
   const filteredBrands =
@@ -59,12 +61,12 @@ const BrandDropdown = ({ formData, setFormData }) => {
   return (
       <div className="form-control">
         <label className="label">
-          <span className="label-text">Brand *</span>
+          <span className="label-text text-xs">Brand *</span>
         </label>
         <Combobox value={query} onChange={handleSelect}>
           <div className="relative">
             <Combobox.Input
-              className="input input-bordered w-full"
+              className="input input-bordered input-sm text-xs w-full"
               onChange={(e) => setQuery(e.target.value)}
               onBlur={handleBlur}
               displayValue={() => query}

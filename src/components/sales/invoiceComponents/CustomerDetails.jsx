@@ -33,7 +33,6 @@ const CustomerDetails = ({ formData, setFormData, handleChange }) => {
   };
 
   return (
-    allCustomers && (
       <div >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
 
@@ -50,7 +49,7 @@ const CustomerDetails = ({ formData, setFormData, handleChange }) => {
                   displayValue={() => formData.mobileNumber || ""}
                   placeholder="Type Customer Number"
                 />
-                {filteredByNumber.length > 0 && (
+                {allCustomers && filteredByNumber.length > 0 && (
                   <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                     {filteredByNumber.map((customer) => (
                       <Combobox.Option
@@ -84,7 +83,7 @@ const CustomerDetails = ({ formData, setFormData, handleChange }) => {
                   displayValue={() => formData.customerName || ""}
                   placeholder="Type Customer Name"
                 />
-                {filteredByName.length > 0 && (
+                {allCustomers && filteredByName.length > 0 && (
                   <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                     {filteredByName.map((customer) => (
                       <Combobox.Option
@@ -121,7 +120,6 @@ const CustomerDetails = ({ formData, setFormData, handleChange }) => {
           </div>
         </div>
       </div>
-    )
   );
 };
 

@@ -1,5 +1,6 @@
 import React from "react";
 import MobileDetails from "./MobileDetails";
+import FaultDetails from "./FaultDetails";
 
 const RepairType = ({ formData, setFormData, handleChange }) => {
   return (
@@ -39,24 +40,12 @@ const RepairType = ({ formData, setFormData, handleChange }) => {
                 </div>
             )}
 
-            {formData.type==="mobile" && 
-            <MobileDetails 
-                formData={formData}
-                setFormData={setFormData}
-                handleChange={handleChange} />}
+            {formData.type==="mobile" &&
+            <MobileDetails formData={formData} setFormData={setFormData} handleChange={handleChange} />
+            }
 
-            <div className="form-control w-full">
-                <label className="label">
-                    <span className="label-text text-xs">Problem</span>
-                </label>
-                <input
-                    type="text"
-                    name="problem"
-                    className="input input-bordered input-sm text-xs"
-                    value={formData.problem}
-                    onChange={handleChange}
-                />
-                </div>
+            {/* Fault Details */}
+            <FaultDetails formData={formData} setFormData={setFormData} handleChange={handleChange} />
         </div>
     </div>
   )

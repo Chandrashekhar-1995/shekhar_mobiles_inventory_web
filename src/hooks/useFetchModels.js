@@ -12,7 +12,7 @@ const useFetchModels = () => {
                 const data = await getAllModel();
                 dispatch(addModel(data.data))
             } catch (error) {
-                console.error('Failed to fetch brands:', error);
+                console.error('Failed to fetch models:', error);
             }
         };
 

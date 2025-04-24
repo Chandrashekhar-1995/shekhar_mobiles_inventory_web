@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { createMobile } from "../../../service/mobileApi";
-import useFetchBrands from "../../hooks/useFetchBrands";
 import BrandDropdown from "../product/productComponents/BrandDropdown";
 import MobileFields from "./mobileComponents/MobileFields";
 import ModelNoDropdown from "./mobileComponents/ModelNoDropdown";
@@ -30,8 +29,6 @@ const CreateMobile = () => {
       enableTracking: false,
       printEmeiNo: false,
     });
-
-    useFetchBrands();
 
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -70,12 +67,12 @@ const CreateMobile = () => {
               {/* Mobile Type */}
               <div className="form-control w-full">
                 <label className="label">
-                  <span className="label-text">Mobile Type</span>
+                  <span className="label-text text-xs">Mobile Type</span>
                 </label>
                 <select
                   id="mobileType"
                   name="mobileType"
-                  className="input input-bordered w-full"
+                  className="input input-bordered input-sm text-xs w-full"
                   value={formData.mobileType}
                   onChange={handleChange}
                   >
@@ -90,12 +87,12 @@ const CreateMobile = () => {
               {/* EMEI 1 */}
               <div className="form-control w-full">
                 <label className="label">
-                  <span className="label-text">EMEI Number</span>
+                  <span className="label-text text-xs">EMEI Number</span>
                 </label>
                 <input
                   type="text"
                   name="emeiNumber"
-                  className="input input-bordered w-full"
+                  className="input input-bordered input-sm text-xs w-full"
                   value={formData.emeiNumber}
                   onChange={handleChange}
                 />
@@ -105,12 +102,12 @@ const CreateMobile = () => {
               {/* EMEI 1 */}
               <div className="form-control w-full">
                 <label className="label">
-                  <span className="label-text">EMEI Number 2</span>
+                  <span className="label-text text-xs">EMEI Number 2</span>
                 </label>
                 <input
                   type="text"
                   name="emeiNumberSecond"
-                  className="input input-bordered w-full"
+                  className="input input-bordered input-sm text-xs w-full"
                   value={formData.emeiNumberSecond}
                   onChange={handleChange}
                 />
