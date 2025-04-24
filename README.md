@@ -55,4 +55,5 @@
 -   create api class for model no
 -   creating mobile component
 -   redirect homepage according logged in user
--   model no dropdown
+-   add model no, slice, store, hook and  dropdown
+-   create mobile done

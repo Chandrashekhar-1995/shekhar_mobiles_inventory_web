@@ -20,7 +20,7 @@ const BrandDropdown = ({ formData, setFormData }) => {
 
   const handleSelect = (brandObj) => {
     setQuery(brandObj.brandName);
-    setFormData({ ...formData, brand: brandObj.brandName });
+    setFormData({ ...formData, brandName: brandObj.brandName, brand:brandObj._id });
   };
 
   const handleBlur = () => {
@@ -40,7 +40,7 @@ const BrandDropdown = ({ formData, setFormData }) => {
         brandName: newBrandName,
       });
       if (data.success) {
-      setFormData({ ...formData, brand: newBrandName });
+      setFormData({ ...formData, brandName: newBrandName, brand: data.data._id });
       }
 
     } catch (error) {
@@ -51,7 +51,7 @@ const BrandDropdown = ({ formData, setFormData }) => {
   };
 
   const cancelCreate = () => {
-    setFormData({ ...formData, brand: "" });
+    setFormData({ ...formData, brand: "", brandName:"" });
     setQuery("");
     setShowModal(false);
   };

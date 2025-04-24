@@ -12,7 +12,6 @@ const ModelNoDropdown = ({ formData, setFormData }) => {
   useFetchModels();
 
   const allModels = useSelector((store) => store.models.allModels);
-  console.log("allModels", allModels);
   
   const filteredModels = query === "" ? allModels : allModels.filter((model) =>
           model.modelNo?.toLowerCase().includes(query.toLowerCase())

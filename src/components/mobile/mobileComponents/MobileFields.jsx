@@ -2,12 +2,8 @@ import React from "react";
 
 const MobileFields = ({ formData, setFormData, handleChange }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+    <>
       {[
-        { label: "Model No", name: "modelNo" },
-        { label: "EMEI Number", name: "emeiNumber" },
-        { label: "EMEI Number 2", name: "emeiNumberSecond" },
         { label: "Purchase Price", name: "purchasePrice" },
         { label: "Sale Price", name: "salePrice" },
         { label: "Min Sale Price", name: "minSalePrice" },
@@ -29,7 +25,7 @@ const MobileFields = ({ formData, setFormData, handleChange }) => {
           />
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
