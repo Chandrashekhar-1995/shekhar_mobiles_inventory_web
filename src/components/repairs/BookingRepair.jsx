@@ -8,6 +8,8 @@ import RepairInvoiceDetails from "./repairComponents/RepairInvoiceDetails";
 import BillToType from "../sales/invoiceComponents/BillToType";
 import RepairType from "./repairComponents/RepairType";
 import RepairTable from "./repairComponents/RepairTable";
+import SubmitSection from "./repairComponents/SubmitSection";
+import OtherSection from "./repairComponents/OtherSection";
 
 const BookingRepair = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -136,6 +138,9 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
       }));
     };
 
+    
+    const totalItemPrice = formData.repairing.reduce((total, item) => total + item.repairPrice, 0);
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       setLoading(true);
@@ -183,6 +188,21 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           <RepairType formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
           <RepairTable formData={formData} />
+          {/* Total amount etc */}
+          <OtherSection
+            formData={formData}
+            setFormData={setFormData}
+            totalItemPrice={totalItemPrice}
+            handleChange={handleChange}
+          />
+
+          {/* Submit Section */}
+          <SubmitSection
+          formData={formData}
+          totalItemPrice={totalItemPrice}
+          loading={loading}
+          handleSubmit={handleSubmit}
+          />
 
         </form>
       </div>
