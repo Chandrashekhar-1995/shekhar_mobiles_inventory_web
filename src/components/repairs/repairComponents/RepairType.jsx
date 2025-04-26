@@ -25,23 +25,19 @@ const RepairType = ({ formData, setFormData, handleChange }) => {
                 </select>
             </div>
 
-            {formData.type==="others" && (
-                <div className="form-control w-full">
-                    <label className="label">
-                    <span className="label-text text-xs">Repair Item</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="repairItem"
-                        className="input input-bordered input-sm text-xs"
-                        value={formData.repairItem}
-                        onChange={handleChange}
-                    />
-                </div>
-            )}
-
-            {formData.type==="mobile" &&
-            <MobileDetails formData={formData} setFormData={setFormData} handleChange={handleChange} />
+            {formData.type==="mobile" ?
+            <MobileDetails formData={formData} setFormData={setFormData} handleChange={handleChange} /> : (<div className="form-control w-full">
+                <label className="label">
+                <span className="label-text text-xs">Repair Item</span>
+                </label>
+                <input
+                    type="text"
+                    name="repairItem"
+                    className="input input-bordered input-sm text-xs"
+                    value={formData.repairItem}
+                    onChange={handleChange}
+                />
+            </div>)
             }
 
             {/* Fault Details */}
