@@ -58,6 +58,9 @@ const BillToType = ({ formData, setFormData, handleChange }) => {
               handleChange={handleChange}
             />
           }
+
+
+{/* Ek inpute placeOfSupply */}
       
     </div>
   );

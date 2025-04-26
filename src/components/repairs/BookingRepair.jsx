@@ -7,6 +7,7 @@ import { createNewRepair, lastRepair } from "../../../service/repairApi";
 import RepairInvoiceDetails from "./repairComponents/RepairInvoiceDetails";
 import BillToType from "../sales/invoiceComponents/BillToType";
 import RepairType from "./repairComponents/RepairType";
+import RepairTable from "./repairComponents/RepairTable";
 
 const BookingRepair = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           invoiceType: "mobile",
           repairNumber: "REP-0001",
           bookingDate: "",
-          expectRepairingTime: [],
+          expectDeliveryTime: [],
           date:"",
           time:"",
           deliveryDate:"",
@@ -26,32 +27,22 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           address: "",
           repairing:[],
           type:"mobile",
-          mobiles:[],
           mobile:"",
+          brand:"",
           brandName:"",
           modelNumber:"",
           emeiNumber:"",
+          emeiNumberSecond:"",
           lockOrPassword:"",
           email: "",
           anyDamage: "",
           otherDetails: "",
           repairDescription:"",
-          fault: [],
           problem: "",
           sinceLong: "",
-          repairStatus: "",
           repairPrice:"",
+          expectedRepairingTime:"",
           repairItem: "",
-          usedItems: [],
-          item: "",
-          productName: "",
-          itemCode: "",
-          unit: "",
-          quantity: "",
-          mrp: "",
-          salePrice: "",
-          total: "",
-          itemDescription: "",
           expectRepairingAmount: "",
           totalAmount: "",
           discountAmount: "",
@@ -63,9 +54,8 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           customerNote: "",
           receivedAmount: "",
           dueAmount: "",
-          status: "",
+          status: "undaid",
           bookBy: "",
-          repairStatus: "booked",
           repairUnder: "",
           repairBy: "",
           deliverBy: "",
@@ -75,8 +65,6 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
 
           discount: "",
           transactionId:"",
-          status: "Unpaid",
-          deliveryTerm: "",
           srNumber: "",
         });
   
@@ -193,34 +181,8 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
 
           {/* Repair Type */}
           <RepairType formData={formData} setFormData={setFormData} handleChange={handleChange} />
-{/* 
-  invoiceType,
-            repairNumber, //
-            bookingDate,
-            expectRepairingTime,
-            placeOfSupply,
-            billTo,
-            customerId,
-            customerName,
-            mobileNumber,
-            address,
-            expectRepairingAmount,
-            discountAmount,
-            advanceAmount,
-            paymentMode,
-            paymentDate,
-            privateNote,
-            customerNote,
-            deliveryTerm,
-            deliveryDate,
-            bookBy,
-            repairing,
-            transactionId,
-            repairBy,
-            deliverBy,
-            receivedAmount,
- */}
 
+          <RepairTable formData={formData} />
 
         </form>
       </div>

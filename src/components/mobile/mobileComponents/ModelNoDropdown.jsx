@@ -19,7 +19,7 @@ const ModelNoDropdown = ({ formData, setFormData }) => {
 
   const handleSelect = (modelObj) => {
     setQuery(modelObj.modelNo);
-    setFormData({ ...formData, modelNo: modelObj.modelNo });
+    setFormData({ ...formData, modelNumber: modelObj.modelNo });
   };
 
   const handleBlur = () => {
