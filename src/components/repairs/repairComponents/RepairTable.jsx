@@ -1,8 +1,6 @@
 import React from "react";
 
 const RepairTable = ({ formData }) => {
-  console.log("repairing Table", formData.repairing);
-
   return (
     <div className="bg-yellow-100 mx-2 mt-6 mb-4">
       <table className="w-full" style={{ height: "300px", tableLayout: "fixed" }}>

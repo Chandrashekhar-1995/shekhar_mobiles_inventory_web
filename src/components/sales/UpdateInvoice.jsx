@@ -65,8 +65,7 @@ const UpdateInvoice = ({ isEditMode = true, onClose }) => {
           if (isEditMode && id) {
             try {
               const data = await getInvoiceById(id);
-              console.log(data);
-              
+
               if (data.success) { 
                 setFormData(data.data.invoice)
               } else {

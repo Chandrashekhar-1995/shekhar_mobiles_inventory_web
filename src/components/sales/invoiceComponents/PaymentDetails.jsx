@@ -1,52 +1,103 @@
 import React from "react";
 
-const PaymentDetails = ({ formData, handleChange }) => {
+const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice }) => {
+  const handleDiscountChange = (e) => {
+    const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      discountAmount: value >= 0 ? value : 0,
+    }));
+  };
   return (
-    <div className="col-span-1 flex flex-col shadow-lg p-2 md:relative">
-      <div className="md:absolute -top-3 left-2 bg-gray-100 px-1 text-sm font-semibold">
-        Payment
-      </div>
-      <div className="col-span-1 grid grid-cols-3 gap-1">
-        {/* Payment Date */}
-        <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Date</label>
-        <input
-          type="date"
-          name="paymentDate"
-          value={formData.paymentDate}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
-        />
+    <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        {/* Total amount */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-xs">Total Amount</span>
+          </label>
+          <input
+            type="text"
+            name="repairNumber"
+            className="input input-bordered input-sm text-xs"
+            value={totalItemPrice}
+            onChange={handleChange}
+            readOnly
+          />
+        </div>
+
+        {/* Discount */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-xs">Discount Rs</span>
+          </label>
+          <input
+            type="number" 
+            value={formData.discountAmount ?? ""}
+            className="input input-bordered input-sm text-xs"
+            onChange={handleDiscountChange}
+          />
+        </div>
+
+        {/* Total Payble amount */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-xs">Total Payable Amount</span>
+          </label>
+          <input
+            type="number" 
+            value= {formData.repairing.length > 0 ? totalItemPrice - formData.discountAmount : "00.00"}
+            className="input input-bordered input-sm text-xs"
+            readOnly
+          />
+        </div>
+
+        {/* Advance */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-xs">Advance</span>
+          </label>
+          <input
+            type="number" 
+            name="advanceAmount"
+            value={formData.advanceAmount ?? ""}
+            className="input input-bordered input-sm text-xs"
+            onChange={handleChange}
+          />
+        </div>
+
         {/* Payment Mode */}
-        <label className="text-xs font-medium text-gray-600 col-span-1">Mode</label>
-        <select
-          name="paymentMode"
-          value={formData.paymentMode}
-          className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
-          onChange={handleChange}
-        >
-          <option value="cash">Cash</option>
-          <option value="qr_code">Phone Pay</option>
-          <option value="qr_code">Bharat Pay</option>
-          <option value="razorpay">Razoray</option>
-        </select>
-        {/* Transaction ID */}
-        <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Txn. ID</label>
-        <input
-          type="text"
-          name="transactionId"
-          value={formData.transactionId}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
-        />
-        {/* Received Amount */}
-        <label className="text-xs font-medium mt-2 text-gray-600 col-span-1">Amount</label>
-        <input
-          type="text"
-          name="receivedAmount"
-          value={formData.receivedAmount}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-2 py-1 text-xs col-span-2"
-        />
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-xs">Payment Mode</span>
+          </label>
+          
+          <select
+            name="paymentMode"
+            value={formData.paymentMode}
+            className="select select-bordered select-sm text-xs"
+            onChange={handleChange}
+          >
+            <option value="cash">Cash</option>
+            <option value="qr_code">Phone Pay</option>
+            <option value="qr_code">Bharat Pay</option>
+            <option value="razorpay">Razoray</option>
+          </select>
+        </div>
+
+        {/* Sesh */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-xs">Remains</span>
+          </label>
+          <input
+            type="number" 
+            value= {(totalItemPrice - formData.discountAmount)-formData.advanceAmount}
+            className="input input-bordered input-sm text-xs"
+            readOnly
+          />
+        </div>
+
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const brandSlice = createSlice({
+const mobileSlice = createSlice({
     name:"mobile",
     initialState:{
         allMobiles: null,
@@ -16,6 +16,6 @@ const brandSlice = createSlice({
 });
 
 
-export const {addMobile, removeMobile} = brandSlice.actions;
+export const {addMobile, removeMobile} = mobileSlice.actions;
 
-export default brandSlice.reducer;
+export default mobileSlice.reducer;

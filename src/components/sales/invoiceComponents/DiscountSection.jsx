@@ -8,9 +8,6 @@ const DiscountSection = ({
 }) => {
   const logInUser = useSelector((store)=>store.user);
   const allUsers = useSelector((store) => store.allUsers.allUsers);
-  console.log("User",logInUser);
-  console.log("allUser",allUsers);
-  
 
   const totalItemQuantity = formData.items.reduce((total, item) => total + item.quantity, 0);
 

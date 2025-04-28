@@ -1,10 +1,12 @@
 import React from "react";
 import DiscountSection from "./DiscountSection";
 import NotesSection from "../../sales/invoiceComponents/NotesSection";
+import InvoiceSummary from "./InvoiceSummary";
 
-const OtherSection = ({
+const OtherSectionForInvoice = ({
     formData,
     setFormData,
+    totalItemPrice,
     handleChange,
   }) => {
     return (
@@ -27,8 +29,10 @@ const OtherSection = ({
             />
         </div>
 
+
+        <InvoiceSummary formData={formData} totalItemPrice={totalItemPrice} />
     </div>
   )
 }
 
-export default OtherSection;
+export default OtherSectionForInvoice;

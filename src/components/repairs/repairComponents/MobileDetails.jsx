@@ -57,7 +57,61 @@ const MobileDetails = ({ formData, setFormData, handleChange}) => {
             />
         </div>
 
-        
+        {/* lockOrPassword */}
+        <div className="form-control w-full">
+            <label className="label">
+                <span className="label-text text-xs">Lock or Password</span>
+            </label>
+            <input
+                type="text"
+                name="lockOrPassword"
+                className="input input-bordered input-sm text-xs"
+                value={formData.lockOrPassword}
+                onChange={handleChange}
+            />
+        </div>
+
+        {/* Email */}
+        <div className="form-control w-full">
+            <label className="label">
+                <span className="label-text text-xs">Email</span>
+            </label>
+            <input
+                type="email"
+                name="email"
+                className="input input-bordered input-sm text-xs"
+                value={formData.email}
+                onChange={handleChange}
+            />
+        </div>
+
+        {/* anyDamage */}
+        <div className="form-control w-full">
+            <label className="label">
+                <span className="label-text text-xs">Any Damage</span>
+            </label>
+            <input
+                type="text"
+                name="anyDamage"
+                className="input input-bordered input-sm text-xs"
+                value={formData.anyDamage}
+                onChange={handleChange}
+            />
+        </div>
+
+        {/* otherDetails */}
+        <div className="form-control w-full">
+            <label className="label">
+                <span className="label-text text-xs">Other Details</span>
+            </label>
+            <input
+                type="text"
+                name="otherDetails"
+                className="input input-bordered input-sm text-xs"
+                value={formData.otherDetails}
+                onChange={handleChange}
+            />
+        </div>     
     </>
   );
 };

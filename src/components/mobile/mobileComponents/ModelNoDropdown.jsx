@@ -55,7 +55,7 @@ const ModelNoDropdown = ({ formData, setFormData }) => {
   };
 
   const cancelCreate = () => {
-    setFormData(prev => ({
+    setFormData(prev => ({ 
       ...prev,
       modelNo: ""
     }));

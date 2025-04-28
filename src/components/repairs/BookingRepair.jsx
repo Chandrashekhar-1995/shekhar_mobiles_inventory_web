@@ -9,25 +9,23 @@ import BillToType from "../sales/invoiceComponents/BillToType";
 import RepairType from "./repairComponents/RepairType";
 import RepairTable from "./repairComponents/RepairTable";
 import SubmitSection from "./repairComponents/SubmitSection";
-import OtherSection from "./repairComponents/OtherSection";
+import PaymentDetails from "../sales/invoiceComponents/PaymentDetails";
+import NotesSection from "./repairComponents/NotesSection";
+import Refrances from "./repairComponents/Refrances";
 
 const BookingRepair = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-          invoiceType: "mobile",
           repairNumber: "REP-0001",
           bookingDate: "",
-          expectDeliveryTime: [],
-          date:"",
-          time:"",
-          deliveryDate:"",
-          placeOfSupply: "",
+          expectDeliveryDate:"",
           billTo: "Cash",
           customerId: "",
           customerName: "Cash",
           mobileNumber: "",
           address: "",
-          repairing:[],
+          // repairing:[],
+          repairing:[{type: "others", problem:"Left Skp not work", repairItem :"asd", repairPrice :"100"}],
           type:"mobile",
           mobile:"",
           brand:"",
@@ -43,28 +41,18 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           problem: "",
           sinceLong: "",
           repairPrice:"",
+          expectedRepairingDate:"",
           expectedRepairingTime:"",
           repairItem: "",
-          expectRepairingAmount: "",
           totalAmount: "",
           discountAmount: "",
           advanceAmount: "",
-          totalPayableAmount: "",
           paymentDate: "",
           paymentMode: "Cash",
           privateNote: "",
           customerNote: "",
-          receivedAmount: "",
-          dueAmount: "",
-          status: "undaid",
           bookBy: "",
-          repairUnder: "",
-          repairBy: "",
-          deliverBy: "",
           deliveryTerm: "",
-
-
-
           discount: "",
           transactionId:"",
           srNumber: "",
@@ -81,10 +69,8 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
     const fetchLastRepair = async () =>{
       try {
         const data = await lastRepair();
-        console.log(data);
-        
         if (data.success) { 
-          const lastRepairNumber = data.data.lastRepair.repairNumber;
+          const lastRepairNumber = data.data.repairNumber;
           const match = lastRepairNumber.match(/^([A-Za-z-]+)(\d+)$/);
 
           if (match) {
@@ -92,8 +78,7 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
             const numericPart = match[2];
             const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
             const nextRepairNumber = `${prefix}${nextNumber}`;
-            setFormData((prev) => ({ ...prev, invoiceNumber: nextRepairNumber }));
-            console.log("repair no", lastRepairNumber);
+            setFormData((prev) => ({ ...prev, repairNumber: nextRepairNumber }));
             
           } else {
             console.error('Invalid repair number format');
@@ -145,17 +130,15 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
       e.preventDefault();
       setLoading(true);
       try {
-        console.log("Form Data",formData);
+        const data = await createNewRepair(formData);
+        console.log("data",data);
         
-        // const data = await createNewRepair(formData);
-        // console.log("data",data);
-        
-        // if (data.success) {
-        //   alert(`✅ ${data.message}`)
-        //   navigate("/repair")
-        // } else {
-        //   alert(`❌ ${data.message}` || "Repair creation failed");
-        // }
+        if (data.success) {
+          alert(`✅ ${data.message}`)
+          navigate("/repair")
+        } else {
+          alert(`❌ ${data.message}` || "Repair creation failed");
+        }
         
       } catch (error) {
         console.error(error)
@@ -188,13 +171,20 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           <RepairType formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
           <RepairTable formData={formData} />
-          {/* Total amount etc */}
-          <OtherSection
+
+          <PaymentDetails 
+          formData={formData}
+          setFormData={setFormData} 
+          handleChange={handleChange}
+          totalItemPrice={totalItemPrice} />
+
+          <NotesSection
             formData={formData}
             setFormData={setFormData}
-            totalItemPrice={totalItemPrice}
             handleChange={handleChange}
-          />
+            />
+
+          <Refrances formData={formData}  handleChange={handleChange}  />
 
           {/* Submit Section */}
           <SubmitSection

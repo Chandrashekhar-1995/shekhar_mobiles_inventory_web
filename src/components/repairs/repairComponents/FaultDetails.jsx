@@ -38,6 +38,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
   
   return (
     <>
+        {/* since long */}
         <div className="form-control w-full">
             <label className="label">
                 <span className="label-text text-xs">Problem</span>
@@ -81,7 +82,47 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
             />
         </div>
 
+        {/* expectedRepairingDate */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text text-xs">Expected Repair Date</span>
+          </label>
+            <input
+              type="date"
+              name="expectedRepairingDate"
+              value={formData.expectedRepairingDate}
+              onChange={handleChange}
+              className="input input-bordered input-sm text-xs"
+            />
+        </div>
 
+        {/* expectedRepairingTime */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text text-xs">Expected Repair Time</span>
+          </label>
+            <input
+              type="time"
+              name="expectedRepairingTime"
+              value={formData.expectedRepairingTime}
+              onChange={handleChange}
+              className="input input-bordered input-sm text-xs"
+            />
+        </div>
+
+        {/* repairDescription */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text text-xs">Repair Description</span>
+          </label>
+            <input
+              type="text"
+              name="repairDescription"
+              value={formData.repairDescription}
+              onChange={handleChange}
+              className="input input-bordered input-sm text-xs"
+            />
+        </div>
 
         <div className="col-span-1 flex flex-col">
           <button

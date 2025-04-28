@@ -8,7 +8,6 @@ const DiscountSection = ({
 }) => {
   const allUsers = useSelector((store) => store.allUsers.allUsers);
 
-  const totalItemQuantity = formData.repairing.length;
 
   const handlefinalDiscountChange = (e) => {
     const value = e.target.value === "" ? "" : parseFloat(e.target.value);
@@ -19,15 +18,9 @@ const DiscountSection = ({
   };
   return (
     <>
-      <div className="col-span-1 flex flex-col">
-        <label className="text-xs font-medium text-gray-600">Total Quantity</label>
-          <input 
-          type="text"  
-          className="border bg-yellow-100 border-gray-300 rounded px-2 py-1 text-xs"
-          value={totalItemQuantity}/>
-      </div>
 
-      {/* Sold by */}
+
+      {/* Book By */}
       <div className="col-span-1 flex flex-col">
         <label className="text-xs font-medium text-gray-600"> Book By</label>
           <select
@@ -64,9 +57,6 @@ const DiscountSection = ({
                 </div>
                 <div className="col-span-1 flex flex-col">
                     <label className="text-xs font-medium text-gray-600"></label>    
-                </div>
-                <div className="col-span-1 flex flex-col">
-                    <label className="text-xs font-medium text-gray-600">Add Shipping</label>    
                 </div>
     </>
   )
