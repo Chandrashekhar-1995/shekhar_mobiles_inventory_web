@@ -22,8 +22,13 @@ const BrandDropdown = ({ formData, setFormData }) => {
 
   const handleSelect = (brandObj) => {
     setQuery(brandObj.brandName);
-    setFormData({ ...formData, brandName: brandObj.brandName, brand:brandObj._id });
+    setFormData(prev => ({
+      ...prev,
+      brandName: brandObj.brandName,
+      brand: brandObj._id
+      }));
   };
+        
 
   const handleBlur = () => {
     const brandExists = allBrands.some(
@@ -38,26 +43,32 @@ const BrandDropdown = ({ formData, setFormData }) => {
   const addBrand = async (e) => {
     e.preventDefault();
     try {
-      const data = await createBrand({
-        brandName: newBrandName,
-      });
+      const data = await createBrand({ brandName: newBrandName });
       if (data.success) {
-      setFormData({ ...formData, brandName: newBrandName, brand: data.data._id });
+        setFormData(prev => ({
+          ...prev,
+          brandName: newBrandName,
+          brand: data.data._id
+        }));
       }
-
     } catch (error) {
       console.error("Brand create failed:", error);
     } finally {
       setShowModal(false);
     }
   };
+  
 
   const cancelCreate = () => {
-    setFormData({ ...formData, brand: "", brandName:"" });
+    setFormData(prev => ({
+      ...prev,
+      brand: "",
+      brandName: ""
+    }));
     setQuery("");
     setShowModal(false);
   };
-
+  
   return (
       <div className="form-control">
         <label className="label">

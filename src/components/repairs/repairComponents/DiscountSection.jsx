@@ -6,7 +6,6 @@ const DiscountSection = ({
   setFormData,
   handleChange,
 }) => {
-  const logInUser = useSelector((store)=>store.user);
   const allUsers = useSelector((store) => store.allUsers.allUsers);
 
   const totalItemQuantity = formData.repairing.length;
@@ -34,7 +33,6 @@ const DiscountSection = ({
           <select
             name="bookBy"
             value={formData.bookBy}
-            defaultValue={logInUser.name}
             className="border border-gray-300 rounded px-2 py-1 text-xs"
             onChange={handleChange}
           >

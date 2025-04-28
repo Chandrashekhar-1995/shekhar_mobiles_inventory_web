@@ -8,7 +8,7 @@ const createMobile = (formData) => {
     });
 };
 
-const allMobile = () => {
+const getAllMobile = () => {
     return apiClient.customFetch("/mobile/all");
 };
 
@@ -36,7 +36,7 @@ const deleteMobile = (id) => {
 
 export {
     createMobile,
-    allMobile,
+    getAllMobile,
     getMobileById,
     searchMobile,
     updateMobile,

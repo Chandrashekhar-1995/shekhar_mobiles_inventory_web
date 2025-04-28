@@ -12,7 +12,7 @@ const CreateMobile = () => {
       mobileType: "repair",
       brand: "",
       brandName: "",
-      modelNo: "",
+      modelNo:"",
       emeiNumber: "",
       emeiNumberSecond:"",
       productImage: "",
@@ -98,7 +98,7 @@ const CreateMobile = () => {
 
               </div>
 
-              {/* EMEI 1 */}
+              {/* EMEI 2 */}
               <div className="form-control w-full">
                 <label className="label">
                   <span className="label-text text-xs">EMEI Number 2</span>
