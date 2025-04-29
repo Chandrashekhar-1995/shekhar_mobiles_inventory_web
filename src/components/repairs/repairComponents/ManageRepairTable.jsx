@@ -1,10 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { updateRepairItem } from "../../../../service/repairApi";
+import { setAllRepairs } from "../../../store/repairSlice"
 
 const ManageRepairTable = () => {
+    const dispatch = useDispatch();
     const repairs = useSelector((store) => store.repairs.allRepairs);
-    
+    const [editingStatus, setEditingStatus] = useState({ repairId: null, itemIndex: null });
+    const [selectedStatus, setSelectedStatus] = useState("");
+
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
         const date = new Date(isoDate);
@@ -13,6 +18,36 @@ const ManageRepairTable = () => {
             month: '2-digit',
             year: 'numeric'
         });
+    };
+
+    const handleStatusChange = (repairId, itemIndex, currentStatus) => {
+        setEditingStatus({ repairId, itemIndex });
+        setSelectedStatus(currentStatus);
+    };
+
+    const handleStatusUpdate = async (repairId, itemIndex) => {
+        const data = await updateRepairItem(repairId, {
+            itemIndex,
+            repairStatus: selectedStatus,
+        });
+
+        if (data.success) {
+            const updatedRepairs = repairs.map(repair =>
+                repair._id === repairId
+                    ? {
+                        ...repair,
+                        repairing: repair.repairing.map((item, i) =>
+                            i === itemIndex
+                                ? { ...item, repairStatus: selectedStatus }
+                                : item
+                        )
+                    }
+                    : repair
+            );
+            dispatch(setAllRepairs(updatedRepairs));
+        }
+
+        setEditingStatus({ repairId: null, itemIndex: null });
     };
 
     return (
@@ -25,8 +60,8 @@ const ManageRepairTable = () => {
                         <th className="px-4 py-2">Booking Date</th>
                         <th className="px-4 py-2">Items</th>
                         <th className="px-4 py-2">Fault</th>
-                        <th className="px-4 py-2">Price</th>
                         <th className="px-4 py-2">Status</th>
+                        <th className="px-4 py-2">Price</th>
                         <th className="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -34,47 +69,74 @@ const ManageRepairTable = () => {
                     {repairs && repairs.map((repair, index) => (
                         <React.Fragment key={repair._id}>
                             {repair.repairing.map((item, itemIndex) => (
-                                <tr 
-                                    key={`${repair._id}-${itemIndex}`}
-                                    className="odd:bg-white even:bg-gray-100"
-                                >
-                                    {itemIndex === 0 ? (
+                                <tr key={`${repair._id}-${itemIndex}`} className="odd:bg-white even:bg-gray-100">
+                                    {itemIndex === 0 && (
                                         <>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
                                                 {index + 1}
                                             </td>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
-                                                {repair.repairNumber}
+                                                <Link to={`/repair/update/${repair._id}`} className="text-blue-500 hover:underline">
+                                                    {repair.repairNumber}
+                                                </Link>
                                             </td>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
                                                 {formatToIndianDate(repair.bookingDate)}
                                             </td>
                                         </>
-                                    ) : null}
-                                    
+                                    )}
                                     <td className="border px-4 py-2">
-                                        {item.type === "mobile" 
-                                            ? `${item.brandName} ${item.modelNo?? ""}`
+                                        {item.type === "mobile"
+                                            ? `${item.brandName} ${item.modelNo ?? ""}`
                                             : item.repairItem}
                                     </td>
                                     <td className="border px-4 py-2">{item.problem}</td>
-                                    <td className="border px-4 py-2">{item.repairPrice}</td>
-                                    
-                                    {itemIndex === 0 ? (
+                                    <td className="border px-4 py-2">
+                                        {editingStatus.repairId === repair._id && editingStatus.itemIndex === itemIndex ? (
+                                            <select
+                                                value={selectedStatus}
+                                                onChange={(e) => setSelectedStatus(e.target.value)}
+                                                className="border p-1 rounded"
+                                            >
+                                                <option value="booked">Booked</option>
+                                                <option value="in_progress">In Progress</option>
+                                                <option value="repair_done">Repair Done</option>
+                                                <option value="delivered">Delivered</option>
+                                                <option value="return">Return</option>
+                                            </select>
+                                        ) : (
+                                            <span
+                                                onClick={() => handleStatusChange(repair._id, itemIndex, item.repairStatus || "")}
+                                                className="cursor-pointer hover:underline"
+                                            >
+                                                {(item.repairStatus || "No Status").replace(/_/g, ' ')}
+                                            </span>
+                                        )}
+                                    </td>
+                                    {itemIndex === 0 && (
                                         <>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
-                                                {repair.repairStatus}
+                                                {repair.totalPayableAmount}
                                             </td>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
-                                                <Link 
-                                                    to={`/repair/update/${repair._id}`} 
-                                                    className="text-blue-500 hover:underline"
-                                                >
-                                                    View/Edit
-                                                </Link>
+                                                {editingStatus.repairId === repair._id ? (
+                                                    <button
+                                                        onClick={() => handleStatusUpdate(repair._id, editingStatus.itemIndex)}
+                                                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        onClick={() => handleStatusChange(repair._id, 0, repair.repairing[0].repairStatus || "")}
+                                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                                    >
+                                                        Update Status
+                                                    </button>
+                                                )}
                                             </td>
                                         </>
-                                    ) : null}
+                                    )}
                                 </tr>
                             ))}
                         </React.Fragment>
@@ -82,7 +144,7 @@ const ManageRepairTable = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
 export default ManageRepairTable;

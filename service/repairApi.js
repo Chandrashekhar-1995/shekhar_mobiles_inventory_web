@@ -31,6 +31,12 @@ const updateRepair = (id, formData) => {
     });
 };
 
+const updateRepairItem = (id, formData) => {
+    return apiClient.customFetch(`/repair/update/repair-item/${id}`,{
+        method: "PUT",
+        body: JSON.stringify(formData)
+    });
+};
 const deleteRepair = (id) => {
     return apiClient.customFetch(`/repair/${id}`,{
         method: "DELETE",
@@ -45,5 +51,6 @@ export {
     getRepairById,
     searchRepair,
     updateRepair,
+    updateRepairItem,
     deleteRepair,
 }
