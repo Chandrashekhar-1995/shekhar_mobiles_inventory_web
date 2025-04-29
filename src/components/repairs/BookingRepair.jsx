@@ -24,13 +24,13 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           customerName: "Cash",
           mobileNumber: "",
           address: "",
-          // repairing:[],
-          repairing:[{type: "others", problem:"Left Skp not work", repairItem :"asd", repairPrice :"100"}],
+          repairing:[],
+          // repairing:[{type: "others", problem:"Left Skp not work", repairItem :"asd", repairPrice :"100"}],
           type:"mobile",
           mobile:"",
           brand:"",
           brandName:"",
-          modelNumber:"",
+          modelNo:"",
           emeiNumber:"",
           emeiNumberSecond:"",
           lockOrPassword:"",
@@ -93,10 +93,23 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
   }, []);
 
   // date set today
-    useEffect(() => {
-      const today = new Date().toISOString().split("T")[0];
-      setFormData((prev) => ({ ...prev, bookingDate: today, paymentDate: today }));
-    }, []);
+useEffect(() => {
+  const today = new Date();
+  const todayString = today.toISOString().split("T")[0];
+  
+  // Calculate tomorrow's date
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowString = tomorrow.toISOString().split("T")[0];
+  
+  setFormData((prev) => ({ 
+    ...prev, 
+    bookingDate: todayString, 
+    paymentDate: todayString, 
+    expectDeliveryDate: tomorrowString,
+    expectedRepairingDate:tomorrowString,
+  }));
+}, []);
 
     const handleClose = () => {
       if(onClose) {
@@ -124,7 +137,8 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
     };
 
     
-    const totalItemPrice = formData.repairing.reduce((total, item) => total + item.repairPrice, 0);
+    const totalItemPrice = formData.repairing.reduce((total, item) => total + parseFloat(item.repairPrice || 0), 0);
+
 
     const handleSubmit = async (e) => {
       e.preventDefault();

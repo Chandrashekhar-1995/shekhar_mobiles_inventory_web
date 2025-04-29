@@ -39,8 +39,23 @@ const Refrances = ({formData, handleChange,}) => {
                 className="input input-bordered input-sm text-xs"
                 value={formData.referBy}
                 onChange={handleChange}
-            />
-        </div>   
+                />
+            </div>   
+
+            {/* Expect Delivery Date */}
+            <div className="form-control w-full">
+                <label className="label">
+                    <span className="label-text text-xs">Expect Delivery Date</span>
+                </label>
+                <input
+                type="date"
+                name="expectDeliveryDate"
+                className="input input-bordered input-sm text-xs"
+                value={formData.expectDeliveryDate}
+                onChange={handleChange}
+                />
+            </div>   
+
         </div>
     </div>
   )

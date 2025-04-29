@@ -60,7 +60,7 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
           <input
             type="number" 
             name="advanceAmount"
-            value={formData.advanceAmount ?? ""}
+            value={formData.advanceAmount ?? 0}
             className="input input-bordered input-sm text-xs"
             onChange={handleChange}
           />

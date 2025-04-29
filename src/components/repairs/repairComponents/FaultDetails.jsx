@@ -5,14 +5,14 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
   const handleAddRepair = (e) => {
     e.preventDefault();
   
-    const { type, mobile, brand, brandName, modelNumber, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, } = formData;
+    const { type, mobile, brand, brandName, modelNumber, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
 
     if (!type || !problem || !repairPrice) {
       alert("Please fill in all required fields before adding repair.");
       return;
     }
 
-    const newRepair = {type, mobile, brand, brandName, modelNumber, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem,};
+    const newRepair = {type, mobile, brand, brandName, modelNumber, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
   
     setFormData((prev) => ({
         ...prev,
@@ -31,6 +31,8 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
         problem: "",
         sinceLong: "",
         repairPrice: "",
+        expectedRepairingDate:"",
+        expectedRepairingTime:"",
         repairDescription: "",
         repairItem: "",
     }));

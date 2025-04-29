@@ -9,7 +9,7 @@ const SubmitSection = ({ formData, totalItemPrice, loading, handleSubmit }) => {
         <div className="flex justify-between items-center mr-8">
           <label className="font-medium text-gray-600 px-4">Balance:</label>
           <span className="font-medium text-gray-800 w-20">
-            ₹ {formData.repairing.length > 0 ? (totalItemPrice - formData.discountAmount) - formData.receivedAmount : "00.00"}
+            ₹ {formData.repairing.length > 0 ? (totalItemPrice - formData.discountAmount) - formData.advanceAmount : "00.00"}
           </span>
         </div>
 
