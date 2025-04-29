@@ -18,7 +18,7 @@ const RepairRoutes = [
         children:[
             { path: "", element: <ManageRepair/>},
             { path: "booking", element: <BookingRepair/>},
-            // { path: "update/:id", element: <ComingSoon/>},
+            { path: "update/:id", element: <ComingSoon/>},
         ]
     },
 ];

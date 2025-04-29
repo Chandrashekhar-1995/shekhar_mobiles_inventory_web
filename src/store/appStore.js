@@ -8,6 +8,7 @@ import mobileReducer from "./mobileSlice";
 import categoryReducer from "./categorySlice";
 import productReducer from "./productSlice";
 import invoiceReducer from './invoiceSlice';
+import repairReducer from './repairSlice';
 import purchaseInvoicesReducer from './purchaseInvoiceSlice';
 import customerReducer from './customerSlice';
 import supplierReducer from './supplierSlice';
@@ -39,6 +40,7 @@ const appStore = configureStore({
         categories:categoryReducer,
         products:productReducer,
         invoices: invoiceReducer,
+        repairs: repairReducer,
         purchaseInvoices: purchaseInvoicesReducer,
         customers:customerReducer,
         suppliers: supplierReducer,

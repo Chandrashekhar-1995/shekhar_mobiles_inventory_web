@@ -25,7 +25,6 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           mobileNumber: "",
           address: "",
           repairing:[],
-          // repairing:[{type: "others", problem:"Left Skp not work", repairItem :"asd", repairPrice :"100"}],
           type:"mobile",
           mobile:"",
           brand:"",
