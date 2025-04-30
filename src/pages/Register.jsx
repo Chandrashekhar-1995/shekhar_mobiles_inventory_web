@@ -104,8 +104,8 @@ const Register = () => {
             value={formData.mobileNumber}
             onChange={handleChange}
             pattern="[0-9]*" 
-            minlength="10" 
-            maxlength="10" 
+            minLength="10" 
+            maxLength="10" 
             title="Must be 10 digits"
             required
           />
@@ -120,7 +120,7 @@ const Register = () => {
             name="address"
             value={formData.address}
             onChange={handleChange}
-             minlength="3"
+             minLength="3"
             required
           />
         </label>

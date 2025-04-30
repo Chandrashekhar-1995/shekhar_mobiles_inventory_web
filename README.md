@@ -59,3 +59,4 @@
 -   create mobile done
 -   create booked repairing done
 -   create manage repairing  table with update status
+-   setup redux-persist

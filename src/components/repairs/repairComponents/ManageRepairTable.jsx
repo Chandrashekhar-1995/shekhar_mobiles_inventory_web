@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { updateRepairItem } from "../../../../service/repairApi";
+import { getAllRepairs, updateRepairItem } from "../../../../service/repairApi";
 import { setAllRepairs } from "../../../store/repairSlice"
 
 const ManageRepairTable = () => {
     const dispatch = useDispatch();
-    const repairs = useSelector((store) => store.repairs.allRepairs);
     const [editingStatus, setEditingStatus] = useState({ repairId: null, itemIndex: null });
     const [selectedStatus, setSelectedStatus] = useState("");
+
+    const repairs = useSelector((store) => store.repairs.allRepairs);
+      const [loading, setLoading] = useState(false);
+    
+      useEffect(() => {
+        if (!repairs || repairs.length === 0) {
+          setLoading(true);
+          getAllRepairs().then((res) => {
+            dispatch(setAllRepairs(res.data));
+            setLoading(false);
+          });
+        }
+      }, [repairs, dispatch]);
 
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
@@ -30,7 +42,6 @@ const ManageRepairTable = () => {
             itemIndex,
             repairStatus: selectedStatus,
         });
-
         if (data.success) {
             const updatedRepairs = repairs.map(repair =>
                 repair._id === repairId
@@ -50,6 +61,8 @@ const ManageRepairTable = () => {
         setEditingStatus({ repairId: null, itemIndex: null });
     };
 
+    if (loading) return <div>Loading...</div>;
+
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full border-collapse border border-gray-300">
@@ -66,7 +79,7 @@ const ManageRepairTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {repairs && repairs.map((repair, index) => (
+                    {repairs.invoices && repairs.invoices.map((repair, index) => (
                         <React.Fragment key={repair._id}>
                             {repair.repairing.map((item, itemIndex) => (
                                 <tr key={`${repair._id}-${itemIndex}`} className="odd:bg-white even:bg-gray-100">
@@ -90,7 +103,13 @@ const ManageRepairTable = () => {
                                             ? `${item.brandName} ${item.modelNo ?? ""}`
                                             : item.repairItem}
                                     </td>
-                                    <td className="border px-4 py-2">{item.problem}</td>
+
+                                    <td className="border px-4 py-2">
+                                        <Link to={`/repair/update/repair-item/${repair._id}/${itemIndex}`} className="text-blue-500 hover:underline">
+                                            {item.problem}
+                                        </Link>
+                                    </td>
+
                                     <td className="border px-4 py-2">
                                         {editingStatus.repairId === repair._id && editingStatus.itemIndex === itemIndex ? (
                                             <select

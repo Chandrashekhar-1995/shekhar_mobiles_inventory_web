@@ -12,7 +12,7 @@ const createNewRepair = (formData) => {
     });
 };
 
-const getAllRepair = () => {
+const getAllRepairs = () => {
     return apiClient.customFetch("/repair/all");
 };
 
@@ -47,7 +47,7 @@ const deleteRepair = (id) => {
 export {
     lastRepair,
     createNewRepair,
-    getAllRepair,
+    getAllRepairs,
     getRepairById,
     searchRepair,
     updateRepair,

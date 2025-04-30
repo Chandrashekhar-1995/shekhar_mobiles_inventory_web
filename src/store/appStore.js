@@ -1,4 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage
 import sidebarReducer from './sidebarSlice';
 import userReducer from "./userSlice";
 import allUserReducer from "./allUserSlice";
@@ -13,45 +15,43 @@ import purchaseInvoicesReducer from './purchaseInvoiceSlice';
 import customerReducer from './customerSlice';
 import supplierReducer from './supplierSlice';
 
-// Load user from localStorage
-const loadUserFromLocalStorage = () => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
-  };
-  
-  // Save user to localStorage
-  const saveUserToLocalStorage = (state) => {
-    localStorage.setItem('user', JSON.stringify(state.user));
-  };
-  
-  // Initial State with LocalStorage
-  const preloadedState = {
-    user: loadUserFromLocalStorage(),
-  }; 
-
-const appStore = configureStore({
-    reducer:{
-        sidebar: sidebarReducer,
-        user: userReducer,
-        allUsers: allUserReducer,
-        brands:brandReducer,
-        models:modelReducer,
-        mobiles:mobileReducer,
-        categories:categoryReducer,
-        products:productReducer,
-        invoices: invoiceReducer,
-        repairs: repairReducer,
-        purchaseInvoices: purchaseInvoicesReducer,
-        customers:customerReducer,
-        suppliers: supplierReducer,
-    },
-    preloadedState,
+// Combine all reducers
+const rootReducer = combineReducers({
+  sidebar: sidebarReducer,
+  user: userReducer,
+  allUsers: allUserReducer,
+  brands: brandReducer,
+  models: modelReducer,
+  mobiles: mobileReducer,
+  categories: categoryReducer,
+  products: productReducer,
+  invoices: invoiceReducer,
+  repairs: repairReducer,
+  purchaseInvoices: purchaseInvoicesReducer,
+  customers: customerReducer,
+  suppliers: supplierReducer,
 });
 
-// Subscribe to store changes
-appStore.subscribe(() => {
-    const state = appStore.getState();
-    saveUserToLocalStorage(state);
-  });
+// Persist configuration
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["user", "repairs", "products", "invoices"], // Add reducers you want to persist
+};
+
+// Create persisted reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Create store
+const appStore = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Required for redux-persist
+    }),
+});
+
+// Create persistor
+export const persistor = persistStore(appStore);
 
 export default appStore;
