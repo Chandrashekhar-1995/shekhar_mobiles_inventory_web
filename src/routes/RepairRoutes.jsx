@@ -4,8 +4,7 @@ import ComingSoon from '../pages/ComingSoon';
 import ProtectedRoute from '../components/ProtectedRoute';
 import ManageRepair from '../components/repairs/ManageRepair';
 import BookingRepair from '../components/repairs/BookingRepair';
-
-
+import EditRepairItem from '../components/repairs/repairComponents/EditRepairItem';
 
 const RepairRoutes = [
     {
@@ -18,6 +17,7 @@ const RepairRoutes = [
         children:[
             { path: "", element: <ManageRepair/>},
             { path: "booking", element: <BookingRepair/>},
+            { path: "update/repair-item/:repairId/:itemIndex", element: <EditRepairItem/>},
             { path: "update/:id", element: <ComingSoon/>},
         ]
     },
