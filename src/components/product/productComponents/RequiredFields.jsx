@@ -4,7 +4,7 @@ import BrandDropdown from './BrandDropdown';
 
 const RequiredFields = ({ formData, setFormData, handleChange }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <CategoryDropdown formData={formData} setFormData={setFormData} />
       <BrandDropdown formData={formData} setFormData={setFormData} />
 
@@ -18,9 +18,9 @@ const RequiredFields = ({ formData, setFormData, handleChange }) => {
         { label: 'Opening Stock', name: 'openingStock' },
         { label: 'UNIT', name: 'unit' },
       ].map(({ label, name }) => (
-        <div className="form-control" key={name}>
+        <div className="form-control  w-full" key={name}>
           <label className="label">
-            <span className="label-text">{label} {['itemCode', 'productName', 'purchasePrice', 'salePrice', 'unit'].includes(name) && '*'}</span>
+            <span className="label-text text-xs">{label} {['itemCode', 'productName', 'purchasePrice', 'salePrice', 'unit'].includes(name) && '*'}</span>
           </label>
           <input
             type="text"

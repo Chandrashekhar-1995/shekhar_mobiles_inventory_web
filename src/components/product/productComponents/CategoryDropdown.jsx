@@ -3,6 +3,7 @@ import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { createCategory, createSubCategory } from "../../../../service/categoryApi";
 import useFetchCategories from "../../../hooks/useFetchCategories";
+import { toast } from "react-toastify";
 
 const CategoryDropdown = ({ formData, setFormData }) => {
   const [query, setQuery] = useState("");
@@ -45,12 +46,12 @@ const CategoryDropdown = ({ formData, setFormData }) => {
       if (data.success) {
         setFormData({ ...formData, category: newCategoryName, subcategory: "" });
         setSelectedCategory(data.data);
-        alert(`✅ ${data.message}`);
+        toast.success(`✅ ${data.message}`);
       } else {
-        alert(`❌ ${data.message}` || "Category creation failed");
+        toast.error(`❌ ${data.message}` || "Category creation failed");
       }
     } catch (error) {
-      console.error("Category creation failed:", error);
+  
     } finally {
       setShowModal(false);
     }
@@ -73,14 +74,14 @@ const CategoryDropdown = ({ formData, setFormData }) => {
       });
 
       if (data.success) {
-        alert(`✅ ${data.message}`);
+        toast.success(`✅ ${data.message}`);
         setFormData({ ...formData, subcategory: subcategoryInput });
         setSubcategoryInput("");
       } else {
-        alert(`❌ ${data.message}` || "Failed to add subcategory");
+        toast.error(`❌ ${data.message}` || "Failed to add subcategory");
       }
     } catch (error) {
-      console.error("Subcategory addition failed:", error);
+
     }
   };
 
@@ -98,7 +99,7 @@ const CategoryDropdown = ({ formData, setFormData }) => {
             displayValue={() => query}
             placeholder="Type Category Name"
           />
-          {filteredCategories.length > 0 && (
+          {filteredCategories?.length > 0 && (
             <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
               {filteredCategories.map((category) => (
                 <Combobox.Option

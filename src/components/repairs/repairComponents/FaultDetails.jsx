@@ -5,14 +5,14 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
   const handleAddRepair = (e) => {
     e.preventDefault();
   
-    const { type, mobile, brand, brandName, modelNumber, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
+    const { type, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
 
     if (!type || !problem || !repairPrice) {
       alert("Please fill in all required fields before adding repair.");
       return;
     }
 
-    const newRepair = {type, mobile, brand, brandName, modelNumber, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
+    const newRepair = {type, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
   
     setFormData((prev) => ({
         ...prev,
@@ -80,7 +80,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
               value={formData.repairPrice ?? ""}
               onChange={handleChange}
               className="input input-bordered input-sm text-xs"
-              placeholder="Sale Price"
+              placeholder="Repair Price"
             />
         </div>
 

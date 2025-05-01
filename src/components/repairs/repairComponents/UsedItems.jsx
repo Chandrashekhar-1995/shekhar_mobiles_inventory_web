@@ -2,108 +2,114 @@ import React, { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import UsedItemsTable from "./UsedItemsTable";
+import useFetchProducts from "../../../hooks/useFetchProducts";
 
-const UsedItems = ({formData, setFormData, handleChange}) => {
-    const [queryItemCode, setQueryItemCode] = useState("");
-    const [queryItemName, setQueryItemName] = useState("");
+const UsedItems = ({ formData, setFormData, handleChange }) => {
+  const [queryItemCode, setQueryItemCode] = useState("");
+  const [queryItemName, setQueryItemName] = useState("");
+  const navigate = useNavigate();
 
-    const allProducts = useSelector((store) => store.products.allProducts);
+  useFetchProducts();
 
-    const filteredByCode = queryItemCode
-    ? allProducts.filter((i) =>
-        i.itemCode.trim().includes(queryItemCode.trim())
+  const allProducts = useSelector((store) => store.products.allProducts?.products);
+
+  const filteredByCode = queryItemCode
+    ? allProducts?.filter((i) =>
+        i.itemCode.toLowerCase().includes(queryItemCode.toLowerCase().trim())
       )
     : [];
 
-    const filteredByName = queryItemName
-    ? allProducts.filter((i) =>
+  const filteredByName = queryItemName
+    ? allProducts?.filter((i) =>
         i.productName.toLowerCase().includes(queryItemName.toLowerCase().trim())
       )
     : [];
 
-    const handleSelect = (item) => {
-        setFormData({
-          ...formData,
-          item: item._id,
-          productName: item.productName,
-          itemCode: item.itemCode,
-          itemSalePrice: item.salePrice,
-          itemQuantity: 1,
-        });
-        setQueryItemCode(item.itemCode);
-        setQueryItemName(item.productName);
-      };
+  const handleSelect = (item) => {
+    setFormData({
+      ...formData,
+      item: item._id,
+      productName: item.productName,
+      itemCode: item.itemCode,
+      salePrice: item.salePrice,
+      quantity: 1,
+      unit: item.unit || "",
+    });
+    setQueryItemCode(item.itemCode);
+    setQueryItemName(item.productName);
+  };
 
-    const handleCreateItem = (e) =>{
-        e.preventDefault()
-        navigate("/product/create")
+  const handleCreateItem = () => {
+    navigate("/product/create");
+  };
+
+  const handleAddUsedItem = (e) => {
+    e.preventDefault()
+    const { item, itemCode, productName, quantity, salePrice, unit, itemDescription } = formData;
+
+    if (!item || !itemCode || !productName || !quantity || !salePrice) {
+      alert("Please fill all required fields before adding an item.");
+      return;
     }
 
-    const handleAddItem = (event) => {
-        event.preventDefault();
-    
-        const { item, itemCode, productName, quantity, unit, salePrice, mrp, discount, itemDescription } = formData;
-    
-        if (!productName || !quantity || !salePrice) {
-          alert("Please fill in all required fields before adding an item.");
-          return;
-        }
-    
-        const newItem = {
-          item,
-          itemCode,
-          productName,
-          quantity: quantity || 1,
-          unit,
-          salePrice,
-          mrp,
-          discount: discount || 0,
-          total: calculateTotalAmount(),
-          itemDescription,
-        };
-    
-        setFormData((prev) => ({
-          ...prev,
-          items: [...prev.items, newItem],
-          itemCode: "",
-          productName: "",
-          quantity: "",
-          unit: "",
-          salePrice: "",
-          mrp: "",
-          discount: "",
-          itemDescription: "",
-        }));
-      };
+    const newItem = {
+      item,
+      itemCode,
+      productName,
+      quantity,
+      salePrice,
+      unit,
+      itemDescription,
+      total: Number(quantity) * Number(salePrice),
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      usedItems: [...(prev.usedItems || []), newItem],
+      item: "",
+      itemCode: "",
+      productName: "",
+      quantity: "",
+      unit: "",
+      salePrice: "",
+      itemDescription: "",
+    }));
+
+    setQueryItemCode("");
+    setQueryItemName("");
+  };
 
   return (
-    <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+    <div className="overflow-x-auto border rounded-md relative min-h-[200px]" >
+
+    <div className="border border-base-300 rounded-md shadow-md p-4 bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
         {/* Item Code */}
-        <div className="form-control w-full">
+        <div className="form-control">
           <label className="label">
             <span className="label-text text-xs">Item Code</span>
           </label>
           <Combobox value={formData.itemCode} onChange={handleSelect}>
             <div className="relative">
               <Combobox.Input
-                className="input input-bordered input-sm text-xs"
+                className="input input-bordered input-sm text-xs w-full"
                 onChange={(e) => setQueryItemCode(e.target.value)}
                 displayValue={() => formData.itemCode || ""}
                 placeholder="Type Item Code"
               />
-              {allProducts && filteredByCode.length > 0 && (
-                <Combobox.Options 
-                  className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-                {filteredByCode.map((item) => (
-                  <Combobox.Option
-                    key={item._id}
-                    value={item}
-                    className={({ active }) => `cursor-pointer px-4 py-2 ${ active ? "bg-blue-500 text-white" : "text-black" }`}
+              {filteredByCode?.length > 0 && (
+                <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+                  {filteredByCode.map((item) => (
+                    <Combobox.Option key={item._id} value={item} className={({ active }) =>
+                      `cursor-pointer px-4 py-2 ${
+                        active ? "bg-blue-500 text-white" : "text-black"
+                      }`
+                    }
                   >
-                    {item.itemCode}
-                  </Combobox.Option>
+                      {item.itemCode}
+                    </Combobox.Option>
                   ))}
                 </Combobox.Options>
               )}
@@ -112,30 +118,36 @@ const UsedItems = ({formData, setFormData, handleChange}) => {
         </div>
 
         {/* Item Name */}
-        <div className="form-control w-full">
-          <label className="label">
+        <div className="form-control">
+          <label className="label justify-between">
             <span className="label-text text-xs">Item Name</span>
-            <button className=" bg-primary text-white font-bold px-2" onClick={handleCreateItem}>+</button>
+            <button
+              type="button"
+              onClick={handleCreateItem}
+              className="text-xs text-blue-600 hover:underline"
+            >
+              + Add Product
+            </button>
           </label>
           <Combobox value={formData.productName} onChange={handleSelect}>
             <div className="relative">
               <Combobox.Input
-                className="input input-bordered input-sm text-xs"
+                className="input input-bordered input-sm text-xs w-full"
                 onChange={(e) => setQueryItemName(e.target.value)}
                 displayValue={() => formData.productName || ""}
                 placeholder="Type Item Name"
               />
-              {allProducts && filteredByName.length > 0 && (
-                <Combobox.Options 
-                  className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-                {filteredByName.map((item) => (
-                  <Combobox.Option
-                    key={item._id}
-                    value={item}
-                    className={({ active }) => `cursor-pointer px-4 py-2 ${ active ? "bg-blue-500 text-white" : "text-black" }`}
+              {filteredByName?.length > 0 && (
+                <Combobox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+                  {filteredByName.map((item) => (
+                    <Combobox.Option key={item._id} value={item} className={({ active }) =>
+                      `cursor-pointer px-4 py-2 ${
+                        active ? "bg-blue-500 text-white" : "text-black"
+                      }`
+                    }
                   >
-                    {item.productName}
-                  </Combobox.Option>
+                      {item.productName}
+                    </Combobox.Option>
                   ))}
                 </Combobox.Options>
               )}
@@ -148,15 +160,14 @@ const UsedItems = ({formData, setFormData, handleChange}) => {
           <label className="label">
             <span className="label-text text-xs">Quantity</span>
           </label>
-            <input
-              type="number"
-              name="quantity"
-              value={formData.quantity ?? ""}
-              onChange={handleChange}
-              // onChange={handleQuantityChange}
-              className="input input-bordered input-sm text-xs"
-              placeholder="Quantity"
-            />
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity || ""}
+            onChange={handleChange}
+            className="input input-bordered input-sm text-xs"
+            placeholder="Enter quantity"
+          />
         </div>
 
         {/* Sale Price */}
@@ -164,47 +175,69 @@ const UsedItems = ({formData, setFormData, handleChange}) => {
           <label className="label">
             <span className="label-text text-xs">Sale Price</span>
           </label>
-            <input
-              type="text"
-              name="salePrice"
-              value={formData.salePrice ?? ""}
-              onChange={handleChange}
-              className="input input-bordered input-sm text-xs"
-              placeholder="Sale Price"
-            />
+          <input
+            type="number"
+            name="salePrice"
+            value={formData.salePrice || ""}
+            onChange={handleChange}
+            className="input input-bordered input-sm text-xs"
+            placeholder="Sale Price"
+          />
         </div>
 
-        {/* itemDescription */}
+        {/* Unit */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text text-xs">Item Description</span>
+            <span className="label-text text-xs">Unit</span>
           </label>
-            <input
-              type="text"
-              name="itemDescription"
-              value={formData.itemDescription}
-              onChange={handleChange}
-              className="input input-bordered input-sm text-xs"
-              placeholder="Item Description"
-            />
+          <input
+            type="text"
+            name="unit"
+            value={formData.unit || ""}
+            onChange={handleChange}
+            className="input input-bordered input-sm text-xs"
+            placeholder="Piece/Kg/Box"
+          />
         </div>
 
-        <div className="form-control w-full">
-        <label className="label">
+        {/* Item Description */}
+        <div className="form-control col-span-full">
+          <label className="label">
+            <span className="label-text text-xs">Description</span>
           </label>
-            <div></div>
+          <input
+            type="text"
+            name="itemDescription"
+            value={formData.itemDescription || ""}
+            onChange={handleChange}
+            className="input input-bordered input-sm text-xs"
+            placeholder="Optional description"
+          />
+        </div>
+
+        {/* Add Button */}
+        <div className="form-control col-span-full">
           <button
-            type="button"
-            onClick={handleAddItem}
-            className="bg-blue-500 text-white text-xs font-medium px-3 py-1 rounded hover:bg-blue-600 transition w-full"
+            onClick={handleAddUsedItem}
+            className="btn btn-sm bg-blue-600 hover:bg-blue-700 text-white mt-2"
           >
-            Add
+            Use Item
           </button>
         </div>
+      </div>
 
+      {/* Show Table */}
+      {formData.usedItems && formData.usedItems.length > 0 && (
+        <div className="mt-6">
+          <UsedItemsTable
+            items={formData.usedItems}
+            setFormData={setFormData}
+          />
         </div>
+      )}
     </div>
-  )
-}
+    </div>
+  );
+};
 
 export default UsedItems;

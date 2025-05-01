@@ -3,6 +3,7 @@ import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import useFetchModels from "../../../hooks/useFetchModels";
 import { createNewModel } from "../../../../service/modelNoApi";
+import { toast } from "react-toastify";
 
 const ModelNoDropdown = ({ formData, setFormData }) => {
   const [query, setQuery] = useState("");
@@ -42,13 +43,15 @@ const ModelNoDropdown = ({ formData, setFormData }) => {
     try {
       const data = await createNewModel({ modelNo: newModelName });
       if (data.success) {
+        toast.success(data.message)
         setFormData(prev => ({
           ...prev,
           modelNo: newModelName
         }));
+      } else{
+        toast.error(data.message);
       }
     } catch (error) {
-      console.error("Model create failed:", error);
     } finally {
       setShowModal(false);
     }

@@ -3,6 +3,7 @@ import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { createBrand } from "../../../../service/brandApi";
 import useFetchBrands from "../../../hooks/useFetchBrands";
+import { toast } from "react-toastify";
 
 const BrandDropdown = ({ formData, setFormData }) => {
   const [query, setQuery] = useState("");
@@ -45,14 +46,17 @@ const BrandDropdown = ({ formData, setFormData }) => {
     try {
       const data = await createBrand({ brandName: newBrandName });
       if (data.success) {
+        toast.success(data.message)
         setFormData(prev => ({
           ...prev,
           brandName: newBrandName,
           brand: data.data._id
         }));
+      } else{
+        toast.error(data.message)
       }
     } catch (error) {
-      console.error("Brand create failed:", error);
+      
     } finally {
       setShowModal(false);
     }

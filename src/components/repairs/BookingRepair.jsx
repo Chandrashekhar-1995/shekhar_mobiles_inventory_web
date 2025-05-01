@@ -12,6 +12,7 @@ import SubmitSection from "./repairComponents/SubmitSection";
 import PaymentDetails from "../sales/invoiceComponents/PaymentDetails";
 import NotesSection from "./repairComponents/NotesSection";
 import Refrances from "./repairComponents/Refrances";
+import { toast } from "react-toastify";
 
 const BookingRepair = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -145,17 +146,14 @@ useEffect(() => {
       setLoading(true);
       try {
         const data = await createNewRepair(formData);
-        console.log("data",data);
-        
         if (data.success) {
-          alert(`✅ ${data.message}`)
+          toast.success(`✅ ${data.message}`)
           navigate("/repair")
         } else {
-          alert(`❌ ${data.message}` || "Repair creation failed");
+          toast.error(`❌ ${data.message}` || "Repair creation failed");
         }
         
       } catch (error) {
-        console.error(error)
        } finally {
          setLoading(false);
        }
