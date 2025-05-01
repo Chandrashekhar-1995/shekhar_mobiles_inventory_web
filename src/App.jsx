@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { checkAuth } from "../service/authApi";
 import { addUser, removeUser } from "./store/userSlice";
 import AppRoutes from "./routes/AppRoutes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,7 +26,12 @@ const App = () => {
     verifyUser();
   }, [dispatch]);
 
-  return <AppRoutes />;
+  return (
+    <>
+      <AppRoutes />
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
+  );
 };
 
 export default App;

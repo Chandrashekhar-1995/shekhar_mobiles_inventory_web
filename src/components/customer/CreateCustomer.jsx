@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button, TextField, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const CreateCustomer = () => {
-  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
   const [showMoreFields, setShowMoreFields] = useState(false);
   const navigate = useNavigate();
 
@@ -47,9 +46,8 @@ const CreateCustomer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage("");
-    setSuccessMessage("");
     try {
+      const data = await login(formData);
       const response = await axios.post(
         "http://localhost:7777/api/v1/auth/customer/create",
         formData,
@@ -58,6 +56,7 @@ const CreateCustomer = () => {
         }
       );
       setSuccessMessage("Customer Created successful !");
+      toast.success(data.message);
       navigate("/sales/invoice/create")
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "An unexpected error occurred");

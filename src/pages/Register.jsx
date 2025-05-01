@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../service/authApi';
+import { toast } from 'react-toastify';
 
 
 const Register = () => {
-  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email:"",
@@ -28,15 +27,13 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage("");
-    setSuccessMessage("");
     try {
       const data = await register(formData)
       if(data.success){
-        setSuccessMessage(data.message)
+        toast.success(data.message);
         navigate("/login");
       }else{
-        setErrorMessage(data.message || "Signup failed")
+        toast.error(data.message || "Signup failed");
       }
       
     } catch (error) {
@@ -50,24 +47,6 @@ const Register = () => {
     <div className="flex items-center justify-center h-screen bg-gray-500">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
-
-        {successMessage && (
-          <div role="alert" className="alert alert-success">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>{successMessage}</span>
-        </div>
-        )}
-
-        {errorMessage && (
-          <div role="alert" className="alert alert-error">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>{errorMessage}</span>
-          </div>
-          )}
 
         <form onSubmit={handleSubmit} className="space-y-4 text-center">
           
