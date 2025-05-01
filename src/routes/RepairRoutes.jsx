@@ -4,7 +4,7 @@ import ComingSoon from '../pages/ComingSoon';
 import ProtectedRoute from '../components/ProtectedRoute';
 import ManageRepair from '../components/repairs/ManageRepair';
 import BookingRepair from '../components/repairs/BookingRepair';
-import EditRepairItem from '../components/repairs/repairComponents/EditRepairItem';
+import EditRepairItem from '../components/repairs/processComponent/EditRepairItem';
 
 const RepairRoutes = [
     {

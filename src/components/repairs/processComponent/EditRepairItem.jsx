@@ -6,6 +6,7 @@ import { setAllRepairs } from "../../../store/repairSlice";
 import UsedItems from "./UsedItems";
 import RepairingProcess from "./RepairingProcess";
 import RepairHeaderDetails from "./RepairHeaderDetails";
+import RepairProcessChecklist from "./RepairProcessChecklist";
 
 const EditRepairItem = () => {
   const { repairId, itemIndex } = useParams();
@@ -40,7 +41,7 @@ const EditRepairItem = () => {
         email: item?.email || "",
         anyDamage: item?.anyDamage || "",
         otherDetails: item?.otherDetails || "",
-        problem: item?.problem || "",
+        fault: item?.fault || "",
         sinceLong: item?.sinceLong || "",
         repairPrice: item?.repairPrice || "",
         expectedRepairingDate: item?.expectedRepairingDate || "",
@@ -81,7 +82,7 @@ const EditRepairItem = () => {
         email: item.email || "",
         anyDamage: item.anyDamage || "",
         otherDetails: item.otherDetails || "",
-        problem: item.problem || "",
+        fault: item.fault || "",
         sinceLong: item.sinceLong || "",
         repairPrice: item.repairPrice || "",
         expectedRepairingDate: item.expectedRepairingDate || "",
@@ -152,6 +153,7 @@ const EditRepairItem = () => {
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
           <RepairHeaderDetails data={formData} />
           <UsedItems formData={formData} setFormData={setFormData} handleChange={handleChange} />
+          <RepairProcessChecklist formData={formData} setFormData={setFormData} handleChange={handleChange} />
           <RepairingProcess formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
 

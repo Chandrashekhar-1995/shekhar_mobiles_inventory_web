@@ -5,19 +5,19 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
   const handleAddRepair = (e) => {
     e.preventDefault();
   
-    const { type, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
+    const { deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
 
-    if (!type || !problem || !repairPrice) {
+    if (!deviceType || !fault || !repairPrice) {
       alert("Please fill in all required fields before adding repair.");
       return;
     }
 
-    const newRepair = {type, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, problem, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
+    const newRepair = {deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
   
     setFormData((prev) => ({
         ...prev,
         repairing: [...prev.repairing, newRepair],
-        type: "mobile",
+        deviceType: "",
         mobile: "",
         brand: "",
         brandName: "",
@@ -28,7 +28,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
         email: "",
         anyDamage: "",
         otherDetails: "",
-        problem: "",
+        fault: "",
         sinceLong: "",
         repairPrice: "",
         expectedRepairingDate:"",
@@ -47,9 +47,9 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
             </label>
             <input
                 type="textarea"
-                name="problem"
+                name="fault"
                 className="input input-bordered input-sm text-xs"
-                value={formData.problem}
+                value={formData.fault}
                 onChange={handleChange}
             />
         </div>

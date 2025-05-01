@@ -12,10 +12,10 @@ const RepairType = ({ formData, setFormData, handleChange }) => {
                     <span className="label-text text-xs">Repair Type</span>
                 </label>
                 <select
-                    id="type"
-                    name="type"
+                    id="deviceType"
+                    name="deviceType"
                     className="select select-bordered select-sm text-xs"
-                    value={formData.type}
+                    value={formData.deviceType}
                     onChange={handleChange}
                   >
                     <option value="mobile">Mobile</option>

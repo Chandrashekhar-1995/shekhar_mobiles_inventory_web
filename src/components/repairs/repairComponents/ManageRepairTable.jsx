@@ -89,14 +89,14 @@ const ManageRepairTable = () => {
                                         </>
                                     )}
                                     <td className="border px-4 py-2">
-                                        {item.type === "mobile"
+                                        {item.deviceType === "mobile"
                                             ? `${item.brandName} ${item.modelNo ?? ""}`
                                             : item.repairItem}
                                     </td>
 
                                     <td className="border px-4 py-2">
                                         <Link to={`/repair/update/repair-item/${repair._id}/${itemIndex}`} className="text-blue-500 hover:underline">
-                                            {item.problem}
+                                            {item.fault}
                                         </Link>
                                     </td>
 
