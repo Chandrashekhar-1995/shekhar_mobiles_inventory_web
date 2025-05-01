@@ -12,9 +12,9 @@ const App = () => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const res = await checkAuth();
-        if (res && res.user) {
-          dispatch(addUser(res.user));
+        const data = await checkAuth();
+        if (data.success && data.data.user) {
+          dispatch(addUser(data.data.user));
         } else {
           dispatch(removeUser());
         }
