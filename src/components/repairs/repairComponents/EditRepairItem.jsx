@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateRepairItem, getAllRepairs } from "../../../../service/repairApi";
 import { setAllRepairs } from "../../../store/repairSlice";
-import RepairItemShowDetails from "./RepairItemShowDetails";
 import UsedItems from "./UsedItems";
 import RepairingProcess from "./RepairingProcess";
+import RepairHeaderDetails from "./RepairHeaderDetails";
 
 const EditRepairItem = () => {
   const { repairId, itemIndex } = useParams();
@@ -25,7 +25,7 @@ const EditRepairItem = () => {
     }
   }, [repairs, dispatch]);
   
-  const repair = repairs.invoices.find((r) => r._id === repairId);
+  const repair = repairs?.invoices?.find((r) => r._id === repairId);
   const item = repair?.repairing?.[itemIndex];
   // console.log("item", item);
 
@@ -150,8 +150,7 @@ const EditRepairItem = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
-          {/* Repair Invoice Details */}
-          <RepairItemShowDetails formData={formData} />
+          <RepairHeaderDetails data={formData} />
           <UsedItems formData={formData} setFormData={setFormData} handleChange={handleChange} />
           <RepairingProcess formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
