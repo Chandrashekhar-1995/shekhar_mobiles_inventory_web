@@ -51,6 +51,7 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           privateNote: "",
           customerNote: "",
           bookBy: "",
+          repairUnder:"",
           deliveryTerm: "",
           discount: "",
           transactionId:"",

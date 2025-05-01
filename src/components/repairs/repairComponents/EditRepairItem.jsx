@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateRepairItem, getAllRepairs } from "../../../../service/repairApi";
 import { setAllRepairs } from "../../../store/repairSlice";
+import RepairItemShowDetails from "./RepairItemShowDetails";
+import UsedItems from "./UsedItems";
+import RepairingProcess from "./RepairingProcess";
 
 const EditRepairItem = () => {
   const { repairId, itemIndex } = useParams();
@@ -27,11 +30,44 @@ const EditRepairItem = () => {
   // console.log("item", item);
 
   const [formData, setFormData] = useState({
-    repairStatus: item?.repairStatus || "",
-    problem: item?.problem || "",
-    price: item?.price || "",
+        type: item?.type || "",
+        repairItem: item?.repairItem || "",
+        brandName: item?.brandName || "",
+        modelNo: item?.modelNo || "",
+        emeiNumber: item?.emeiNumber || "",
+        emeiNumberSecond: item?.emeiNumberSecond || "",
+        lockOrPassword: item?.lockOrPassword || "",
+        email: item?.email || "",
+        anyDamage: item?.anyDamage || "",
+        otherDetails: item?.otherDetails || "",
+        problem: item?.problem || "",
+        sinceLong: item?.sinceLong || "",
+        repairPrice: item?.repairPrice || "",
+        expectedRepairingDate: item?.expectedRepairingDate || "",
+        expectedRepairingTime: item?.expectedRepairingTime || "",
+        repairDescription: item?.repairDescription || "",
+        usedItem: item?.usedItem || [],
+        item: item?.item || "",
+        productName: item?.productName || "",
+        itemCode: item?.itemCode || "",
+        itemSalePrice: item?.itemSalePrice || "",
+        itemQuantity: item?.itemQuantity || "",
+        itemDescription: item?.itemDescription || "",
+        repairStatus: item?.repairStatus || "",
+        repairUnder: item?.repairUnder || "",
+        repairBy: item?.repairBy || "",
+        
+        // some details for only show 
+        repairNumber: repair?.repairNumber || "",
+        bookingDate: repair?.bookingDate || "",
+        customerName: repair?.customerName || "",
+        mobileNumber: repair?.mobileNumber || "",
+        address: repair?.address || "",
+        privateNote: repair?.privateNote || "",
+        customerNote: repair?.customerNote || "",
+        bookBy: repair?.bookBy || "",
   });
-
+ 
   useEffect(() => {
     if (item) {
       setFormData({
@@ -61,8 +97,6 @@ const EditRepairItem = () => {
         repairStatus: item.repairStatus || "",
         repairUnder: item.repairUnder || "",
         repairBy: item.repairBy || "",
-        
-        // some details for only show 
         repairNumber: repair.repairNumber || "",
         bookingDate: repair.bookingDate || "",
         customerName: repair.customerName || "",
@@ -74,7 +108,7 @@ const EditRepairItem = () => {
       });
     }
   }, [item]);
-
+  
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -107,53 +141,29 @@ const EditRepairItem = () => {
   if (loading || !item) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 border rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">Edit Repair Item</h2>
+    <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
+      <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
+        <div className="flex items-center justify-between">
+          <h2 className="font-semibold mb-4 text-sm">Edit Repair Item</h2>
+          <button className="hover:bg-red-600 rounded-lg p-2"  onClick={() => navigate(-1)}
+          > X </button>
+        </div>
 
-      <label className="block mb-2">
-        Problem:
-        <input
-          type="text"
-          name="problem"
-          value={formData.problem}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
-      </label>
+        <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
+          {/* Repair Invoice Details */}
+          <RepairItemShowDetails formData={formData} />
+          <UsedItems formData={formData} setFormData={setFormData} handleChange={handleChange} />
+          <RepairingProcess formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
-      <label className="block mb-2">
-        Repair Status:
-        <select
-          name="repairStatus"
-          value={formData.repairStatus}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
-          <option value="booked">Booked</option>
-          <option value="in_progress">In Progress</option>
-          <option value="repair_done">Repair Done</option>
-          <option value="delivered">Delivered</option>
-          <option value="return">Return</option>
-        </select>
-      </label>
 
-      <label className="block mb-4">
-        Price:
-        <input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
-      </label>
-
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Update Item
-      </button>
+          <button
+            type="submit"
+            className="btn btn-primary w-full"
+          >
+            Update Item
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

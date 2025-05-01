@@ -20,7 +20,7 @@ const ManageRepairTable = () => {
             setLoading(false);
           });
         }
-      }, [repairs, dispatch]);
+      }, []);
 
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
@@ -60,8 +60,6 @@ const ManageRepairTable = () => {
 
         setEditingStatus({ repairId: null, itemIndex: null });
     };
-
-    if (loading) return <div>Loading...</div>;
 
     return (
         <div className="overflow-x-auto">
@@ -120,6 +118,7 @@ const ManageRepairTable = () => {
                                                 <option value="booked">Booked</option>
                                                 <option value="in_progress">In Progress</option>
                                                 <option value="repair_done">Repair Done</option>
+                                                <option value="reject">Reject</option>
                                                 <option value="delivered">Delivered</option>
                                                 <option value="return">Return</option>
                                             </select>

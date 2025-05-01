@@ -18,10 +18,8 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
           </label>
           <input
             type="text"
-            name="repairNumber"
             className="input input-bordered input-sm text-xs"
             value={totalItemPrice}
-            onChange={handleChange}
             readOnly
           />
         </div>
@@ -46,7 +44,7 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
           </label>
           <input
             type="number" 
-            value= {formData.repairing.length > 0 ? totalItemPrice - formData.discountAmount : "00.00"}
+            value= {formData.repairing?.length > 0 ? totalItemPrice - formData.discountAmount : "00.00"}
             className="input input-bordered input-sm text-xs"
             readOnly
           />

@@ -15,7 +15,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
         invoiceType: "Non GST",
-        invoiceNumber: "",
+        invoiceNumber: "INV-0001",
         date: "",
         dueDate: "",
         placeOfSupply: "",
