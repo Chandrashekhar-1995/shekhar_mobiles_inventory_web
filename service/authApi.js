@@ -1,5 +1,9 @@
 import apiClient from "./apiClient";
 
+const checkAuth = () => {
+    return apiClient.customFetch("/auth/check");
+};
+
 const register = (formData) => {
     return apiClient.customFetch("/auth/register", {
         method: "POST",
@@ -22,6 +26,7 @@ const logout = () => {
 
 
 export {
+    checkAuth,
     register,
     login,
     logout,

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../store/userSlice';
 import { login } from '../../service/authApi';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -35,6 +36,7 @@ const Login = () => {
 
         if(data.success){
           setSuccessMessage(data.message)
+          toast.success(data.message);
           dispatch(addUser(data.data))
           const role = data.data.designation;
           const userRoles = [
@@ -61,6 +63,7 @@ const Login = () => {
           }
       }else{
         setErrorMessage(data.message || "Login failed")
+        toast.error("Session expired. Please login again.");
       }
         
       } catch (error) {

@@ -3,24 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllRepairs, updateRepairItem } from "../../../../service/repairApi";
 import { setAllRepairs } from "../../../store/repairSlice"
+import useFetchRepairs from '../../../hooks/useFetchRepairs';
 
 const ManageRepairTable = () => {
     const dispatch = useDispatch();
     const [editingStatus, setEditingStatus] = useState({ repairId: null, itemIndex: null });
     const [selectedStatus, setSelectedStatus] = useState("");
 
+    useFetchRepairs();
+
     const repairs = useSelector((store) => store.repairs.allRepairs);
-      const [loading, setLoading] = useState(false);
-    
-      useEffect(() => {
-        if (!repairs || repairs.length === 0) {
-          setLoading(true);
-          getAllRepairs().then((res) => {
-            dispatch(setAllRepairs(res.data));
-            setLoading(false);
-          });
-        }
-      }, []);
 
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
@@ -77,7 +69,7 @@ const ManageRepairTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {repairs.invoices && repairs.invoices.map((repair, index) => (
+                    {repairs && repairs.invoices.map((repair, index) => (
                         <React.Fragment key={repair._id}>
                             {repair.repairing.map((item, itemIndex) => (
                                 <tr key={`${repair._id}-${itemIndex}`} className="odd:bg-white even:bg-gray-100">

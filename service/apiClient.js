@@ -1,3 +1,6 @@
+import { toast } from "react-toastify";
+import { removeUser } from "../src/store/userSlice";
+
 class ApiClient {
     constructor(){
         this.baseURL = "http://localhost:7777/api/v1";
@@ -19,7 +22,14 @@ class ApiClient {
             }
             console.log(`Fetching ${url}`);
             const response = await fetch(url, config)
-            // check if response.ok === value
+            
+            // 🔴 If token is expired
+            if (response.status === 401) {
+                toast.error("Session expired. Please login again.");
+                store.dispatch(removeUser());
+                window.location.href = "/";
+                return;
+            }
 
             const data = await response.json()
             return data
