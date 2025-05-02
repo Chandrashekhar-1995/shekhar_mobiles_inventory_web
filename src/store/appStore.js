@@ -11,6 +11,8 @@ import categoryReducer from "./categorySlice";
 import productReducer from "./productSlice";
 import invoiceReducer from './invoiceSlice';
 import repairReducer from './repairSlice';
+import faultReducer from './faultSlice';
+import repairProcessReducer from './repairProcessSlice';
 import purchaseInvoicesReducer from './purchaseInvoiceSlice';
 import customerReducer from './customerSlice';
 import supplierReducer from './supplierSlice';
@@ -27,6 +29,8 @@ const rootReducer = combineReducers({
   products: productReducer,
   invoices: invoiceReducer,
   repairs: repairReducer,
+  faults: faultReducer,
+  repairProcesses:repairProcessReducer,
   purchaseInvoices: purchaseInvoicesReducer,
   customers: customerReducer,
   suppliers: supplierReducer,
@@ -36,7 +40,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "repairs", "products", "invoices"], // Add reducers you want to persist
+  whitelist: ["user", "repairs", "faults", "products", "invoices", "repairProcesses"], // Add reducers you want to persist
 };
 
 // Create persisted reducer

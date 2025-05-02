@@ -44,6 +44,28 @@ const deleteRepair = (id) => {
 };
 
 
+// Repair Process
+
+const createRepairProcess = (formData) => {
+    return apiClient.customFetch("/repair-process/create", { 
+        method: "POST",
+        body: JSON.stringify(formData)
+    });
+};
+
+const getAllRepairProcesses = () => {
+    return apiClient.customFetch("/repair-process/all");
+};
+
+const getRepairProcessesByFault = (faultType) => {
+    return apiClient.customFetch(`/repair-process/by-fault/${faultType}`);
+};
+
+const getFaultTypes = () => {
+    return apiClient.customFetch("/repair-process/fault-types");
+};
+
+
 export {
     lastRepair,
     createNewRepair,
@@ -53,4 +75,8 @@ export {
     updateRepair,
     updateRepairItem,
     deleteRepair,
+    createRepairProcess,
+    getAllRepairProcesses,
+    getRepairProcessesByFault,
+    getFaultTypes,
 }
