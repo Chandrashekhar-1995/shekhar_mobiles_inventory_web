@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllRepairProcesses } from "../../service/repairApi";
-import { setFaultTypes } from "../store/repairProcessSlice";
+import { setAllProcesses } from "../store/repairProcessSlice";
 
 const useFetchRepairProcesses = () => {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const useFetchRepairProcesses = () => {
             try {
                 const data = await getAllRepairProcesses();
                 if(data.success){
-                    dispatch(setFaultTypes(data.data))
+                    dispatch(setAllProcesses(data.data))
                 }
             } catch (error) {
                 console.error('Failed to fetch types:', error);

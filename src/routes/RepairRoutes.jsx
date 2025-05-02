@@ -6,6 +6,7 @@ import ManageRepair from '../components/repairs/ManageRepair';
 import BookingRepair from '../components/repairs/BookingRepair';
 import EditRepairItem from '../components/repairs/processComponent/EditRepairItem';
 import CreateRepairProcess from '../components/repairs/processComponent/CreateRepairProcess';
+import ManageRepairProcess from '../components/repairs/ManageRepairProcess';
 
 const RepairRoutes = [
     {
@@ -30,7 +31,9 @@ const RepairRoutes = [
             </ProtectedRoute>
         ),
         children:[
+            { path: "", element: <ManageRepairProcess/>},
             { path: "create", element: <CreateRepairProcess/>},
+            { path: "update/:id", element: <ComingSoon/>},
         ]
     },
 ];

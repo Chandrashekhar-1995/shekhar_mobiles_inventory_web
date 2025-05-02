@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { createRepairProcess } from "../../../../service/repairApi";
-import useFetchRepairProcesses from "../../../hooks/useFetchRepairProcesses";
 import { toast } from "react-toastify";
 import FaultDropdown from "../repairComponents/FaultDropdown";
 
@@ -17,12 +15,6 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
     updatedBy:"",
     isActive:true,
   });
-
-  useFetchRepairProcesses();
-
-  const allProblemTypes = useSelector((store) => store.repairProcesses.problemTypes);
-  console.log("allProblemTypes", allProblemTypes);
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
