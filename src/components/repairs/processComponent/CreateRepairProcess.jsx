@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { createRepairProcess } from "../../../../service/repairApi";
 import useFetchRepairProcesses from "../../../hooks/useFetchRepairProcesses";
@@ -8,35 +7,41 @@ import FaultDropdown from "../repairComponents/FaultDropdown";
 
 const CreateRepairProcess = ({ onProcessCreated }) => {
   const [showModal, setShowModal] = useState(false);
-  const [newProcess, setNewProcess] = useState({
-    problemType: "",
-    problemSubType: "",
-    deviceType: "mobile",
-    processName: "",
-    steps: [{ stepName: "", description: "", isCritical: false }]
-  });
   const [formData, setFormData] = useState({
     fault: "",
     subFault: "",
     deviceType: "mobile",
     processName: "",
-    steps: [{ stepName: "", description: "", isCritical: false }]
+    steps: [{ stepName: "", description: "", isCritical: false }],
+    createdBy:"",
+    updatedBy:"",
+    isActive:true,
   });
 
   useFetchRepairProcesses();
 
   const allProblemTypes = useSelector((store) => store.repairProcesses.problemTypes);
+  console.log("allProblemTypes", allProblemTypes);
+  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const addStep = () => {
-    setNewProcess(prev => ({
+    setFormData(prev => ({
       ...prev,
       steps: [...prev.steps, { stepName: "", description: "", isCritical: false }]
     }));
   };
 
   const removeStep = (index) => {
-    if (newProcess.steps.length > 1) {
-      setNewProcess(prev => ({
+    if (formData.steps.length > 1) {
+      setFormData(prev => ({
         ...prev,
         steps: prev.steps.filter((_, i) => i !== index)
       }));
@@ -44,9 +49,9 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
   };
 
   const updateStep = (index, field, value) => {
-    const updatedSteps = [...newProcess.steps];
+    const updatedSteps = [...formData.steps];
     updatedSteps[index][field] = value;
-    setNewProcess(prev => ({
+    setFormData(prev => ({
       ...prev,
       steps: updatedSteps
     }));
@@ -56,13 +61,14 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
     e.preventDefault();
     try {
       // Validate required fields
-      if (!newProcess.problemType || !newProcess.processName || 
-          newProcess.steps.some(step => !step.stepName)) {
+      if (!formData.fault || !formData.processName || formData.steps.some(step => !step.stepName)) {
         toast.error("Please fill all required fields");
         return;
       }
 
-      const data = await createRepairProcess(newProcess);
+      const data = await createRepairProcess(formData);
+      console.log("create process", data);
+      
       if (data.success) {
         toast.success(data.message);
         setShowModal(false);
@@ -77,12 +83,12 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
   };
 
   const resetForm = () => {
-    setNewProcess({
-      problemType: "",
-      problemSubType: "",
+    setFormData({
+      fault: "",
+      subFault: "",
       deviceType: "mobile",
       processName: "",
-      steps: [{ stepName: "", description: "", isCritical: false }]
+      steps: [{ stepName: "", description: "", isCritical: false }],
     });
   };
 
@@ -109,16 +115,14 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
                 {/* Problem Sub Type */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Problem Sub Type</span>
+                    <span className="label-text text-xs">Problem Sub Type</span>
                   </label>
                   <input
                     type="text"
-                    className="input input-bordered input-sm"
-                    value={newProcess.problemSubType}
-                    onChange={(e) => setNewProcess(prev => ({
-                      ...prev,
-                      problemSubType: e.target.value
-                    }))}
+                    name="subFault"
+                    value={formData.subFault}
+                    onChange={handleChange}
+                    className="input input-bordered input-sm text-xs"
                     placeholder="Optional sub-category"
                   />
                 </div>
@@ -127,37 +131,32 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
               {/* Device Type */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Device Type *</span>
+                  <span className="label-text text-xs">Device Type *</span>
                 </label>
                 <select
                   className="select select-bordered select-sm"
-                  value={newProcess.deviceType}
-                  onChange={(e) => setNewProcess(prev => ({
-                    ...prev,
-                    deviceType: e.target.value
-                  }))}
+                  value={formData.deviceType}
+                  onChange={handleChange}
                   required
                 >
                   <option value="mobile">Mobile</option>
-                  <option value="tablet">Tablet</option>
-                  <option value="laptop">Laptop</option>
-                  <option value="other">Other</option>
+                  <option value="lcd">LCD</option>
+                  <option value="pc_laptop">PC/Laptop</option>
+                  <option value="others">Others</option>
                 </select>
               </div>
 
               {/* Process Name */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Process Name *</span>
+                  <span className="label-text text-xs">Process Name *</span>
                 </label>
                 <input
                   type="text"
-                  className="input input-bordered input-sm"
-                  value={newProcess.processName}
-                  onChange={(e) => setNewProcess(prev => ({
-                    ...prev,
-                    processName: e.target.value
-                  }))}
+                  name="processName"
+                  value={formData.processName}
+                  onChange={handleChange}
+                  className="input input-bordered input-sm text-xs"
                   placeholder="e.g., Charging Port Repair Process"
                   required
                 />
@@ -166,14 +165,14 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
               {/* Process Steps */}
               <div className="space-y-4">
                 <label className="label">
-                  <span className="label-text">Process Steps *</span>
+                  <span className="label-text text-xs">Process Steps *</span>
                 </label>
                 
-                {newProcess.steps.map((step, index) => (
+                {formData.steps.map((step, index) => (
                   <div key={index} className="border p-3 rounded-lg space-y-2">
                     <div className="flex justify-between items-center">
                       <h3 className="font-medium">Step {index + 1}</h3>
-                      {newProcess.steps.length > 1 && (
+                      {formData.steps.length > 1 && (
                         <button
                           type="button"
                           className="btn btn-xs btn-error"
@@ -190,7 +189,7 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
                       </label>
                       <input
                         type="text"
-                        className="input input-bordered input-sm"
+                        className="input input-bordered input-sm text-xs"
                         value={step.stepName}
                         onChange={(e) => updateStep(index, "stepName", e.target.value)}
                         placeholder="e.g., Check charging port"
@@ -200,10 +199,10 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
                     
                     <div className="form-control">
                       <label className="label">
-                        <span className="label-text">Description</span>
+                        <span className="label-text text-xs">Description</span>
                       </label>
                       <textarea
-                        className="textarea textarea-bordered textarea-sm w-full"
+                        className="textarea textarea-bordered textarea-sm text-xs w-full"
                         value={step.description}
                         onChange={(e) => updateStep(index, "description", e.target.value)}
                         placeholder="Detailed instructions for this step"

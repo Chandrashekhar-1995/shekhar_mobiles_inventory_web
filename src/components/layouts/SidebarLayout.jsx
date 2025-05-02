@@ -218,6 +218,7 @@ const SidebarLayout = ({ children }) => {
         subMenu: [
           { text: "Add Product", link: "/product/create" },
           { text: "Add Mobile", link: "/mobile/create" },
+          { text: "Repair Process", link: "/repair-process/create" },
           // { text: "Add Service", link: "/service/create" },
           // { text: "Manage Services", link: "/service/create" },
           // { text: "Discount Schemes", link: "/service/create" },
@@ -287,7 +288,7 @@ const SidebarLayout = ({ children }) => {
                 <li key={index}>
                   {item.subMenu ? (
                     <>
-                      <button className="w-full text-left hover:bg-base-300 rounded-sm flex items-center p-2 justify-between"
+                      <button className="w-full text-left text-white hover:text-black hover:bg-base-300 rounded-sm flex items-center p-2 justify-between"
                         onClick={(e) => handleItemClick(e, index)}
                         onMouseEnter={(e) => handleItemClick(e, index)}
                       >
@@ -328,7 +329,7 @@ const SidebarLayout = ({ children }) => {
                   ) :(
                     <Link
                       to={item.link || "#"}
-                      className="hover:bg-base-300 rounded-sm flex items-center p-2"
+                      className="hover:bg-base-300 text-white hover:text-black rounded-sm flex items-center p-2"
                     >
                       {item.icon}
                       {sidebarOpen && <span className="ml-2">{item.text}</span>}
