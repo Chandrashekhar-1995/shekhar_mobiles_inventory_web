@@ -7,7 +7,6 @@ const ManageRepairProcessTable = () => {
 
     useFetchRepairProcesses();
     const processes = useSelector((store) => store.repairProcesses.allProcesses);
-    console.log("hi", processes)
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full border-collapse border border-gray-300">

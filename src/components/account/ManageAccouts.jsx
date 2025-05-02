@@ -1,6 +1,6 @@
 import React from "react";
-import ManageRepairProcessTable from "../repairs/processComponent/ManageRepairProcessTable";
 import CreateNewAccount from "./CreateNewAccount";
+import ManageAccountTable from "./ManageAccountTable";
 
 const ManageAccounts = () => {
   return (
@@ -9,7 +9,7 @@ const ManageAccounts = () => {
         <CreateNewAccount/>
       </div>
       <div className="p-4">
-        <ManageRepairProcessTable/>
+        <ManageAccountTable/>
       </div>
     </div>
   )
