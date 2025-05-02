@@ -9,7 +9,7 @@ const CustomerTable = () => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB');
     };
-  return customers && (
+  return (
     <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-300">
                     <thead>
@@ -23,7 +23,7 @@ const CustomerTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {customers.map((customer, index) => (
+                        {customers && customers.map((customer, index) => (
                             <tr 
                                 key={customer._id} 
                                 className="odd:bg-white even:bg-gray-100"
