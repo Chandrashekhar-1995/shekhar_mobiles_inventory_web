@@ -6,9 +6,9 @@ const createAccount = (formData) => {
         method: "POST",
         body: JSON.stringify(formData)
     });
-};
+}; 
 
-const allAccount = () => {
+const getAllAccount = () => {
     return apiClient.customFetch("/account/all");
 };
 
@@ -36,7 +36,7 @@ const deleteAccount = (id) => {
 
 export {
     createAccount,
-    allAccount,
+    getAllAccount,
     getAccountById,
     searchAccount,
     updateAccount,

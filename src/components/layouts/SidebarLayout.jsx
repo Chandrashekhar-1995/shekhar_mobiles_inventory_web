@@ -9,7 +9,7 @@ import {
   SparklesIcon,
   ArrowsRightLeftIcon,
   CogIcon,
-  ChevronRightIcon,
+  ChevronRightIcon,BanknotesIcon,
 } from "@heroicons/react/24/outline";
 
 const SidebarLayout = ({ children }) => {
@@ -66,16 +66,18 @@ const SidebarLayout = ({ children }) => {
     //     // { text: "Low Stock", link: "/inventory/low-stock" },
     //   ],
     // },
-    // { 
-    //   text: "Accounts", icon: <AccountBalance/>, subMenu: [
-    //   { text: "Bank Account", link: "/account/bank_account" },
-    //   // { text: "Loan Account", link: "/account/loan_account" },
-    //   // { text: "Asset Account", link: "/account/asset_account" },
-    //   // { text: "Capital Account", link: "/account/capital_account" },
-    //   // { text: "Other Incom Account", link: "/account/other_incom_account" },
-    //   // { text: "Tax Payment", link: "/account/tax_payment" },
-    // ] 
-    // },
+    { 
+      text: "Accounts", icon: <BanknotesIcon className="h-5 w-5" />, subMenu: [
+      { text: "Manage Accounts", link: "/account" },
+      { text: "Create Accounts", link: "/account/create" },
+      // { text: "Bank Account", link: "/account/bank_account" },
+      // { text: "Loan Account", link: "/account/loan_account" },
+      // { text: "Asset Account", link: "/account/asset_account" },
+      // { text: "Capital Account", link: "/account/capital_account" },
+      // { text: "Other Incom Account", link: "/account/other_incom_account" },
+      // { text: "Tax Payment", link: "/account/tax_payment" },
+    ] 
+    },
       {
         text: "Expense", 
         icon: <ExclamationTriangleIcon className="h-5 w-5" />, 

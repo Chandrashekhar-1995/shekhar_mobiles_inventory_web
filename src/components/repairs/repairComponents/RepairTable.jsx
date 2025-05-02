@@ -1,33 +1,122 @@
-import React from "react"; 
+import React, { useState, useRef, useEffect } from "react";
 
-const RepairTable = ({ formData }) => {
+const RepairTable = ({ items, setFormData }) => {
+  const [dropdownIndex, setDropdownIndex] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const tableRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  const handleDelete = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      usedItems: prev.usedItems.filter((_, i) => i !== index),
+    }));
+    closeDropdown();
+  };
+
+  const handleEdit = (index) => {
+    const itemToEdit = items[index];
+    setFormData((prev) => ({
+      ...prev,
+      ...itemToEdit,
+    }));
+    closeDropdown();
+  };
+
+  const closeDropdown = () => {
+    setDropdownIndex(null);
+  };
+
+  const handleRowClick = (e, index) => {
+    // Prevent dropdown click from toggling again
+    if (e.target.closest(".dropdown-menu")) return;
+    
+    // Get click position relative to the table
+    const tableRect = tableRef.current.getBoundingClientRect();
+    const clickX = e.clientX - tableRect.left;
+    const clickY = e.clientY - tableRect.top;
+    
+    setDropdownPosition({
+      top: clickY,
+      left: clickX
+    });
+    
+    setDropdownIndex(dropdownIndex === index ? null : index);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className="bg-yellow-100 mx-2 mt-6 mb-4">
-      <table className="w-full" style={{ height: "300px", tableLayout: "fixed" }}>
-        {/* Header */}
-        <thead className="bg-blue-500 text-white">
-          <tr className="bg-blue-500 text-white text-left">
-            <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "10%" }}>S.No.</th>
-            <th className="font-medium text-xs pl-2 py-2 text-left" style={{ width: "30%" }}>Item</th>
-            <th className="font-medium text-xs pl-1 py-2 text-left" style={{ width: "20%" }}>Brand</th>
-            <th className="font-medium text-xs pl-1 py-2 text-left" style={{ width: "20%" }}>Model No</th>
-            <th className="font-medium text-xs px-4 py-2 text-left" style={{ width: "20%" }}>Repair Price</th>
+    <div className="overflow-x-auto border rounded-md relative min-h-[200px]">
+      <table className="table table-sm w-full" ref={tableRef}>
+        <thead className="bg-base-200 text-xs">
+          <tr>
+            <th>S.No.</th>
+            <th>Item</th>
+            <th>Brand</th>
+            <th>Model No</th>
+            <th>Repair Price</th>
           </tr>
         </thead>
-        {/* Body */}
-        <tbody className="align-top">
-          {formData.repairing.length > 0 &&
-            formData.repairing.map((r, index) => (
-              <tr key={index} className="text-gray-700 align-top">
-                <td className="px-4 py-2">{index + 1}</td>
-                <td className="pl-2 py-2">{r.type}</td>
-                <td className="pl-1 py-2">{r.brandName}</td>
-                <td className="pl-1 py-2">{r.modelNumber}</td>
-                <td className="px-4 py-2">{r.repairPrice}</td>
+        <tbody className="text-xs">
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <tr
+                key={index}
+                className="hover cursor-pointer relative"
+                onClick={(e) => handleRowClick(e, index)}
+              >
+                <td>{index + 1}</td>
+                <td>{item.deviceType}</td>
+                <td>{item.brandName}</td>
+                <td>{item.modelNo}</td>
+                <td>{item.repairPrice}</td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" className="text-center py-4 text-gray-500">
+                No items added
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
+
+      {/* Dropdown positioned absolutely relative to the table container */}
+      {dropdownIndex !== null && (
+        <div
+          ref={dropdownRef}
+          className="dropdown-menu absolute z-50 bg-white border rounded shadow text-xs w-24"
+          style={{
+            top: `${dropdownPosition.top}px`,
+            left: `${dropdownPosition.left}px`,
+          }}
+        >
+          <div
+            className="px-3 py-2 hover:bg-blue-100 cursor-pointer"
+            onClick={() => handleEdit(dropdownIndex)}
+          >
+            Edit
+          </div>
+          <div
+            className="px-3 py-2 hover:bg-red-100 cursor-pointer text-red-600"
+            onClick={() => handleDelete(dropdownIndex)}
+          >
+            Delete
+          </div>
+        </div>
+      )}
     </div>
   );
 };

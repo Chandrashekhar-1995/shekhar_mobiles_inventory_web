@@ -25,7 +25,7 @@ const RepairType = ({ formData, setFormData, handleChange }) => {
                 </select>
             </div>
 
-            {formData.type==="mobile" ?
+            {formData.deviceType==="mobile" ?
             <MobileDetails formData={formData} setFormData={setFormData} handleChange={handleChange} /> : (<div className="form-control w-full">
                 <label className="label">
                 <span className="label-text text-xs">Repair Item</span>

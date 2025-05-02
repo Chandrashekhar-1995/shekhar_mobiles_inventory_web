@@ -182,7 +182,14 @@ useEffect(() => {
           {/* Repair Type */}
           <RepairType formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
-          <RepairTable formData={formData} />
+          {formData.repairing && formData.repairing.length > 0 && ( 
+            <div className="mt-6">
+              <RepairTable
+                items={formData.repairing}
+                setFormData={setFormData}
+              />
+            </div>
+          )} 
 
           <PaymentDetails 
           formData={formData}

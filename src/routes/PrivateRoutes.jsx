@@ -1,3 +1,4 @@
+import AccountRoutes from "./AccountRoutes";
 import ExpenseRoutes from "./ExpenseRoutes";
 import InvoiceRoutes from "./InvoiceRoutes";
 import MobileRoutes from "./MobileRoutes";
@@ -16,6 +17,7 @@ const PrivateRoutes = [
     ...ExpenseRoutes,
     ...ProductRoutes,
     ...SettingRoutes,
+    ...AccountRoutes,
   ];
 
   export default PrivateRoutes;
