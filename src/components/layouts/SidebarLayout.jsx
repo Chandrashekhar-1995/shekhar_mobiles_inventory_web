@@ -38,8 +38,8 @@ const SidebarLayout = ({ children }) => {
         text: "Repairs",
         icon: <WrenchIcon className="h-5 w-5" />,
         subMenu: [
-          { text: "Book Repairing", link: "/repair/booking" },
           { text: "Manage Repairing", link: "/repair" },
+          { text: "Book Repairing", link: "/repair/booking" },
         ],
       },
       {

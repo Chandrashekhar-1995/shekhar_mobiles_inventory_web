@@ -73,7 +73,7 @@ const CreateCustomer = () => {
       </button>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black opacity-95 z-50 p-4">
+        <div className="flex items-center justify-center mb-8 pt-4 m-2 bg-gray-100 border border-black ">
           <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold mb-4 text-sm">Customer details</h2>

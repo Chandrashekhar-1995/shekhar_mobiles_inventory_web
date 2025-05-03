@@ -1,17 +1,16 @@
-import React from 'react';
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import useFetchCustomers from "../../../hooks/useFetchCustomers";
 
 const CustomerTable = () => {
-    const customers = useSelector((state) => state.customer.allCustomers);
+    useFetchCustomers();
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB');
-    };
-  return (
-    <div className="overflow-x-auto">
-                <table className="min-w-full border-collapse border border-gray-300">
+    const customers = useSelector((state) => state.customers.allCustomers);
+
+    return (
+        <div className="overflow-x-auto">
+            <table className="min-w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className="bg-blue-500 text-white">
                             <th className="px-4 py-2">S.No.</th>
@@ -45,8 +44,8 @@ const CustomerTable = () => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
-            </div>
+            </table>
+        </div>
   )
 }
 

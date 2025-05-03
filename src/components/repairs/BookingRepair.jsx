@@ -15,6 +15,7 @@ import Refrances from "./repairComponents/Refrances";
 import { toast } from "react-toastify";
 
 const BookingRepair = ({ isEditMode = false, onClose }) => {
+  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
           repairNumber: "REP-0001",
@@ -115,6 +116,8 @@ useEffect(() => {
     const handleClose = () => {
       if(onClose) {
         onClose();
+      } else if(showModal==true){
+        setShowModal(false)
       } else {
         navigate(-1); 
       }
@@ -148,7 +151,7 @@ useEffect(() => {
         const data = await createNewRepair(formData);
         if (data.success) {
           toast.success(`✅ ${data.message}`)
-          navigate("/repair")
+          setShowModal(false)
         } else {
           toast.error(`❌ ${data.message}` || "Repair creation failed");
         }
@@ -160,6 +163,16 @@ useEffect(() => {
     };
 
   return (
+    <div className="form-control">
+      <button
+        className="btn btn-sm btn-primary"
+        onClick={() => setShowModal(true)}
+      >
+        Book a Repair
+      </button>
+
+      {/* Modal */}
+      {showModal && (
     <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
       <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
         <div className="flex items-center justify-between">
@@ -215,6 +228,8 @@ useEffect(() => {
 
         </form>
       </div>
+    </div>
+      )}
     </div>
   )
 }
