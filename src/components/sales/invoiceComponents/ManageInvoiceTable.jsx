@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const InvoiceTable = () => {
+const ManageInvoiceTable = () => {
     const invoices = useSelector((store) => store.invoices.allInvoices);
 
     const formatDate = (dateString) => {
@@ -51,4 +51,4 @@ const InvoiceTable = () => {
   )
 }
 
-export default InvoiceTable
+export default ManageInvoiceTable;

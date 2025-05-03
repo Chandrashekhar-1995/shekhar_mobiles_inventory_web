@@ -1,7 +1,7 @@
 import React from "react";
 import useFetchInvoices from "../../hooks/useFetchInvoices";
 import CreateInvoice from "./CreateInvoice";
-import InvoiceTable from "./InvoiceTable";
+import ManageInvoiceTable from "./invoiceComponents/ManageInvoiceTable";
 
 const ManageInvoice = () => {
     useFetchInvoices();
@@ -12,7 +12,7 @@ const ManageInvoice = () => {
                 <CreateInvoice/>
             </div>
             <div className="p-4">
-                <InvoiceTable />
+                <ManageInvoiceTable />
             </div>
         </div>
     );
