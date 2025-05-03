@@ -28,10 +28,7 @@ const UsedItemsTable = ({ items, setFormData }) => {
   };
 
   const handleRowClick = (e, index) => {
-    // Prevent dropdown click from toggling again
     if (e.target.closest(".dropdown-menu")) return;
-    
-    // Get click position relative to the table
     const tableRect = tableRef.current.getBoundingClientRect();
     const clickX = e.clientX - tableRect.left;
     const clickY = e.clientY - tableRect.top;

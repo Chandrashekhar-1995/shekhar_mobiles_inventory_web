@@ -9,14 +9,14 @@ const CustomerDetails = ({ formData, setFormData, handleChange }) => {
   const allCustomers = useSelector((store) => store.customers.allCustomers);
 
   const filteredByNumber = queryNumber
-    ? allCustomers.filter((c) =>
-        c.mobileNumber.includes(queryNumber.trim())
+    ? allCustomers?.filter((c) =>
+       c.mobileNumber?.includes(queryNumber.trim())
       )
     : [];
 
   const filteredByName = queryName
-    ? allCustomers.filter((c) =>
-        c.name.toLowerCase().includes(queryName.toLowerCase().trim())
+  ? allCustomers?.filter((c) =>
+       c.name?.toLowerCase().includes(queryName.toLowerCase().trim())
       )
     : [];
 

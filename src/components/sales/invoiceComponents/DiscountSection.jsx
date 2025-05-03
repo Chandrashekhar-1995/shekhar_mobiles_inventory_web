@@ -24,7 +24,9 @@ const DiscountSection = ({
           <input 
           type="text"  
           className="border bg-yellow-100 border-gray-300 rounded px-2 py-1 text-xs"
-          value={totalItemQuantity}/>
+          value={totalItemQuantity}
+          readOnly
+          />
       </div>
 
       {/* Sold by */}

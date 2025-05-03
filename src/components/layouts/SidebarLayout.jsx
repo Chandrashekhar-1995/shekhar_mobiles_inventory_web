@@ -24,8 +24,8 @@ const SidebarLayout = ({ children }) => {
         text: "Sale",
         icon: <ChartBarIcon className="h-5 w-5" />,
         subMenu: [
-          { text: "New Invoice", link: "/sales/invoice/create" },
           { text: "Manage Invoice", link: "/sales/invoice" },
+          { text: "New Invoice", link: "/sales/invoice/create" },
           // { text: "Sale Return", link: "/sales/return" },
           // { text: "Quotation", link: "/sales/quotation" },
           // { text: "Delivery Note", link: "/sales/delivery_note" },

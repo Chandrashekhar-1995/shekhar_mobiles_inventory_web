@@ -1,5 +1,5 @@
 import React from "react";
-import CustomerDetails from "./CustomerDetails";
+import CustomerDetails from "../../customer/CustomerDetails";
 import { useNavigate } from "react-router-dom";
 
 const BillToType = ({ formData, setFormData, handleChange }) => {
