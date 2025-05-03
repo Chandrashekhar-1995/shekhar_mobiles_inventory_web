@@ -44,10 +44,12 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
           </label>
           <input
             type="number" 
-            value= {formData.repairing?.length > 0 ? totalItemPrice - formData.discountAmount : "00.00"}
-            className="input input-bordered input-sm text-xs"
-            readOnly
-          />
+            value={ formData.repairing?.length > 0 ? totalItemPrice - (formData.discountAmount || 0)
+      : "00.00"
+  }
+  className="input input-bordered input-sm text-xs"
+  readOnly
+/>
         </div>
 
         {/* Advance */}
@@ -90,7 +92,8 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
           </label>
           <input
             type="number" 
-            value= {(totalItemPrice - formData.discountAmount)-formData.advanceAmount}
+            value={(totalItemPrice - (formData.discountAmount || 0)) - (formData.advanceAmount || 0)
+              }
             className="input input-bordered input-sm text-xs"
             readOnly
           />

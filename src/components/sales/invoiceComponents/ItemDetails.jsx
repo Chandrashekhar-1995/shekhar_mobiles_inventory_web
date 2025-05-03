@@ -9,17 +9,17 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
 
   const navigate = useNavigate();
 
-  const allProducts = useSelector((store) => store.products.allProducts);
+  const allProducts = useSelector((store) => store.products.allProducts.products);
 
   const filteredByCode = queryItemCode
-    ? allProducts.filter((i) =>
-        i.itemCode.trim().includes(queryItemCode.trim())
+    ? allProducts?.filter((i) =>
+        i.itemCode?.trim().includes(queryItemCode.trim())
       )
     : [];
 
   const filteredByName = queryItemName
-    ? allProducts.filter((i) =>
-        i.productName.toLowerCase().includes(queryItemName.toLowerCase().trim())
+    ? allProducts?.filter((i) =>
+        i.productName?.toLowerCase().includes(queryItemName.toLowerCase().trim())
       )
     : [];
 

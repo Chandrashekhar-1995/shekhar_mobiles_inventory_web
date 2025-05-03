@@ -50,6 +50,7 @@ const CreateProduct = () => {
         const data = await createProduct(formData);
         if (data.success) { 
           toast.success(data.message)
+          navigate(-1)  // manage inventory par click karna hai 
         } else {
           toast.error(`❌ ${data.message}` || "Product creation failed");
         }

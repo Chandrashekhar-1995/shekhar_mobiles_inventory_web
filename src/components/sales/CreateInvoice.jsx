@@ -15,7 +15,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    invoiceType: "Non GST",
+    invoiceType: "non_gst",
     invoiceNumber: "INV-0001",
     date: "",
     dueDate: "",
@@ -39,13 +39,14 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
     netPrice: 0,
     items: [],
     totalAmount: 0,
-    discountAmount: 0,
+    discountAmount:0,
     totalPayableAmount: 0,
     paymentDate: "",
     paymentMode: "Cash",
     privateNote: "",
     customerNote: "",
     receivedAmount: 0,
+    advanceAmount: 0,
     transactionId: "",
     status: "Unpaid",
     soldBy: "",
