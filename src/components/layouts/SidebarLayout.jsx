@@ -221,6 +221,7 @@ const SidebarLayout = ({ children }) => {
           { text: "Add Product", link: "/product/create" },
           { text: "Add Mobile", link: "/mobile/create" },
           { text: "Repair Process", link: "/repair-process" },
+          { text: "Problems", link: "/fault" },
           // { text: "Add Service", link: "/service/create" },
           // { text: "Manage Services", link: "/service/create" },
           // { text: "Discount Schemes", link: "/service/create" },

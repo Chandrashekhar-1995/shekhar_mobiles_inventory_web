@@ -8,6 +8,13 @@ const createFault = (formData) => {
     });
 };
 
+const createSubFault = (formData) => {
+    return apiClient.customFetch("/fault/add-subFault", {
+        method: "POST",
+        body: JSON.stringify(formData)
+    });
+};
+
 const getAllFault = () => {
     return apiClient.customFetch("/fault/all");
 };
@@ -33,12 +40,19 @@ const deleteFault = (id) => {
     });
 };
 
+const deleteSubFault = (id) => {
+    return apiClient.customFetch(`/fault/remove-subFault`,{
+        method: "DELETE",
+    });
+};
 
 export {
     createFault,
+    createSubFault,
     getAllFault,
     getFaultById,
     searchFault,
     updateFault,
     deleteFault,
+    deleteSubFault,
 };
