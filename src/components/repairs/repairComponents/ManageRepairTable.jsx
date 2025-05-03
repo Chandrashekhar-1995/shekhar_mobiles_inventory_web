@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { updateRepairItem } from "../../../../service/repairApi";
 import { setAllRepairs } from "../../../store/repairSlice"
 import useFetchRepairs from '../../../hooks/useFetchRepairs';
+import { toast } from 'react-toastify';
 
 const ManageRepairTable = () => {
     const dispatch = useDispatch();
@@ -35,9 +36,9 @@ const ManageRepairTable = () => {
             repairStatus: selectedStatus,
         });
         if (data.success) {
+            toast.success(data.message)
             const updatedRepairs = repairs.map(repair =>
-                repair._id === repairId
-                    ? {
+                repair._id === repairId ? {
                         ...repair,
                         repairing: repair.repairing.map((item, i) =>
                             i === itemIndex
@@ -48,6 +49,8 @@ const ManageRepairTable = () => {
                     : repair
             );
             dispatch(setAllRepairs(updatedRepairs));
+        } else {
+            toast.error(data.message)
         }
 
         setEditingStatus({ repairId: null, itemIndex: null });

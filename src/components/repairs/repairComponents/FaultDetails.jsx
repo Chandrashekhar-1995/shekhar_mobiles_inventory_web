@@ -1,18 +1,19 @@
 import React from "react";
+import FaultDropdown from "./FaultDropdown"
 
 const FaultDetails = ({ formData, setFormData, handleChange,}) => {
 
   const handleAddRepair = (e) => {
     e.preventDefault();
   
-    const { deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
+    const { deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, subFaults, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
 
     if (!deviceType || !fault || !repairPrice) {
       alert("Please fill in all required fields before adding repair.");
       return;
     }
 
-    const newRepair = {deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
+    const newRepair = {deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, subFaults, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime};
   
     setFormData((prev) => ({
         ...prev,
@@ -29,6 +30,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
         anyDamage: "",
         otherDetails: "",
         fault: "",
+        subFaults: "",
         sinceLong: "",
         repairPrice: "",
         expectedRepairingDate:"",
@@ -41,7 +43,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
   return (
     <>
         {/* since long */}
-        <div className="form-control w-full">
+        {/* <div className="form-control w-full">
             <label className="label">
                 <span className="label-text text-xs">Problem</span>
             </label>
@@ -52,7 +54,9 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
                 value={formData.fault}
                 onChange={handleChange}
             />
-        </div>
+        </div> */}
+
+          <FaultDropdown formData={formData} setFormData={setFormData} />
 
         {/* since long */}
         <div className="form-control">

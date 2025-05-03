@@ -11,7 +11,7 @@ const useFetchRepairProcesses = () => {
             try {
                 const data = await getAllRepairProcesses();
                 if(data.success){
-                    dispatch(setAllProcesses(data.data))
+                    dispatch(setAllProcesses(data.data.repairProcesses))
                 }
             } catch (error) {
                 console.error('Failed to fetch types:', error);

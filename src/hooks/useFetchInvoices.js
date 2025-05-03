@@ -10,7 +10,7 @@ const useFetchInvoices = () => {
         const fetchInvoices = async () => {
             try {
                 const data = await getAllInvoice();               
-                dispatch(addInvoices(data.data));
+                dispatch(addInvoices(data.data.invoices));
             } catch (error) {
                 console.error('Failed to fetch invoices:', error);
             }

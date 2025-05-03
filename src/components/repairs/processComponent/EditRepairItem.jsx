@@ -66,7 +66,7 @@ const EditRepairItem = () => {
         address: repair?.address || "",
         privateNote: repair?.privateNote || "",
         customerNote: repair?.customerNote || "",
-        bookBy: repair?.bookBy || "",
+        bookBy: repair?.bookBy.name || "",
   });
  
   useEffect(() => {
@@ -105,7 +105,7 @@ const EditRepairItem = () => {
         address: repair.address || "",
         privateNote: repair.privateNote || "",
         customerNote: repair.customerNote || "",
-        bookBy: repair.bookBy || "",
+        bookBy: repair?.bookBy.name || "",
       });
     }
   }, [item]);

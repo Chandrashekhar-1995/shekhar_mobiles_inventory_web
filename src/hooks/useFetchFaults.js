@@ -10,7 +10,7 @@ const useFetchFaults = () => {
         const fetchFaults = async () => {
             try {
                 const data = await getAllFault();
-                dispatch(addFaults(data.data))
+                dispatch(addFaults(data.data.faults))
             } catch (error) {
                 console.error("Failed to fetch faults:", error);
             }

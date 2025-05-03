@@ -10,7 +10,7 @@ import { useEffect } from "react";
          const fetchRepairs = async () => {
              try {
                  const data = await getAllRepairs();
-                 dispatch(addRepair(data.data ))
+                 dispatch(addRepair(data.data.repairs))
              } catch (error) {
                  console.error('Failed to fetch repairs:', error);
              }

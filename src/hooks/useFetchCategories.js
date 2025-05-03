@@ -10,7 +10,7 @@ const useFetchCategories = () => {
         const fetchCategories = async () => {
             try {
                 const data = await getAllCategories();
-                dispatch(addCategory(data.data))
+                dispatch(addCategory(data.data.categories))
             } catch (error) {
                 console.error('Failed to fetch categories:', error);
             }

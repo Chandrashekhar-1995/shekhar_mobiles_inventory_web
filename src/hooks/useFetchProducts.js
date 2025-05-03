@@ -10,7 +10,7 @@ const useFetchProducts = () => {
         const fetchProducts = async () => {
             try {
                 const data = await getAllProduct();
-                dispatch(addProduct(data.data))
+                dispatch(addProduct(data.data.products))
             } catch (error) {
                 console.error('Failed to fetch products:', error);
             }

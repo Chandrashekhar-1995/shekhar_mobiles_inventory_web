@@ -24,7 +24,7 @@ const ManageInvoiceTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {invoices.invoices.map((invoice, index) => (
+                        {invoices.map((invoice, index) => (
                             <tr 
                                 key={invoice._id} 
                                 className="odd:bg-white even:bg-gray-100"
