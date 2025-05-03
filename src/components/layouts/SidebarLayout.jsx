@@ -90,8 +90,8 @@ const SidebarLayout = ({ children }) => {
         text: "Customer", 
         icon: <UsersIcon className="h-5 w-5" />, 
         subMenu: [
+          { text: "Manage Customers", link: "user/customer/manage" },
           { text: "Add Customer", link: "/user/customer/create" },
-        { text: "Manage Customers", link: "user/customer/manage" },
         // { text: "Manage Customer Loan", link: "/auth/user/customer/loan" },
         ]
       },
