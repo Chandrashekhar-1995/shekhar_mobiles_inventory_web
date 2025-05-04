@@ -18,9 +18,9 @@ const useFetchBrands = () => {
 
         fetchBrands();
 
-        return () => {
-            dispatch(removeBrand());
-        };
+        // return () => {
+        //     dispatch(removeBrand());
+        // };
     }, [dispatch]);
 };
 

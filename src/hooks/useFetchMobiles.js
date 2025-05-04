@@ -18,9 +18,9 @@ const useFetchMobiles = () => {
 
         fetchMobiles();
 
-        return () => {
-            dispatch(removeMobile());
-        };
+        // return () => {
+        //     dispatch(removeMobile());
+        // };
     }, [dispatch]);
 };
 

@@ -12,19 +12,17 @@ const UsedItems = ({ formData, setFormData, handleChange }) => {
 
   useFetchProducts();
 
-  const allProducts = useSelector((store) => store.products.allProducts?.products);
+  const allProducts = useSelector((store) => store.products.allProducts);
 
-  const filteredByCode = queryItemCode
-    ? allProducts?.filter((i) =>
+  const filteredByCode = queryItemCode === ""
+    ? allProducts : allProducts?.filter((i) =>
         i.itemCode.toLowerCase().includes(queryItemCode.toLowerCase().trim())
-      )
-    : [];
+      );
 
-  const filteredByName = queryItemName
-    ? allProducts?.filter((i) =>
+  const filteredByName = queryItemName ===""
+    ? allProducts : allProducts?.filter((i) =>
         i.productName.toLowerCase().includes(queryItemName.toLowerCase().trim())
-      )
-    : [];
+      );
 
   const handleSelect = (item) => {
     setFormData({

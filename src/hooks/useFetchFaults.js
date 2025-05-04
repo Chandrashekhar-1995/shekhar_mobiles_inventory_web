@@ -18,9 +18,9 @@ const useFetchFaults = () => {
 
         fetchFaults();
 
-        return () => {
-            dispatch(removeFaults());
-        };
+        // return () => {
+        //     dispatch(removeFaults());
+        // };
     }, [dispatch]);
 };
 

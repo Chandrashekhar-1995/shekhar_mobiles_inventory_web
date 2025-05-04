@@ -18,9 +18,9 @@ const useFetchModels = () => {
 
         fetchModels();
 
-        return () => {
-            dispatch(removeModel());
-        };
+        // return () => {
+        //     dispatch(removeModel());
+        // };
     }, [dispatch]);
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const RepairProcessChecklist = ({ formData, setFormData }) => {
+const RepairProcessDropdown = ({ formData, setFormData }) => {
   // Standard repair processes
   const standardProcesses = [
     {
@@ -146,4 +146,4 @@ const RepairProcessChecklist = ({ formData, setFormData }) => {
   );
 };
 
-export default RepairProcessChecklist;
+export default RepairProcessDropdown;

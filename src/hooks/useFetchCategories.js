@@ -18,10 +18,9 @@ const useFetchCategories = () => {
 
         fetchCategories();
 
-        // Clean up categories when component unmounts
-        return () => {
-            dispatch(removeCategory());
-        };
+        // return () => {
+        //     dispatch(removeCategory());
+        // };
     }, [dispatch]);
 };
 

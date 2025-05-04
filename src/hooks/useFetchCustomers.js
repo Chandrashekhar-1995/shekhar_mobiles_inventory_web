@@ -17,9 +17,9 @@ const useFetchCustomers = () => {
         };
 
         fetchCustomers();
-        return () => {
-            dispatch(removeCustomer());
-        };
+        // return () => {
+        //     dispatch(removeCustomer());
+        // };
     }, [dispatch]);
 };
 

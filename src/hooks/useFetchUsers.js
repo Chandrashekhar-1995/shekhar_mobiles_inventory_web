@@ -17,9 +17,9 @@ const useFetchUsers = () => {
         };
 
         fetchUsers();
-        return () => {
-            dispatch(removeAllUser());
-        };
+        // return () => {
+        //     dispatch(removeAllUser());
+        // };
     }, [dispatch]);
 };
 

@@ -12,9 +12,7 @@ const ManageRepairTable = () => {
     const [selectedStatus, setSelectedStatus] = useState("");
 
     useFetchRepairs();
-
     const repairs = useSelector((store) => store.repairs.allRepairs);
-
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
         const date = new Date(isoDate);
@@ -37,7 +35,7 @@ const ManageRepairTable = () => {
         });
         if (data.success) {
             toast.success(data.message)
-            const updatedRepairs = repairs.map(repair =>
+            const updatedRepairs = repairs?.map(repair =>
                 repair._id === repairId ? {
                         ...repair,
                         repairing: repair.repairing.map((item, i) =>
@@ -64,6 +62,7 @@ const ManageRepairTable = () => {
                         <th className="px-4 py-2">S.No.</th>
                         <th className="px-4 py-2">Repair No</th>
                         <th className="px-4 py-2">Booking Date</th>
+                        <th className="px-4 py-2">Customer</th>
                         <th className="px-4 py-2">Items</th>
                         <th className="px-4 py-2">Fault</th>
                         <th className="px-4 py-2">Status</th>
@@ -72,7 +71,7 @@ const ManageRepairTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {repairs && repairs.invoices.map((repair, index) => (
+                    {repairs && repairs.map((repair, index) => (
                         <React.Fragment key={repair._id}>
                             {repair.repairing.map((item, itemIndex) => (
                                 <tr key={`${repair._id}-${itemIndex}`} className="odd:bg-white even:bg-gray-100">
@@ -88,6 +87,9 @@ const ManageRepairTable = () => {
                                             </td>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
                                                 {formatToIndianDate(repair.bookingDate)}
+                                            </td>
+                                            <td rowSpan={repair.repairing.length} className="border px-4 py-2">
+                                                {repair.customer.name}
                                             </td>
                                         </>
                                     )}

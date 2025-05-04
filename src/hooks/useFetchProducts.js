@@ -18,9 +18,9 @@ const useFetchProducts = () => {
 
         fetchProducts();
 
-        return () => {
-            dispatch(removeProduct());
-        };
+        // return () => {
+        //     dispatch(removeProduct());
+        // };
     }, [dispatch]);
 };
 

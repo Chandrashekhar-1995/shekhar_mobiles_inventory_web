@@ -18,9 +18,9 @@ import { useEffect } from "react";
  
          fetchRepairs();
  
-         return () => {
-             dispatch(removeRepair());
-         };
+        //  return () => {
+        //      dispatch(removeRepair());
+        //  };
      }, [dispatch]);
  };
  

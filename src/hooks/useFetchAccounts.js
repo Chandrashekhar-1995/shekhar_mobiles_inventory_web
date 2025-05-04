@@ -18,9 +18,9 @@ const useFetchAccounts = () => {
 
         fetchAccount();
 
-        return () => {
-            dispatch(removeAccount());
-        };
+        // return () => {
+        //     dispatch(removeAccount());
+        // };
     }, [dispatch]);
 };
 

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkAuth } from "../service/authApi";
 import { addUser, removeUser } from "./store/userSlice";
+import { persistor } from "./store/appStore";
 import AppRoutes from "./routes/AppRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
@@ -17,9 +18,11 @@ const App = () => {
           dispatch(addUser(data.data.user));
         } else {
           dispatch(removeUser());
+          await persistor.purge();
         }
       } catch (err) {
         dispatch(removeUser());
+        await persistor.purge();
       }
     };
 

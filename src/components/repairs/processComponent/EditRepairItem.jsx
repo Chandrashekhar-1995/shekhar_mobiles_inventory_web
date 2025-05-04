@@ -6,29 +6,18 @@ import { setAllRepairs } from "../../../store/repairSlice";
 import UsedItems from "./UsedItems";
 import RepairingProcess from "./RepairingProcess";
 import RepairHeaderDetails from "./RepairHeaderDetails";
-import RepairProcessChecklist from "./RepairProcessChecklist";
+import RepairProcessDropdown from "./RepairProcessDropdown";
 
 const EditRepairItem = () => {
+  const [loading, setLoading] = useState(false);
   const { repairId, itemIndex } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const repairs = useSelector((store) => store.repairs.allRepairs);
-  const [loading, setLoading] = useState(false);
   
-  useEffect(() => {
-    if (!repairs || repairs.length === 0) {
-      setLoading(true);
-      getAllRepairs().then((res) => {
-        dispatch(setAllRepairs(res.data));
-        setLoading(false);
-      });
-    }
-  }, [repairs, dispatch]);
-  
-  const repair = repairs?.invoices?.find((r) => r._id === repairId);
+  const repair = repairs?.find((r) => r._id === repairId);
   const item = repair?.repairing?.[itemIndex];
-  // console.log("item", item);
 
   const [formData, setFormData] = useState({
         type: item?.type || "",
@@ -153,15 +142,14 @@ const EditRepairItem = () => {
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
           <RepairHeaderDetails data={formData} />
           <UsedItems formData={formData} setFormData={setFormData} handleChange={handleChange} />
-          <RepairProcessChecklist formData={formData} setFormData={setFormData} handleChange={handleChange} />
+          <RepairProcessDropdown formData={formData} setFormData={setFormData} handleChange={handleChange} />
           <RepairingProcess formData={formData} setFormData={setFormData} handleChange={handleChange} />
-
 
           <button
             type="submit"
             className="btn btn-primary w-full"
           >
-            Update Item
+            Update Repair
           </button>
         </form>
       </div>

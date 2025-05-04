@@ -33,7 +33,7 @@ const ManageInvoiceTable = () => {
                                 <td className="border px-4 py-2">{invoice.status}</td>
                                 <td className="border px-4 py-2">{invoice.invoiceNumber}</td>
                                 <td className="border px-4 py-2">{formatDate(invoice.date)}</td>
-                                <td className="border px-4 py-2">{invoice.customerName}</td>
+                                <td className="border px-4 py-2">{invoice.customer.name}</td>
                                 <td className="border px-4 py-2">{invoice.totalAmount}</td>
                                 <td className="border px-4 py-2">
                                     <Link 

@@ -1,8 +1,10 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { removeUser } from '../store/userSlice';
-import { logout } from '../../service/authApi';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { removeUser } from "../store/userSlice";
+import { logout } from "../../service/authApi";
+import { persistor } from "../store/appStore";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -47,12 +49,20 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      dispatch(removeUser());
-      localStorage.removeItem('user');
-      navigate('/login');
+      const data = await logout();
+      if(data.success){
+        toast.success(data.message)
+        dispatch(removeUser());
+        localStorage.removeItem("user");
+        await persistor.purge();
+        navigate('/login');
+      } else {
+        toast.error(error)
+      }
+      
     } catch (error) {
       console.error(error);
+      
     }
   };
 

@@ -6,22 +6,19 @@ import { useNavigate } from "react-router-dom";
 const ItemDetails = ({ formData, setFormData, handleChange,}) => {
   const [queryItemCode, setQueryItemCode] = useState("");
   const [queryItemName, setQueryItemName] = useState("");
-
   const navigate = useNavigate();
-
-  const allProducts = useSelector((store) => store.products.allProducts.products);
-
-  const filteredByCode = queryItemCode
-    ? allProducts?.filter((i) =>
+  const allProducts = useSelector((store) => store.products.allProducts);
+  console.log("allProduct", allProducts);
+ 
+  const filteredByCode = queryItemCode ===""
+    ?  allProducts : allProducts?.filter((i) =>
         i.itemCode?.trim().includes(queryItemCode.trim())
-      )
-    : [];
+      );
 
-  const filteredByName = queryItemName
-    ? allProducts?.filter((i) =>
+  const filteredByName = queryItemName ===""
+    ? allProducts : allProducts?.filter((i) =>
         i.productName?.toLowerCase().includes(queryItemName.toLowerCase().trim())
-      )
-    : [];
+      );
 
   const handleSelect = (item) => {
       setFormData({
@@ -88,7 +85,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
     navigate("/product/create")
   }
 
-  return allProducts && (
+  return (
     <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
 

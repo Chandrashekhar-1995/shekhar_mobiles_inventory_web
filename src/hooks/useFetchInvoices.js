@@ -19,9 +19,9 @@ const useFetchInvoices = () => {
         fetchInvoices();
 
         // Clean up invoices when component unmounts
-        return () => {
-            dispatch(clearInvoices());
-        };
+        // return () => {
+        //     dispatch(clearInvoices());
+        // };
     }, [dispatch]);
 };
 
