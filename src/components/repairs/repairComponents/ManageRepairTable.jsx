@@ -13,8 +13,6 @@ const ManageRepairTable = () => {
 
     useFetchRepairs();
     const repairs = useSelector((store) => store.repairs.allRepairs);
-    console.log("Manage repair table repairs", repairs)
-
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
         const date = new Date(isoDate);

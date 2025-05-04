@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "accounts", "faults", "products", "invoices", "repairProcesses"],
+  whitelist: ["user", "accounts", "repairProcesses"],
 };
 
 // Create persisted reducer
