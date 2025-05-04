@@ -21,6 +21,15 @@ const RepairProcessDropdown = ({ formData, setFormData }) => {
           p.processName?.toLowerCase().includes(query.toLowerCase())
         );
 
+  const handleSelect = (pObj) => {
+    setQuery(pObj.brandName);
+    setFormData(prev => ({
+      ...prev,
+      brandName: brandObj.brandName,
+      brand: brandObj._id
+      }));
+  };
+
   return (
     <div>RepairProcessDropdown</div>
   )

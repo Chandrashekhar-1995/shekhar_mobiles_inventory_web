@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { createRepairProcess } from "../../../../service/repairApi";
 import { toast } from "react-toastify";
-import FaultDropdown from "../repairComponents/FaultDropdown";
+import FaultDropdown from "../fault/FaultDropdown";
 
 const CreateRepairProcess = ({ onProcessCreated }) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     fault: "",
     subFault: "",
+    faultName:"",
     deviceType: "mobile",
     processName: "",
     steps: [{ stepName: "", description: "", isCritical: false }],
@@ -102,7 +103,7 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Problem Type */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FaultDropdown setFormData={setFormData} />
+                <FaultDropdown formData={formData} setFormData={setFormData} />
 
                 {/* Problem Sub Type */}
                 <div className="form-control">

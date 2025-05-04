@@ -1,11 +1,11 @@
 import React from "react";
-import FaultDropdown from "./FaultDropdown"
+import FaultDropdown from "../fault/FaultDropdown";
 
 const FaultDetails = ({ formData, setFormData, handleChange,}) => {
 
   const handleAddRepair = (e) => {
     e.preventDefault();
-  
+    
     const { deviceType, mobile, brand, brandName, modelNo, emeiNumber, emeiNumberSecond, lockOrPassword, email, anyDamage,  otherDetails, fault, subFaults, sinceLong, repairPrice, repairDescription, repairItem, expectedRepairingDate, expectedRepairingTime } = formData;
 
     if (!deviceType || !fault || !repairPrice) {
@@ -30,6 +30,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
         anyDamage: "",
         otherDetails: "",
         fault: "",
+        faultName:"",
         subFaults: "",
         sinceLong: "",
         repairPrice: "",
@@ -42,22 +43,7 @@ const FaultDetails = ({ formData, setFormData, handleChange,}) => {
   
   return (
     <>
-        {/* since long */}
-        {/* <div className="form-control w-full">
-            <label className="label">
-                <span className="label-text text-xs">Problem</span>
-            </label>
-            <input
-                type="textarea"
-                name="fault"
-                className="input input-bordered input-sm text-xs"
-                value={formData.fault}
-                onChange={handleChange}
-            />
-        </div> */}
-
-          <FaultDropdown formData={formData} setFormData={setFormData} />
-
+        <FaultDropdown formData={formData} setFormData={setFormData} />
         {/* since long */}
         <div className="form-control">
           <label className="label">

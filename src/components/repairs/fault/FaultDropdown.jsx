@@ -15,21 +15,23 @@ const FaultDropdown = ({ formData, setFormData }) => {
   useFetchFaults();
   const allFaults = useSelector((store) => store.faults.allFaults);
 
-  const filteredFaults = query === ""
-    ? allFaults
-    : allFaults.filter((f) =>
-        f.faults?.toLowerCase().includes(query.toLowerCase())
+  const filteredFaults = query === "" ? allFaults : allFaults.filter((f) =>
+        f.fault?.toLowerCase().includes(query.toLowerCase())
       );
 
   const handleSelect = (fObj) => {
     setSelectedFault(fObj);
     setQuery(fObj.fault);
-    setFormData({ ...formData, fault: fObj.fault, subFaults: "" });
+    setFormData(prev => ({
+      ...prev,
+      fault: fObj._id,
+      faultName: fObj.fault.fault,
+      }));
   };
 
   const handleBlur = () => {
-    const faultExists = allFaults.some(
-      (f) => f.fault.toLowerCase() === query.toLowerCase()
+    const faultExists = allFaults?.some(
+      (f) => f.fault?.toLowerCase() === query.toLowerCase()
     );
     if (query && !faultExists) {
       setNewFault(query);
@@ -37,18 +39,22 @@ const FaultDropdown = ({ formData, setFormData }) => {
     }
   };
 
-  const addFault = async () => {
+  const addFault = async (e) => {
+    e.preventDefault();
     try {
       const data = await createFault({
         fault: newFault,
       });
 
       if (data.success) {
-        setFormData({ ...formData, fault: newFault, subFaults: "" });
-        setSelectedFault(data.data);
         toast.success(`✅ ${data.message}`);
+        setFormData(pre => ({ ...formData, 
+          fault: data.data._id,
+          faultName:newFault, 
+          subFaults: "" }));
+        setSelectedFault(data.data);
       } else {
-        toast.error(`❌ ${data.message}` || "Fault creation failed");
+        toast.error(`❌ ${data.message}`);
       }
     } catch (error) {
   
@@ -58,18 +64,24 @@ const FaultDropdown = ({ formData, setFormData }) => {
   };
 
   const cancelCreate = () => {
-    setFormData({ ...formData, fault: "", subFaults: "" });
+    setFormData(prev => ({
+      ...prev,
+      fault:"",
+      faultName: "",
+      subFaults: ""
+    }));
     setQuery("");
     setSelectedFault(null);
     setShowModal(false);
   };
 
   const handleAddSubFaults = async () => {
+
     if (!subFaultInput.trim() || !selectedFault?._id) return;
 
     try {
       const data = await createSubFault({
-        fault: selectedFault.fault,
+        fault: selectedFault._id,
         subFaults: subFaultInput,
       });
 
@@ -154,6 +166,7 @@ const FaultDropdown = ({ formData, setFormData }) => {
               className="input input-bordered input-sm text-xs w-full"
             />
             <button
+              type="button"
               onClick={handleAddSubFaults}
               className="btn btn-primary btn-sm mt-2 w-full"
             >

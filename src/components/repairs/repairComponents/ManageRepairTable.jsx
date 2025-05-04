@@ -13,6 +13,8 @@ const ManageRepairTable = () => {
 
     useFetchRepairs();
     const repairs = useSelector((store) => store.repairs.allRepairs);
+    console.log("Manage repair table repairs", repairs)
+
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return '';
         const date = new Date(isoDate);
@@ -101,7 +103,7 @@ const ManageRepairTable = () => {
 
                                     <td className="border px-4 py-2">
                                         <Link to={`/repair/update/repair-item/${repair._id}/${itemIndex}`} className="text-blue-500 hover:underline">
-                                            {item.fault}
+                                            {item.fault.fault}
                                         </Link>
                                     </td>
 

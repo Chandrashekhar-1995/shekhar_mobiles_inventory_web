@@ -40,6 +40,7 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           otherDetails: "",
           repairDescription:"",
           fault: "",
+          faultName:"",
           subFaults: "",
           sinceLong: "",
           repairPrice:"",
