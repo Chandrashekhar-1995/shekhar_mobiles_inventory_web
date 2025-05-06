@@ -104,21 +104,6 @@ const CreateRepairProcess = ({ onProcessCreated }) => {
               {/* Problem Type */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FaultDropdown formData={formData} setFormData={setFormData} />
-
-                {/* Problem Sub Type */}
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text text-xs">Problem Sub Type</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="subFault"
-                    value={formData.subFault}
-                    onChange={handleChange}
-                    className="input input-bordered input-sm text-xs"
-                    placeholder="Optional sub-category"
-                  />
-                </div>
               </div>
 
               {/* Device Type */}

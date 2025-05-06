@@ -1,113 +1,199 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import FaultDropdown from '../fault/FaultDropdown';
 
-const RepairProcessForm = ({ faults, onSubmit }) => {
-  const { register, handleSubmit, control } = useForm();
+const RepairProcessForm = ({ onProcessCreated }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    fault: '',
+    deviceType: 'mobile',
+  });
+
   const [steps, setSteps] = useState([]);
   const [currentStep, setCurrentStep] = useState({
     stepName: '',
     description: '',
-    checklistItems: []
+    checklistItems: [],
   });
 
-  const addChecklistItem = () => {
-    setCurrentStep(prev => ({
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      checklistItems: [...prev.checklistItems, { itemName: '', isChecked: false }]
+      [name]: value,
+    }));
+  };
+
+  const addChecklistItem = () => {
+    setCurrentStep((prev) => ({
+      ...prev,
+      checklistItems: [...prev.checklistItems, { itemName: '', isChecked: false }],
     }));
   };
 
   const addStep = () => {
     if (currentStep.stepName && currentStep.checklistItems.length > 0) {
-      setSteps(prev => [...prev, { ...currentStep, order: prev.length + 1 }]);
+      setSteps((prev) => [...prev, { ...currentStep, order: prev.length + 1 }]);
       setCurrentStep({
         stepName: '',
         description: '',
-        checklistItems: []
+        checklistItems: [],
       });
     }
   };
 
-  const submitForm = (data) => {
-    onSubmit({
-      ...data,
-      steps
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({ ...formData, steps });
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name:"",
+      fault: "",
+      subFault: "",
+      deviceType: "mobile",
+      processName: "",
+      checklistItems: [],
+      stepName: "",
+      steps: [],
+      description: "",
+      isCritical: false,
     });
   };
 
   return (
-    <form onSubmit={handleSubmit(submitForm)}>
-      <div>
-        <label>Process Name</label>
-        <input {...register('name', { required: true })} />
+    <div className="form-control">
+      <button
+        className="btn btn-sm btn-primary"
+        onClick={() => setShowModal(true)}
+      >
+        Create New Repair Process
+      </button>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-lg font-semibold mb-4">Create New Repair Process</h2>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Device Type */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text text-xs">Device Type *</span>
+                  </label>
+                  <select
+                    className="select select-bordered select-sm"
+                    value={formData.deviceType}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="mobile">Mobile</option>
+                    <option value="lcd">LCD</option>
+                    <option value="pc_laptop">PC/Laptop</option>
+                    <option value="others">Others</option>
+                  </select>
+                </div>
+
+                {/* Fault Dropdown */}
+                <FaultDropdown formData={formData} setFormData={setFormData} />
+
+                {/* Process Name */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text text-xs">Process Name *</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="processName"
+                    value={formData.processName}
+                    onChange={handleChange}
+                    className="input input-bordered input-sm text-xs"
+                    placeholder="e.g., Charging Port Repair Process"
+                    required
+                  />
+                </div>
+
+              </div>
+
+
+              {/* Process Steps */}
+              <div className="space-y-4">
+                <label className="label">
+                  <span className="label-text text-xs">Process Steps *</span>
+                </label>
+                a
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline"
+                  onClick={addStep}
+                >
+                  + Add Another Step
+                </button>
+              </div>
+
+
+
+              {/* Process Steps */}
+              <div>
+                <h3>Add Steps</h3>
+                <label>Step Name</label>
+                  <input
+                    value={currentStep.stepName}
+                    onChange={(e) =>
+            setCurrentStep((prev) => ({ ...prev, stepName: e.target.value }))
+          }
+        />
+
+        <label>Description</label>
+        <textarea
+          value={currentStep.description}
+          onChange={(e) =>
+            setCurrentStep((prev) => ({ ...prev, description: e.target.value }))
+          }
+        />
+
+        <h4>Checklist Items</h4>
+        {currentStep.checklistItems.map((item, index) => (
+          <div key={index}>
+            <input
+              type="checkbox"
+              checked={item.isChecked}
+              onChange={() => {
+                const newItems = [...currentStep.checklistItems];
+                newItems[index].isChecked = !newItems[index].isChecked;
+                setCurrentStep((prev) => ({
+                  ...prev,
+                  checklistItems: newItems,
+                }));
+              }}
+            />
+            <input
+              value={item.itemName}
+              onChange={(e) => {
+                const newItems = [...currentStep.checklistItems];
+                newItems[index].itemName = e.target.value;
+                setCurrentStep((prev) => ({
+                  ...prev,
+                  checklistItems: newItems,
+                }));
+              }}
+              placeholder="Item description"
+            />
+          </div>
+        ))}
+        <button type="button" onClick={addChecklistItem}>
+          Add Checklist Item
+        </button>
+        <button type="button" onClick={addStep}>
+          Add Step
+        </button>
       </div>
-      
-      <div>
-        <label>Fault</label>
-        <select {...register('fault', { required: true })}>
-          {faults.map(fault => (
-            <option key={fault._id} value={fault._id}>{fault.name}</option>
-          ))}
-        </select>
-      </div>
-      
-      <div>
-        <label>Device Type</label>
-        <select {...register('deviceType', { required: true })}>
-          <option value="mobile">Mobile</option>
-          <option value="lcd">LCD</option>
-          <option value="pc_laptop">PC/Laptop</option>
-          <option value="others">Others</option>
-        </select>
-      </div>
-      
-      <div>
-        <h3>Add Steps</h3>
-        <div>
-          <label>Step Name</label>
-          <input 
-            value={currentStep.stepName}
-            onChange={(e) => setCurrentStep(prev => ({ ...prev, stepName: e.target.value }))}
-          />
-        </div>
-        <div>
-          <label>Description</label>
-          <textarea 
-            value={currentStep.description}
-            onChange={(e) => setCurrentStep(prev => ({ ...prev, description: e.target.value }))}
-          />
-        </div>
-        
-        <div>
-          <h4>Checklist Items</h4>
-          {currentStep.checklistItems.map((item, index) => (
-            <div key={index}>
-              <input
-                type="checkbox" 
-                checked={item.isChecked}
-                onChange={() => {
-                  const newItems = [...currentStep.checklistItems];
-                  newItems[index].isChecked = !newItems[index].isChecked;
-                  setCurrentStep(prev => ({ ...prev, checklistItems: newItems }));
-                }}
-              />
-              <input
-                value={item.itemName}
-                onChange={(e) => {
-                  const newItems = [...currentStep.checklistItems];
-                  newItems[index].itemName = e.target.value;
-                  setCurrentStep(prev => ({ ...prev, checklistItems: newItems }));
-                }}
-                placeholder="Item description"
-              />
-            </div>
-          ))}
-          <button type="button" onClick={addChecklistItem}>Add Checklist Item</button>
-        </div>
-        
-        <button type="button" onClick={addStep}>Add Step</button>
-      </div>
-      
+
       <div>
         <h3>Steps Preview</h3>
         {steps.map((step, index) => (
@@ -125,10 +211,38 @@ const RepairProcessForm = ({ faults, onSubmit }) => {
           </div>
         ))}
       </div>
-      
-      <button type="submit">Save Process</button>
-    </form>
+
+              <button type="submit">Save Process</button>
+
+              <div className="flex justify-end gap-2 pt-4">
+                <button
+                  type="button"
+                  className="btn btn-sm btn-ghost"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-sm btn-primary"
+                >
+                  Create Process
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )};
+
+    
+    </div>
   );
 };
 
 export default RepairProcessForm;
+
+
+// This component is a form for creating a repair process. It allows the user to input the process name, select a fault, choose a device type, and add steps with checklist items. The form data is managed using React's useState hook. When the form is submitted, it calls the onSubmit function passed as a prop with the form data.
