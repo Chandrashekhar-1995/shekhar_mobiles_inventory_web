@@ -1,5 +1,5 @@
 import React from "react";
-import CustomerDetails from "../../customer/CustomerDetails";
+import CustomerDropdown from "../../customer/CustomerDropdown";
 import { useNavigate } from "react-router-dom";
 
 const BillToType = ({ formData, setFormData, handleChange }) => {
@@ -52,7 +52,7 @@ const BillToType = ({ formData, setFormData, handleChange }) => {
       </div>
 
           { formData.billTo === "Customer" &&
-            <CustomerDetails
+            <CustomerDropdown
               formData={formData}
               setFormData={setFormData}
               handleChange={handleChange}

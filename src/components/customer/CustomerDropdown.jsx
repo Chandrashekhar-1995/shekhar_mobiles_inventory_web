@@ -2,23 +2,19 @@ import React, { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 
-const CustomerDetails = ({ formData, setFormData, handleChange }) => {
+const CustomerDropdown = ({ formData, setFormData, handleChange }) => {
   const [queryNumber, setQueryNumber] = useState("");
   const [queryName, setQueryName] = useState("");
 
   const allCustomers = useSelector((store) => store.customers.allCustomers);
 
-  const filteredByNumber = queryNumber
-    ? allCustomers?.filter((c) =>
+  const filteredByNumber = queryNumber === "" ? allCustomers : allCustomers?.filter((c) =>
        c.mobileNumber?.includes(queryNumber.trim())
-      )
-    : [];
+      );
 
-  const filteredByName = queryName
-  ? allCustomers?.filter((c) =>
+  const filteredByName = queryName === "" ? allCustomers : allCustomers?.filter((c) =>
        c.name?.toLowerCase().includes(queryName.toLowerCase().trim())
-      )
-    : [];
+      );
 
   const handleSelect = (customer) => {
     setFormData({
@@ -123,4 +119,4 @@ const CustomerDetails = ({ formData, setFormData, handleChange }) => {
   );
 };
 
-export default CustomerDetails;
+export default CustomerDropdown;

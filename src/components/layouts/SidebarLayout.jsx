@@ -46,8 +46,8 @@ const SidebarLayout = ({ children }) => {
         text: "Purchase",
         icon: <ShoppingCartIcon className="h-5 w-5" />,
         subMenu: [
-          { text: "New Purchase", link: "/purchase/invoice/create" },
           { text: "Manage Purchase", link: "/purchase/invoice" },
+          { text: "New Purchase", link: "/purchase/invoice/create" },
           // { text: "Purchase Order", link: "/purchase/order" }, // isi me link rahega create ka
           // { text: "Purchase Return", link: "/purchase/return" },
           // { text: "Debit Note", link: "/purchase/debit_note" },

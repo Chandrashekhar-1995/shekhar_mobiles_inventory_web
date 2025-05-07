@@ -2,10 +2,10 @@ import apiClient from "./apiClient";
 
 
 const lastPurchaseInvoice = () => {
-    return apiClient.customFetch("/invoice/last-invoice");
+    return apiClient.customFetch("/purchase-invoice/last-invoice");
 };
 
-const createPurchaseInvoice = (formData) => {
+const createNewPurchaseInvoice = (formData) => {
     return apiClient.customFetch("/purchase-invoice/create", {
         method: "POST",
         body: JSON.stringify(formData)
@@ -40,7 +40,7 @@ const deletePurchaseInvoice = (id) => {
 
 export {
     lastPurchaseInvoice,
-    createPurchaseInvoice,
+    createNewPurchaseInvoice,
     allPurchaseInvoice,
     getPurchaseInvoiceById,
     searchPurchaseInvoice,
