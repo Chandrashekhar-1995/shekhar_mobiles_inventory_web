@@ -192,8 +192,8 @@ const SidebarLayout = ({ children }) => {
       text: "Staff", 
       icon: <UsersIcon className="h-5 w-5" />,
       subMenu: [
+        { text: "Manage Staff", link: "/user" },
         { text: "Add Staff", link: "/user/create" },
-        { text: "Search and Manage Staff", link: "/user/manage" },
     ] 
     },
       { 

@@ -14,6 +14,7 @@ import ManageSupplier from '../components/user/supplier/ManageSupplier';
 import SupplierDashboard from '../components/user/supplier/SupplierDashboard';
 import CreateSupplier from '../components/user/supplier/CreateSupplier';
 import SupplierProfile from '../components/user/supplier/SupplierProfile';
+import ManageUser from '../components/user/ManageUser';
 
 
 
@@ -28,8 +29,8 @@ const UserRoutes = [
             </ProtectedRoute>
         ),
         children:[
-            { path: "", element: <UserDashboard/>},
-            { path: "admin", element: <AdminDashboard/>},
+            { path: "", element: <ManageUser/>},
+            { path: "admin", element: <AdminDashboard/>}, 
             { path: "profile/:id", element: <UserProfile/>},
             { path: "manage", element: <ComingSoon/>},
             { path: "create", element: (

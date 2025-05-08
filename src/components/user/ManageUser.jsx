@@ -1,16 +1,20 @@
-import React from 'react'
-import useFetchCustomers from '../../../hooks/useFetchCustomers'
-import UserTable from './UserTable';
+import React from "react";
+import UserTable from "./userComponent/UserTable";
+import CreateUser from "./CreateUser";
+
 
 const ManageUser = () => {
-  useFetchCustomers();
+
   return (
     <div className="min-h-screen">
-      <div>
+      <div className="p-4">
+        <CreateUser/>
+      </div>
+      <div className="p-4">
         <UserTable/>
       </div>
     </div>
   )
 }
 
-export default ManageUser
+export default ManageUser;
