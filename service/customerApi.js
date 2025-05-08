@@ -32,16 +32,6 @@ const deleteCustomer = (id) => {
     });
 };
 
-const downloadCustomerTemplate = () => {
-    return apiClient.customFetch("/customer/bulk-upload/template");
-};
-
-const bulkUploadCustomer = (formData) => {
-    return apiClient.customFetch("/customer/bulk-upload", {
-        method: "POST",
-        body: JSON.stringify(formData)
-    });
-};
 export {
     createCustomer,
     getAllCustomers,
@@ -49,6 +39,4 @@ export {
     searchCustomer,
     updateCustomer,
     deleteCustomer,
-    downloadCustomerTemplate,
-    bulkUploadCustomer,
 }

@@ -1,6 +1,7 @@
 import React from "react"
 import CustomerTable from "./CustomerTable";
 import CreateCustomer from "./CreateCustomer";
+import BulkUploadCustomer from "../../customer/BulkUploadCustomer";
 
 const ManageCustomer = () => {
   
@@ -8,6 +9,7 @@ const ManageCustomer = () => {
     <div className="min-h-screen">
       <div className="p-4">
         <CreateCustomer/>
+        <BulkUploadCustomer/>
       </div>
       <div className="p-4">
         <CustomerTable/>

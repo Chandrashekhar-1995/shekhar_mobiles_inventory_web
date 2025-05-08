@@ -62,7 +62,7 @@ const FaultDropdown = ({ formData, setFormData }) => {
       setShowModal(false);
     }
   };
-
+ 
   const cancelCreate = () => {
     setFormData(prev => ({
       ...prev,

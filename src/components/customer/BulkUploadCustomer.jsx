@@ -1,157 +1,195 @@
-// import React, { useState } from "react";
-// import { Button, Typography, CircularProgress } from "@mui/material";
-// import UploadFileIcon from "@mui/icons-material/UploadFile";
-// import DownloadIcon from "@mui/icons-material/Download";
-// import axios from "axios";
-
-// const BulkUploadCustomer = () => {
-//   const [file, setFile] = useState(null);
-//   const [uploading, setUploading] = useState(false);
-//   const [uploadCustomers, setUploadCustomers] = useState([]);
-//   const [skippeCustomers, setSkippedCustomers] = useState([]);
-
-//   const handleFileChange = (event) => {
-//     setFile(event.target.files[0]);
-//   };
-
-//   const handleUpload = async () => {
-//     if (!file) {
-//       alert("Please select a file before uploading!");
-//       return;
-//     }
-
-//     const formData = new FormData();
-//     formData.append("file", file);
-
-//     setUploading(true);
-//     try {
-//       const response = await axios.post(
-//         "http://localhost:7777/api/v1/customer/bulk-upload",
-//         formData,
-//         {
-//           headers: { "Content-Type": "multipart/form-data" },
-//         }
-//       );
-
-//       // Save the response arrays to state and ensure immediate UI update
-//       setUploadCustomers(response.data.data.insertedCustomers || []);
-//       setSkippedCustomers(response.data.data.skippedCustomers || []);
-
-//       alert("File uploaded successfully!");
-//     } catch (err) {
-//       alert(err.response?.data?.message || "Error uploading file.");
-//     } finally {
-//       setUploading(false);
-//     }
-//   };
-
-//   const handleDownloadTemplate = () => {
-//     const templateUrl = "http://localhost:7777/api/v1/customer/bulk-upload/template";
-//     const link = document.createElement("a");
-//     link.href = templateUrl;
-//     link.setAttribute("download", "product-template.xlsx");
-//     document.body.appendChild(link);
-//     link.click();
-//     link.remove();
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-//       <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
-//         <Typography variant="h5" className="text-center pb-10 font-bold">
-//           Product Bulk Upload
-//         </Typography>
-
-//         <div className="flex flex-col items-center">
-//           <label
-//             htmlFor="file-upload"
-//             className="flex items-center justify-center w-full h-12 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 mb-4"
-//           >
-//             <UploadFileIcon className="mr-2 text-blue-500" />
-//             <span className="text-sm text-gray-600">Select Excel File</span>
-//             <input
-//               type="file"
-//               id="file-upload"
-//               accept=".xlsx, .xls"
-//               className="hidden"
-//               onChange={handleFileChange}
-//             />
-//           </label>
-
-//           {file && (
-//             <div className="text-sm text-gray-700 mb-4">
-//               Selected File: <strong>{file.name}</strong>
-//             </div>
-//           )}
-
-//           <Button
-//             variant="contained"
-//             color="primary"
-//             onClick={handleUpload}
-//             disabled={uploading}
-//             className="w-full mb-4"
-//           >
-//             {uploading ? (
-//               <CircularProgress size={24} color="inherit" />
-//             ) : (
-//               "Upload File"
-//             )}
-//           </Button>
-
-//           <Button
-//             variant="outlined"
-//             color="secondary"
-//             startIcon={<DownloadIcon />}
-//             onClick={handleDownloadTemplate}
-//             className="w-full"
-//           >
-//             Download Template
-//           </Button>
-//         </div>
-
-//         {/* Display Upload Results */}
-//         {uploadCustomers.map((result, index) => (
-//           <li key={index} className="mb-4">
-//             <div className="flex flex-col bg-white shadow p-4 rounded">
-//               <Typography variant="body1" className="font-semibold">
-//                 Product Name: {result ? JSON.stringify(result.name) : "Unknown"}
-//               </Typography>
-//               <Typography variant="body2" className="text-green-600">
-//                 Status: Inserted
-//               </Typography>
-//             </div>
-//           </li>
-//         ))}
-
-//         {skippeCustomers.map((result, index) => (
-//           <li key={index} className="mb-4">
-//             <div className="flex flex-col bg-white shadow p-4 rounded">
-//               <Typography variant="body1" className="font-semibold">
-//                 Product Name: {result.row?.name ? JSON.stringify(result.row.name) : "Unknown"}                
-//               </Typography>
-//               {console.log(result)}
-//               <Typography variant="body2" className="text-red-600">
-//                 Reason: {result.reason || "No reason provided"}
-//               </Typography>
-//             </div>
-//           </li>
-//         ))}
-
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BulkUploadCustomer;
-
-
-
-import React from 'react'
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { CloudArrowDownIcon, CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 
 const BulkUploadCustomer = () => {
-  return (
-    <div>BulkUploadCustomer</div>
-  )
-}
+    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState(null);
+    const [uploadCustomers, setUploadCustomers] = useState([]);
+    const [skippedCustomers, setSkippedCustomers] = useState([]);
 
-export default BulkUploadCustomer
+    const handleClose = () => {
+        setShowModal(false);
+        setFile(null); // Reset file when closing modal
+        setUploadCustomers([]); // Clear previous results
+        setSkippedCustomers([]);
+    };
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const handleRemoveFile = () => {
+        setFile(null);
+        // Reset the file input value so the same file can be selected again
+        document.querySelector('input[type="file"]').value = '';
+    };
+
+    const handleDownloadTemplate = () => {
+        const templateUrl = "http://localhost:7777/api/v1/customer/bulk-upload/template";
+        const link = document.createElement("a");
+        link.href = templateUrl;
+        link.setAttribute("download", "customer-template.xlsx");
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    };
+
+    const handleUpload = async (e) => {
+        e.preventDefault();
+
+        if (!file) {
+            toast.error("Please select a file before uploading!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        setLoading(true);
+
+        try {
+            const response = await fetch("http://localhost:7777/api/v1/customer/bulk-upload", {
+                method: "POST",
+                body: formData,
+                credentials: "include" 
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            if (data.success) {
+                toast.success(data.message);
+                setUploadCustomers(data.data.insertedCustomers || []);
+                setSkippedCustomers(data.data.skippedCustomers || []); 
+                setFile(null); 
+            } else {
+                toast.error(data.message || "Upload failed");
+            }
+        } catch (error) {
+            console.error("Upload error:", error);
+            toast.error(error.message || "Error uploading file.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="pt-4">
+            <button
+                className="btn btn-sm btn-primary"
+                onClick={() => setShowModal(true)}
+            >
+                <CloudArrowUpIcon className="h-5 w-5 mr-2" />
+                Bulk Upload Customer
+            </button>
+
+            {showModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
+                    <div className="bg-white p-6 rounded-lg shadow-xl w-[90%] max-w-md text-center space-y-4 relative">
+                        <button
+                            onClick={handleClose}
+                            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                        >
+                            <XMarkIcon className="h-6 w-6" />
+                        </button>
+
+                        <h2 className="font-semibold text-xl">Bulk Upload Customers</h2>
+                        <p className="text-sm text-gray-600">
+                            Download the template, fill in customer details, and upload it here.
+                        </p>
+
+                        <div className="flex justify-center space-x-4">
+                            <button
+                                className="btn btn-sm btn-outline-primary flex items-center"
+                                onClick={handleDownloadTemplate}
+                                disabled={loading}
+                            >
+                                <CloudArrowDownIcon className="h-5 w-5 mr-2" />
+                                Download Template
+                            </button>
+
+                            <label className="btn btn-sm btn-secondary flex items-center">
+                                <CloudArrowUpIcon className="h-5 w-5 mr-2" />
+                                {file ? file.name : "Select File"}
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    onChange={handleFileChange}
+                                    accept=".xlsx, .csv"
+                                    disabled={loading}
+                                />
+                            </label>
+                        </div>
+
+                        {file && (
+                            <div className="flex flex-col gap-2">
+                                <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
+                                    <span className="text-sm truncate">{file.name}</span>
+                                    <button 
+                                        onClick={handleRemoveFile}
+                                        className="text-red-500 hover:text-red-700"
+                                        disabled={loading}
+                                    >
+                                        <XMarkIcon className="h-5 w-5" />
+                                    </button>
+                                </div>
+                                
+                                <button
+                                    className="btn btn-primary w-full flex items-center justify-center"
+                                    onClick={handleUpload}
+                                    disabled={loading}
+                                >
+                                    {loading ? (
+                                        <span className="loading loading-spinner"></span>
+                                    ) : (
+                                        <>
+                                            <CloudArrowUpIcon className="h-5 w-5 mr-2" />
+                                            Upload Customers
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        )}
+
+                        {uploadCustomers.length > 0 && (
+                            <div className="text-left mt-4">
+                                <h3 className="font-semibold text-md text-green-600 flex items-center">
+                                    <CheckCircleIcon className="h-5 w-5 mr-2" />
+                                    Successfully Uploaded ({uploadCustomers.length})
+                                </h3>
+                                <ul className="list-disc pl-5 text-sm text-gray-700">
+                                    {uploadCustomers.map((customer, index) => (
+                                        <li key={index}>{customer.name + " - "+ customer.mobileNumber || 'Customer ' + (index + 1)}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {skippedCustomers.length > 0 && (
+                            <div className="text-left mt-4">
+                                <h3 className="font-semibold text-md text-orange-500 flex items-center">
+                                    <ExclamationCircleIcon className="h-5 w-5 mr-2" />
+                                    Skipped Customers ({skippedCustomers.length})
+                                </h3>
+                                <p className="text-sm text-gray-700">
+                                    The following customers were skipped due to errors in the file:
+                                </p>
+                                <ul className="list-disc pl-5 text-sm text-gray-700">
+                                    {skippedCustomers.map((customer, index) => (
+                                        <li key={index}>{customer.row.name + " - "+ customer.row.mobileNumber || 'Customer ' + (index + 1)} - {customer.reason || 'Reason not provided'}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default BulkUploadCustomer;
