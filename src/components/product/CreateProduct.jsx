@@ -6,7 +6,8 @@ import OtherDetails from "./productComponents/OtherDetails";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CreateProduct = () => {
+const CreateProduct = ({ isEditMode = false, onClose }) => {
+    const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showMoreFields, setShowMoreFields] = useState(false);
     const navigate = useNavigate();
@@ -43,6 +44,16 @@ const CreateProduct = () => {
       setFormData({ ...formData, [name]: value });
     };
 
+    const handleClose = () => {
+      if(onClose) {
+        onClose();
+      } else if(showModal==true){
+        setShowModal(false)
+      } else {
+        navigate(-1); 
+      }
+    };
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       setLoading(true);
@@ -62,11 +73,21 @@ const CreateProduct = () => {
     };
 
     return (
+      <div className="form-control">
+      <button
+        className="btn btn-sm btn-primary"
+        onClick={() => setShowModal(true)}
+      >
+        Create New Product
+      </button>
+
+     {/* Modal */}
+     {showModal && (
       <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
         <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold mb-4 text-sm">Product Details</h2>
-            <button className="hover:bg-red-600 rounded-lg p-2"  onClick={() => navigate(-1)}
+            <button className="hover:bg-red-600 rounded-lg p-2"  onClick={handleClose}
               > X </button>
           </div>
 
@@ -113,6 +134,9 @@ const CreateProduct = () => {
             </div>
           </form>
         </div>
+      </div>
+     )}
+
       </div>
     );
 };

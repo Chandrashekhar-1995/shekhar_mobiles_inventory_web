@@ -4,6 +4,7 @@ import ComingSoon from '../pages/ComingSoon';
 import ProtectedRoute from '../components/ProtectedRoute';
 import CreateProduct from '../components/product/CreateProduct';
 import UpdateProduct from '../components/product/UpdateProduct';
+import ManageProduct from '../components/product/ManageProduct';
 
 
 
@@ -16,7 +17,7 @@ const ProductRoutes = [
             </ProtectedRoute>
         ),
         children:[
-            { path: "", element: <ComingSoon/>}, // manage product all list
+            { path: "", element: <ManageProduct/>},
             { path: "create", element: <CreateProduct/>},
             { path: "update/:id", element: <UpdateProduct/>},
         ]

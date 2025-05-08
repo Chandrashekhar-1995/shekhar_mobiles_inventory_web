@@ -24,6 +24,16 @@ const CreateNewAccount = () => {
     }));
   };
 
+  const handleClose = () => {
+    if(onClose) {
+      onClose();
+    } else if(showModal==true){
+      setShowModal(false)
+    } else {
+      navigate(-1); 
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
