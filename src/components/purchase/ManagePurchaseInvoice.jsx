@@ -1,19 +1,18 @@
 import React from "react";
-import useFetchInvoices from "../../hooks/useFetchInvoices";
-
-import ManageInvoiceTable from "../sales/invoiceComponents/ManageInvoiceTable";
 import CreatePurchaseInvoice from "./CreatePurchaseInvoice";
+import ManagePurchaseInvoiceTable from "./invoiceComponents/ManagePurchaseInvoiceTable";
+import useFetchPurchaseInvoices from "../../hooks/useFetchPurchaseInvoice";
 
 
 const ManagePurchaseInvoice = () => {
-  useFetchInvoices();
+  useFetchPurchaseInvoices();
   return (
     <div className="min-h-screen">
             <div className="p-4">
                 <CreatePurchaseInvoice/>
             </div>
             <div className="p-4">
-                <ManageInvoiceTable />
+                <ManagePurchaseInvoiceTable />
             </div>
         </div>
   )

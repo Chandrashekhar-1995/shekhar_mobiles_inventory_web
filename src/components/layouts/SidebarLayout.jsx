@@ -1,15 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { 
-  ShoppingCartIcon,
-  ChartBarIcon,
-  WrenchIcon,
-  ExclamationTriangleIcon,
-  UsersIcon,
-  SparklesIcon,
-  ArrowsRightLeftIcon,
-  CogIcon,
-  ChevronRightIcon,BanknotesIcon,
+  ShoppingCartIcon, ChartBarIcon, WrenchIcon, ExclamationTriangleIcon,
+  UsersIcon, SparklesIcon, ArrowsRightLeftIcon, CogIcon,
+  ChevronRightIcon,BanknotesIcon, NewspaperIcon,
 } from "@heroicons/react/24/outline";
 
 const SidebarLayout = ({ children }) => {
@@ -56,16 +50,17 @@ const SidebarLayout = ({ children }) => {
           { text: "Add Supplier", link: "/purchase/supplier/create" },
         ],
       },
-      // {
-    //   text: "Inventory",
-    //   icon: <Inventory />,
-    //   subMenu: [
-    //     { text: "Add Stock Adjustment", link: "/inventory/add_stock_adjustment" },
-    //     // { text: "Search and Manage Stock Adjustment", link: "/inventory/search_stock_adjustment" },
-    //     // { text: "Physical Stock Reconciliation", link: "/inventory/stock_reconciliation" },
-    //     // { text: "Low Stock", link: "/inventory/low-stock" },
-    //   ],
-    // },
+      {
+      text: "Inventory",
+      icon: <NewspaperIcon className="h-5 w-5" />,
+      subMenu: [
+        { text: "Manage ", link: "/product" },
+        // { text: "Add Stock Adjustment", link: "/inventory/add_stock_adjustment" },
+        // { text: "Search and Manage Stock Adjustment", link: "/inventory/search_stock_adjustment" },
+        // { text: "Physical Stock Reconciliation", link: "/inventory/stock_reconciliation" },
+        // { text: "Low Stock", link: "/inventory/low-stock" },
+      ],
+    },
     { 
       text: "Accounts", icon: <BanknotesIcon className="h-5 w-5" />, subMenu: [
       { text: "Manage Accounts", link: "/account" },

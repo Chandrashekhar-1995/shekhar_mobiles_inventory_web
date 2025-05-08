@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useFetchProducts from "../../../hooks/useFetchProducts";
 
 const ItemDetails = ({ formData, setFormData, handleChange,}) => {
   const [queryItemCode, setQueryItemCode] = useState("");
   const [queryItemName, setQueryItemName] = useState("");
   const navigate = useNavigate();
+
+  useFetchProducts();
+
   const allProducts = useSelector((store) => store.products.allProducts);
  
   const filteredByCode = queryItemCode ===""
@@ -27,6 +31,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
         itemCode: item.itemCode,
         unit: item.unit,
         salePrice: item.salePrice,
+        purchasePrice: item.purchasePrice,
         mrp: item.mrp,
         quantity: 1,
       });
@@ -45,7 +50,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
   const handleAddItem = (event) => {
       event.preventDefault();
   
-      const { item, itemCode, productName, quantity, unit, salePrice, mrp, discount, itemDescription } = formData;
+      const { item, itemCode, productName, quantity, unit, salePrice, purchasePrice, mrp, discount, itemDescription } = formData;
   
       if (!productName || !quantity || !salePrice) {
         alert("Please fill in all required fields before adding an item.");
@@ -59,6 +64,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
         quantity: quantity || 1,
         unit,
         salePrice,
+        purchasePrice,
         mrp,
         discount: discount || 0,
         total: calculateTotalAmount(),
@@ -73,6 +79,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
         quantity: "",
         unit: "",
         salePrice: "",
+        purchasePrice: "",
         mrp: "",
         discount: "",
         itemDescription: "",
@@ -101,7 +108,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
                 displayValue={() => formData.itemCode || ""}
                 placeholder="Type Item Code"
               />
-              {filteredByCode.length > 0 && (
+              {filteredByCode && (
                 <Combobox.Options 
                   className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                 {filteredByCode.map((item) => (
@@ -133,7 +140,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
                 displayValue={() => formData.productName || ""}
                 placeholder="Type Item Name"
               />
-              {filteredByName.length > 0 && (
+              {filteredByName && (
                 <Combobox.Options 
                   className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                 {filteredByName.map((item) => (
@@ -173,11 +180,26 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
             <input
               type="number"
               name="quantity"
-              value={formData.quantity ?? ""}
+              value={formData.quantity ?? 0}
               onChange={handleChange}
               // onChange={handleQuantityChange}
               className="input input-bordered input-sm text-xs"
               placeholder="Quantity"
+            />
+        </div>
+
+        {/* Purchase Price */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text text-xs">Purchase Price</span>
+          </label>
+            <input
+              type="text"
+              name="purchasePrice"
+              value={formData.purchasePrice ?? 0}
+              onChange={handleChange}
+              className="input input-bordered input-sm text-xs"
+              placeholder="Sale Price"
             />
         </div>
 
@@ -189,7 +211,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
             <input
               type="text"
               name="salePrice"
-              value={formData.salePrice ?? ""}
+              value={formData.salePrice ?? 0}
               onChange={handleChange}
               className="input input-bordered input-sm text-xs"
               placeholder="Sale Price"
@@ -204,7 +226,7 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
             <input
               type="number"
               name="mrp"
-              value={formData.mrp ?? ""}
+              value={formData.mrp ?? 0}
               onChange={handleChange}
               className="input input-bordered input-sm text-xs"
               placeholder="M.R.P."
@@ -234,7 +256,6 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
           </label>
             <input
               type="number"
-              name="discount"
               onChange={handleChange}
               value={calculateTotalAmount()}
               className="input input-bordered input-sm text-xs"

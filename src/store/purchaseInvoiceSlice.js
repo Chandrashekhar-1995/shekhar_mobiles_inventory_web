@@ -2,13 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const PurchaseInvoiceSlice = createSlice({
     name: "purchaseInvoices",
-    initialState: [],
+    initialState: {
+        allInvoices: null,
+    },
     reducers: {
         addPurchaseInvoices: (state, action) => {
-            return action.payload;
+            state.allInvoices = action.payload;
         },
         clearPurchaseInvoices: (state) => {
-            return [];
+            state.allInvoices = null;
         },
     },
 });

@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { createNewInvoice, lastInvoice, updateInvoice } from "../../../service/invoiceApi";
 import InvoiceDetails from "./invoiceComponents/InvoiceDetails";
 import ItemDetails from "./invoiceComponents/ItemDetails";
-import useFetchCustomers from "../../hooks/useFetchCustomers";
 import BillToType from "./invoiceComponents/BillToType";
-import useFetchProducts from "../../hooks/useFetchProducts";
 import InvoiceTable from "./invoiceComponents/InvoiceTable";
 import OtherSection from "./invoiceComponents/OtherSection";
-import useFetchUsers from "../../hooks/useFetchUsers";
 import SubmitSection from "./invoiceComponents/SubmitSection";
 import { toast } from "react-toastify";
 
@@ -53,10 +50,6 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
     deliveryTerm: "",
     srNumber: "",
   });
-
-  useFetchCustomers();
-  useFetchProducts();
-  useFetchUsers();
 
   // fetch last invoice
   useEffect(() => {

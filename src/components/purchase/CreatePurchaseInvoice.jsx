@@ -18,7 +18,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
       dueDate: "",
       placeOfSupply: "",
       billFrom: "Cash",
-      supplierId: "",
+      supplier: "",
       supplierName: "Cash",
       mobileNumber: "",
       address: "",
@@ -28,6 +28,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
       unit: "",
       quantity: 0,
       salePrice: 0,
+      purchasePrice:0,
       mrp: 0,
       discount: 0,
       total: 0,
@@ -153,7 +154,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
         className="btn btn-sm btn-primary"
         onClick={() => setShowModal(true)}
       >
-        Create New Invoice
+        Create New Purchase
       </button>
 
       {showModal && (

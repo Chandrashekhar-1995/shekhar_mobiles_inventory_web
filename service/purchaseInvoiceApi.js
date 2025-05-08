@@ -12,7 +12,7 @@ const createNewPurchaseInvoice = (formData) => {
     });
 };
 
-const allPurchaseInvoice = () => {
+const getAllPurchaseInvoice = () => {
     return apiClient.customFetch("/purchase-invoice/all");
 };
 
@@ -41,7 +41,7 @@ const deletePurchaseInvoice = (id) => {
 export {
     lastPurchaseInvoice,
     createNewPurchaseInvoice,
-    allPurchaseInvoice,
+    getAllPurchaseInvoice,
     getPurchaseInvoiceById,
     searchPurchaseInvoice,
     updatePurchaseInvoice,

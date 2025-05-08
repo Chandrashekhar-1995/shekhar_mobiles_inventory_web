@@ -1,11 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import useFetchUsers from "../../../hooks/useFetchUsers";
 
 const DiscountSection = ({
     formData,
     setFormData,
     handleChange,
 }) => {
+    useFetchUsers();
+
     const allUsers = useSelector((store) => store.allUsers.allUsers);
     const totalItemQuantity = formData.items.reduce((total, item) => total + item.quantity, 0);
 

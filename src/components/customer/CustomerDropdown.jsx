@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
+import useFetchCustomers from "../../hooks/useFetchCustomers";
 
 const CustomerDropdown = ({ formData, setFormData, handleChange }) => {
   const [queryNumber, setQueryNumber] = useState("");
   const [queryName, setQueryName] = useState("");
+
+  useFetchCustomers();
 
   const allCustomers = useSelector((store) => store.customers.allCustomers);
 
