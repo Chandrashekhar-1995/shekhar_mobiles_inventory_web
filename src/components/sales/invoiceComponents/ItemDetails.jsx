@@ -8,7 +8,6 @@ const ItemDetails = ({ formData, setFormData, handleChange,}) => {
   const [queryItemName, setQueryItemName] = useState("");
   const navigate = useNavigate();
   const allProducts = useSelector((store) => store.products.allProducts);
-  console.log("allProduct", allProducts);
  
   const filteredByCode = queryItemCode ===""
     ?  allProducts : allProducts?.filter((i) =>
