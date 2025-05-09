@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createUser } from "../../../service/userApi";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import RequiredFields from "./customer/RequiredFields";
+import OptionalFields from "./customer/OptionalFields";
+import Designation from "./userComponent/Designation";
+import ContactAndOthers from "./userComponent/ContactAndOthers";
+import TrueFalseOption from "./userComponent/TrueFalseOption";
+import MoreDetails from "./userComponent/MoreDetails";
 
 const CreateUser = () => {
   const [showModal, setShowModal] = useState(false);
@@ -12,40 +17,46 @@ const CreateUser = () => {
     avatar: "",
     name: "",
     address: "",
-    city: undefined,
-    state: undefined,
-    pinCode: undefined,
-    country: undefined,
+    city:"",
+    state: "",
+    pinCode: "",
+    country: "",
     email: undefined,
-    contactNumber: undefined,
+    contactNumber: "",
     mobileNumber: "",
     panNo: "",
     emergencyContactPerson:"",
     emergencyContactNumber:"",
     bloodGroup:"",
     joiningDate: "",
-    identityDocument:undefined,
+    documentType:undefined,
     documentNumber:undefined,
     communication:"email",
     salesCommission:false,
     gstin: "",
     gstType: "Unregistered",
     tradeName: "",
-    accountType: "Debit",
+    accountType: "Credit",
     openingBalance: 0,
     documentType: "",
     documentNo: "",
-    gender: undefined,
+    gender: "male",
     designation:"",
     department:"",
     refferedBy: "",
     dateOfBirth: undefined,
     marrigeAniversary: undefined,
-    creditAllowed: "No",
+    creditAllowed: false,
     creditLimit: 0,
     remark: "",
     bio: "",
   });
+
+  // date set today
+    useEffect(() => {
+      const today = new Date().toISOString().split("T")[0];
+      setFormData((prev) => ({ ...prev, joiningDate: today}));
+    }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,7 +103,34 @@ const CreateUser = () => {
           <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
             {/* Required Fields */}
             <RequiredFields  formData={formData} handleChange={handleChange}
-              />
+            />
+            <Designation formData={formData} handleChange={handleChange}
+            />
+
+
+            {/* Toggle Button */}
+            <button
+              type="button"
+              className="btn btn-outline btn-block mt-4"
+              onClick={() => setShowMoreFields(!showMoreFields)}
+            >
+              {showMoreFields ? "Hide Additional Fields" : "Show More Fields"}
+            </button>
+
+            {/* Optional Fields */}
+            {showMoreFields && (
+              <>
+              <OptionalFields formData={formData} handleChange={handleChange} />
+
+              <ContactAndOthers formData={formData} handleChange={handleChange} />
+
+              <MoreDetails formData={formData} handleChange={handleChange} />
+
+              <TrueFalseOption formData={formData} handleChange={handleChange} />
+
+
+              </>
+            )}
 
             
             {/* Submit Button */}

@@ -4,6 +4,8 @@ import RequiredFields from "./RequiredFields.jsx";
 import OptionalFields from "./OptionalFields.jsx";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
+import MoreDetails from "../userComponent/MoreDetails.jsx";
+import TrueFalseOption from "../userComponent/TrueFalseOption.jsx";
 
 const CreateCustomer = () => {
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +35,7 @@ const CreateCustomer = () => {
     refferedBy: "",
     dateOfBirth: undefined,
     marrigeAniversary: undefined,
-    creditAllowed: "No",
+    creditAllowed: false,
     creditLimit: 0,
     remark: "",
     bio: "",
@@ -100,55 +102,10 @@ const CreateCustomer = () => {
                 <>
                 <OptionalFields formData={formData} handleChange={handleChange} />
 
-              {/* Optional Fields */}
-              <div className="card bg-base-200 p-4 relative">
-                <div className="absolute -top-3 left-4 bg-base-200 px-2 font-semibold">Other Details</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                  <div className="form-control">
-                    <label className="label cursor-pointer">
-                      <sapn className="label-text">Credit Allowed</sapn>
-                      <input
-                        type="checkbox"
-                        name="creditAllowed"
-                        checked={formData.creditAllowed}
-                        onChange={(e) => {
-                          setFormData(prev => ({
-                            ...prev,
-                            creditAllowed: e.target.checked
-                          }))
-                        }}
-                        className="toggle toggle-primary"
-                        />
-                    </label>
-                  </div>
-                        
-                  <div className="form-control">
-                    <label className="label">
-                    <span className="label-text text-xs">Credit Limit</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="creditLimit"
-                      value={formData.creditLimit}
-                      onChange={handleChange}
-                       className="input input-bordered input-sm text-xs w-full"
-                    />
-                  </div>
-
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text text-xs">Remark</span>
-                      <textarea
-                        type="textarea"
-                        name="remark"
-                        value={formData.remark}
-                        onChange={handleChange}
-                         className="textarea textarea-bordered input-sm text-xs w-full"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
+                <MoreDetails formData={formData} handleChange={handleChange} />
+  
+                <TrueFalseOption formData={formData} handleChange={handleChange} />
+              
 
               </>
               )}
@@ -184,57 +141,3 @@ const CreateCustomer = () => {
 };
 
 export default CreateCustomer;
-
-
-
-    //           {/* Important Dates */}
-    //           <div className="card bg-base-200 p-4 relative">
-    //             <div className="absolute -top-3 left-4 bg-base-200 px-2 font-semibold flex items-center gap-1">
-    //               <CalendarIcon className="h-4 w-4" /> Important Dates
-    //             </div>
-    //             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-    //               <div className="form-control">
-    //                 <label className="label">
-    //                   <span className="label-text">Date of Birth</span>
-    //                 </label>
-    //                 <input
-    //                   type="date"
-    //                   name="dateOfBirth"
-    //                   value={formData.dateOfBirth}
-    //                   onChange={handleChange}
-    //                   className="input input-bordered w-full"
-    //                 />
-    //               </div>
-
-    //               <div className="form-control">
-    //                 <label className="label">
-    //                   <span className="label-text">Anniversary</span>
-    //                 </label>
-    //                 <input
-    //                   type="date"
-    //                   name="marrigeAniversary"
-    //                   value={formData.marrigeAniversary}
-    //                   onChange={handleChange}
-    //                   className="input input-bordered w-full"
-    //                 />
-    //               </div>
-    //             </div>
-    //           </div>
-
-    //           {/* Other Details */}
-    //           <div className="card bg-base-200 p-4 relative">
-    //             <div className="absolute -top-3 left-4 bg-base-200 px-2 font-semibold flex items-center gap-1">
-    //               <InformationCircleIcon className="h-4 w-4" /> Other Details
-    //             </div>
-    //             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-    
-
-    //             </div>
-    //           </div>
-    //         </div>
-    //       )}
-
-          
-        // </form>
-    //   </div>
-    // </div>
