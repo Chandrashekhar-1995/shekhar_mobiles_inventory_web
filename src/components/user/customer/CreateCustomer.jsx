@@ -29,7 +29,7 @@ const CreateCustomer = () => {
     tradeName: "",
     accountType: "Debit",
     openingBalance: 0,
-    documentType: "",
+    documentType: undefined,
     documentNo: "",
     gender: undefined,
     refferedBy: "",

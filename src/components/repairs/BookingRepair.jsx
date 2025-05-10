@@ -9,10 +9,10 @@ import BillToType from "../sales/invoiceComponents/BillToType";
 import RepairType from "./repairComponents/RepairType";
 import RepairTable from "./repairComponents/RepairTable";
 import SubmitSection from "./repairComponents/SubmitSection";
-import PaymentDetails from "../sales/invoiceComponents/PaymentDetails";
 import NotesSection from "./repairComponents/NotesSection";
 import Refrances from "./repairComponents/Refrances";
 import { toast } from "react-toastify";
+import PaymentDetails from "./repairComponents/PaymentDetails";
 
 const BookingRepair = ({ isEditMode = false, onClose }) => {
   const [showModal, setShowModal] = useState(false);
@@ -43,13 +43,13 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           faultName:"",
           subFaults: "",
           sinceLong: "",
-          repairPrice:"",
+          repairPrice:0,
           expectedRepairingDate:"",
           expectedRepairingTime:"",
           repairItem: "",
           totalAmount: "",
           discountAmount: "",
-          advanceAmount: "",
+          advanceAmount: 0,
           paymentDate: "",
           paymentMode: "Cash",
           privateNote: "",

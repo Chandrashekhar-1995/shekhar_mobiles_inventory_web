@@ -39,7 +39,7 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
                     <label className="block text-xs font-medium text-gray-600">Total Payable Amount</label>
                     <input
                         type="number"
-                        value={formData.items.length > 0 ? totalItemPrice - (formData.discountAmount || 0) : "00.00"}
+                        value={formData.repairing.length > 0 ? totalItemPrice - (formData.discountAmount || 0) : "00.00"}
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-1.5 px-2 text-xs focus:ring-indigo-500 focus:border-indigo-500"
                         readOnly
                     />
@@ -50,8 +50,8 @@ const PaymentDetails = ({ formData, setFormData, handleChange, totalItemPrice })
                     <label className="block text-xs font-medium text-gray-600">Advance</label>
                     <input
                         type="number"
-                        name="receivedAmount"
-                        value={formData.receivedAmount ?? 0}
+                        name="advanceAmount"
+                        value={formData.advanceAmount ?? 0}
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-1.5 px-2 text-xs focus:ring-indigo-500 focus:border-indigo-500"
                         onChange={handleChange}
                     />

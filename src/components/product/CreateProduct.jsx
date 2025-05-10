@@ -61,7 +61,7 @@ const CreateProduct = ({ isEditMode = false, onClose }) => {
         const data = await createProduct(formData);
         if (data.success) { 
           toast.success(data.message)
-          navigate(-1)  // manage inventory par click karna hai 
+          setShowModal(false);
         } else {
           toast.error(`❌ ${data.message}` || "Product creation failed");
         }
