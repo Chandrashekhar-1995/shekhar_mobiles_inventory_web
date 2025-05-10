@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllInvoice } from "../../service/invoiceApi";
-import { addInvoices, clearInvoices } from "../store/invoiceSlice";
+import { addInvoices } from "../store/invoiceSlice";
+import { toast } from "react-toastify";
 
 const useFetchInvoices = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchInvoices = async () => {
-            try {
-                const data = await getAllInvoice();               
-                dispatch(addInvoices(data.data.invoices));
-            } catch (error) {
-                console.error('Failed to fetch invoices:', error);
-            }
-        };
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const response = await getAllInvoice();
+        dispatch(addInvoices(response.data.invoices));
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Failed to fetch invoices");
+      }
+    };
 
-        fetchInvoices();
-
-    }, [dispatch]);
+    fetchInvoices();
+  }, [dispatch]);
 };
 
 export default useFetchInvoices;

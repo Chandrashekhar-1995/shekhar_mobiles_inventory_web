@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import sidebarReducer from './sidebarSlice';
+import sidebarReducer from "./sidebarSlice";
 import userReducer from "./userSlice";
 import allUserReducer from "./allUserSlice";
 import brandReducer from "./brandSlice";
@@ -9,14 +9,15 @@ import modelReducer from "./modelSlice";
 import mobileReducer from "./mobileSlice";
 import categoryReducer from "./categorySlice";
 import productReducer from "./productSlice";
-import invoiceReducer from './invoiceSlice';
-import repairReducer from './repairSlice';
-import accountReducer from './accountSlice';
-import faultReducer from './faultSlice';
-import repairProcessReducer from './repairProcessSlice';
-import purchaseInvoicesReducer from './purchaseInvoiceSlice';
-import customerReducer from './customerSlice';
-import supplierReducer from './supplierSlice';
+import invoiceReducer from "./invoiceSlice";
+import repairReducer from "./repairSlice";
+import accountReducer from "./accountSlice";
+import faultReducer from "./faultSlice";
+import repairProcessReducer from "./repairProcessSlice";
+import purchaseInvoicesReducer from "./purchaseInvoiceSlice";
+import customerReducer from "./customerSlice";
+import supplierReducer from "./supplierSlice";
+import salesReducer from "./salesSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   purchaseInvoices: purchaseInvoicesReducer,
   customers: customerReducer,
   suppliers: supplierReducer,
+  sales: salesReducer,
 });
 
 // Persist configuration
