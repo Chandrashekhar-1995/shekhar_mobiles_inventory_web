@@ -10,14 +10,13 @@ import PrivateLayout from "../components/layouts/PrivateLayout";
 import ProfileRoutes from "./ProfileRoutes";
 import CustomerRoutes from "./CustomerRoutes";
 
-
 const AppLayout = () => (
-  <div className="app">
+  <div className="app flex flex-col h-screen">
     <Header />
-    <main>
+    <main className="flex-grow overflow-y-auto">
       <Outlet />
     </main>
-    <Footer />
+    <Footer className="fixed bottom-0 left-0 w-full z-10" />
   </div>
 );
 

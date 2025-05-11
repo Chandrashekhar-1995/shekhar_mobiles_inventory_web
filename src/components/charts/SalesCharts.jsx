@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const DashboardCharts = () => {
+const SalesCharts = () => {
   useSalesData();
   
   const { last90DaysData, todaySummary, loading, error } = useSelector((state) => state.sales);
@@ -99,4 +99,4 @@ const DashboardCharts = () => {
   );
 };
 
-export default DashboardCharts;
+export default SalesCharts;

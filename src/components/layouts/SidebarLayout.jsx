@@ -1,17 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { 
+import {
   ShoppingCartIcon, ChartBarIcon, WrenchIcon, ExclamationTriangleIcon,
   UsersIcon, SparklesIcon, ArrowsRightLeftIcon, CogIcon,
-  ChevronRightIcon,BanknotesIcon, NewspaperIcon,
+  ChevronRightIcon, BanknotesIcon, NewspaperIcon,
+  Bars3Icon, XMarkIcon
 } from "@heroicons/react/24/outline";
 
 const SidebarLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const sidebarRef = useRef(null);
   const submenuRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const menuItems = [
       {
@@ -240,12 +260,15 @@ const SidebarLayout = ({ children }) => {
       left: sidebarOpen ? itemRect.right - 100 : itemRect.right + 70
     });
     setActiveSubmenu(activeSubmenu === index ? null : index);
-    };
+  };
 
   const handleClickOutside = (e) => {
     if (sidebarRef.current && !sidebarRef.current.contains(e.target) &&
-        (!submenuRef.current || !submenuRef.current.contains(e.target))) {
+      (!submenuRef.current || !submenuRef.current.contains(e.target))) {
       setActiveSubmenu(null);
+      if (isMobile && sidebarOpen) {
+        setSidebarOpen(false); // मोबाइल पर क्लिक बाहर होने पर साइडबार बंद करें
+      }
     }
   };
 
@@ -254,41 +277,37 @@ const SidebarLayout = ({ children }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isMobile, sidebarOpen]);
 
   return (
-    <div className="flex h-screen bg-base-100" >
-      <div 
-      ref={sidebarRef}
-        className={`transition-all duration-300 ${
-          sidebarOpen ? "w-64" : "w-20 overflow-hidden"
-        }`}
+    <div className="flex h-screen bg-base-100 relative">
+      {isMobile && (
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="fixed top-4 left-4 btn btn-square btn-sm z-30">
+          {sidebarOpen ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
+        </button>
+      )}
+
+      <div
+        ref={sidebarRef}
+        className={`fixed top-0 left-0 h-screen transition-all duration-300 ${
+          sidebarOpen ? (isMobile ? "w-64 z-20 shadow-xl" : "w-64") : "w-0 overflow-hidden"
+        } ${isMobile ? 'bg-primary' : 'bg-primary'}`} 
+        style={{
+          zIndex: isMobile ? 20 : 'auto',
+        }}
       >
-        <div className="h-full flex flex-col bg-primary">
-
-           {/* Sidebar Header */}
-           {/* <div className="p-4 border-b border-base-300 flex items-center justify-between">
-             <h1 className="text-xl text-white">DASHBOARD</h1>
-             <button 
-               onClick={() => setSidebarOpen(!sidebarOpen)} 
-               className="text-white btn btn-sm btn-circle btn-ghost"
-             >
-               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div> */}
-
-          {/* Sidebar Menu */}
-          <div className="flex-1 overflow-y-auto ">
-            <ul className="p-2">
+        <div className="h-full flex flex-col">
+          <div className="flex-1 overflow-y-auto">
+            <ul className="p-2 pt-20">
               {menuItems.map((item, index) => (
                 <li key={index}>
                   {item.subMenu ? (
                     <>
                       <button className="w-full text-left text-white hover:text-black hover:bg-base-300 rounded-sm flex items-center p-2 justify-between"
                         onClick={(e) => handleItemClick(e, index)}
-                        onMouseEnter={(e) => handleItemClick(e, index)}
+                        onMouseEnter={(e) => !isMobile && handleItemClick(e, index)} // Desktop hover
                       >
                         <div className="flex items-center ">
                           {item.icon}
@@ -296,9 +315,8 @@ const SidebarLayout = ({ children }) => {
                         </div>
                         {sidebarOpen && <ChevronRightIcon className="h-4 w-4" />}
                       </button>
-                      {/* popup Submenu */}
                       {activeSubmenu === index && (
-                        <div 
+                        <div
                           className={`absolute z-50 bg-base-100 shadow-2xl rounded-box p-2 min-w-[200px] border border-base-300 ${
                             !sidebarOpen ? "ml-4" : ""
                           }`}
@@ -313,21 +331,21 @@ const SidebarLayout = ({ children }) => {
                                 <Link
                                   to={subItem.link}
                                   className="hover:bg-primary rounded-lg block p-2"
-                                  // onMouseLeave={() => setActiveSubmenu(null)}
-                                  onClick={() => setActiveSubmenu(null)}
-                                  >
-                                    {subItem.text}
-                                  </Link>
+                                  onClick={() => { setActiveSubmenu(null); if (isMobile) setSidebarOpen(false); }}
+                                >
+                                  {subItem.text}
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
                     </>
-                  ) :(
+                  ) : (
                     <Link
                       to={item.link || "#"}
                       className="hover:bg-base-300 text-white hover:text-black rounded-sm flex items-center p-2"
+                      onClick={() => { if (isMobile) setSidebarOpen(false); }}
                     >
                       {item.icon}
                       {sidebarOpen && <span className="ml-2">{item.text}</span>}
@@ -340,25 +358,18 @@ const SidebarLayout = ({ children }) => {
         </div>
       </div>
 
-      {/* Main Content - takes remaining space */}
-      <div className="flex-1 overflow-auto">
-        {/* Toggle button when sidebar is closed */}
-        {!sidebarOpen && (
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="fixed m-4 btn btn-square btn-sm z-10"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+      {/* Main Content */}
+      <div className={`flex-1 overflow-auto ${sidebarOpen && !isMobile ? 'ml-64' : ''} ${isMobile && sidebarOpen ? 'pl-0' : ''} pt-16`}>
+        {/* Mobile toggle button (visible only on mobile) */}
+        {isMobile && (
+          !sidebarOpen && (
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="fixed top-4 left-4 btn btn-square btn-sm z-30" 
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+              <Bars3Icon className="h-5 w-5" />
+            </button>
+          )
         )}
 
         {/* Page Content */}
@@ -369,6 +380,5 @@ const SidebarLayout = ({ children }) => {
     </div>
   );
 };
-
 
 export default SidebarLayout;
