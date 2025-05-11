@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const PurchaseCharts = () => {  
-  const { last90DaysPurchaseData, todayPurchaseSummary, loading, error } = useSelector((state) => state.purchases);
+  const { last90DaysPurchaseData, loading, error } = useSelector((state) => state.purchases);
 
   useEffect(() => {
     if (error) {
@@ -65,24 +65,7 @@ const PurchaseCharts = () => {
   if (error) return <div className="text-center text-red-500 py-4">{error}</div>;
 
   return (
-    <div className="space-y-6">
-      {/* Today"s Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="stats bg-accent text-accent-content shadow">
-          <div className="stat">
-            <div className="stat-title">Today"s Purchases</div>
-            <div className="stat-value">₹{todayPurchaseSummary.totalPurchases}</div>
-          </div>
-        </div>
-        
-        <div className="stats bg-info text-info-content shadow">
-          <div className="stat">
-            <div className="stat-title">Today"s Invoices</div>
-            <div className="stat-value">{todayPurchaseSummary.invoiceCount}</div>
-          </div>
-        </div>
-      </div>
-
+    <div className="space-y-6 my-4">
       {/* Purchase Trend Chart */}
       <div className="card bg-base-100 shadow">
         <div className="card-body">

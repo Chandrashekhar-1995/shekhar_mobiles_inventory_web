@@ -75,11 +75,11 @@ const AdminDashboard = () => {
           totalExpense={expenseData}
         />
       </div>
-      <div className="col-span-7">
+      <div className="col-span-7 p-4">
         <SalesCharts />
         <PurchaseCharts />
       </div>
-      <div className="col-span-3   p-4">
+      <div className="col-span-3 p-4">
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const SalesCharts = () => {
 
-  const { last90DaysSaleData, todaySaleSummary, loading, error } = useSelector((state) => state.sales);
+  const { last90DaysSaleData, loading, error } = useSelector((state) => state.sales);
 
   useEffect(() => {
     if (error) {
@@ -67,23 +67,6 @@ const SalesCharts = () => {
 
   return (
     <div className="space-y-6">
-      {/* Today"s Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="stats bg-primary text-primary-content shadow">
-          <div className="stat">
-            <div className="stat-title text-white">Today"s Sales</div>
-            <div className="stat-value">₹{todaySaleSummary.totalSales}</div>
-          </div>
-        </div>
-        
-        <div className="stats bg-secondary text-secondary-content shadow">
-          <div className="stat">
-            <div className="stat-title text-white">Today"s Invoices</div>
-            <div className="stat-value">{todaySaleSummary.invoiceCount}</div>
-          </div>
-        </div>
-      </div>
-
       {/* Sales Trend Chart */}
       <div className="card bg-base-100 shadow">
         <div className="card-body">
