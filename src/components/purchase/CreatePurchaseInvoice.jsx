@@ -66,11 +66,11 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
           if (match) {
             const prefix = match[1];
             const numericPart = match[2];
-            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
+            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, "0");
             const nextInvoiceNumber = `${prefix}${nextNumber}`;
             setFormData((prev) => ({ ...prev, invoiceNumber: nextInvoiceNumber }));
           } else {
-            console.error('Invalid invoice number format');
+            console.error("Invalid invoice number format");
           }
         } 
       } catch (error) {
@@ -99,7 +99,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
   
     const handleChange = (e) => {
       const { name, value, type } = e.target;
-      const processedValue = type === 'number' ? (value === '' ? 0 : Number(value)) : value;
+      const processedValue = type === "number" ? (value === "" ? 0 : Number(value)) : value;
   
       if(name === "billFrom" && value === "Cash"){
         setFormData((prev) => ({ ...prev, supplierName: "Cash", address: "", mobileNumber: "" }));

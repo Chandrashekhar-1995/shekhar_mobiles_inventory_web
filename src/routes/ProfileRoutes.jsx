@@ -1,9 +1,9 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import Profile from '../components/profile/Profile';
-import UpdateProfile from '../components/profile/UpdateProfile';
-import ProtectedRoute from '../components/ProtectedRoute';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import Profile from "../components/profile/Profile";
+import UpdateProfile from "../components/profile/UpdateProfile";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 
 

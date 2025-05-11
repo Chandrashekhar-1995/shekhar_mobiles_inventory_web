@@ -24,7 +24,7 @@ const BulkUploadCustomer = () => {
     const handleRemoveFile = () => {
         setFile(null);
         // Reset the file input value so the same file can be selected again
-        document.querySelector('input[type="file"]').value = '';
+        document.querySelector("input[type='file']").value = "";
     };
 
     const handleDownloadTemplate = () => {
@@ -163,7 +163,7 @@ const BulkUploadCustomer = () => {
                                 </h3>
                                 <ul className="list-disc pl-5 text-sm text-gray-700">
                                     {uploadCustomers.map((customer, index) => (
-                                        <li key={index}>{customer.name + " - "+ customer.mobileNumber || 'Customer ' + (index + 1)}</li>
+                                        <li key={index}>{customer.name + " - "+ customer.mobileNumber || "Customer " + (index + 1)}</li>
                                     ))}
                                 </ul>
                             </div>
@@ -180,7 +180,7 @@ const BulkUploadCustomer = () => {
                                 </p>
                                 <ul className="list-disc pl-5 text-sm text-gray-700">
                                     {skippedCustomers.map((customer, index) => (
-                                        <li key={index}>{customer.row.name + " - "+ customer.row.mobileNumber || 'Customer ' + (index + 1)} - {customer.reason || 'Reason not provided'}</li>
+                                        <li key={index}>{customer.row.name + " - "+ customer.row.mobileNumber || "Customer " + (index + 1)} - {customer.reason || "Reason not provided"}</li>
                                     ))}
                                 </ul>
                             </div>

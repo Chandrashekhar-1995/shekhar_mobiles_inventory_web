@@ -1,5 +1,5 @@
 // import React, { useEffect, useState } from "react";
-// import { useNavigate, useParams } from 'react-router-dom';
+// import { useNavigate, useParams } from "react-router-dom";
 // import { createNewInvoice, getInvoiceById, lastInvoice, updateInvoice } from "../../../service/invoiceApi";
 // import InvoiceDetails from "./invoiceComponents/InvoiceDetails";
 // import ItemDetails from "./invoiceComponents/ItemDetails";
@@ -76,8 +76,8 @@
 //               // setFormData(response.data.data.invoice);
 //             // }
 //               } catch (error) {
-//                   console.error('Error fetching invoice data:', error);
-//                   setErrorMessage('Failed to load invoice data.');
+//                   console.error("Error fetching invoice data:", error);
+//                   setErrorMessage("Failed to load invoice data.");
 //           }
 //         }
 //       };
@@ -97,11 +97,11 @@
 //           if (match) {
 //             const prefix = match[1];
 //             const numericPart = match[2];
-//             const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
+//             const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, "0");
 //             const nextInvoiceNumber = `${prefix}${nextNumber}`;
 //             setFormData((prev) => ({ ...prev, invoiceNumber: nextInvoiceNumber }));
 //           } else {
-//             console.error('Invalid invoice number format');
+//             console.error("Invalid invoice number format");
 //           }
 //         } 
 //       } catch (error) {
@@ -242,7 +242,7 @@
 
 
 
-import React from 'react'
+import React from "react"
 
 const UpdateInvoice = () => {
   return (

@@ -1,6 +1,6 @@
-import React from 'react';
-import CategoryDropdown from './CategoryDropdown';
-import BrandDropdown from './BrandDropdown';
+import React from "react";
+import CategoryDropdown from "./CategoryDropdown";
+import BrandDropdown from "./BrandDropdown";
 
 const RequiredFields = ({ formData, setFormData, handleChange }) => {
   return (
@@ -9,18 +9,18 @@ const RequiredFields = ({ formData, setFormData, handleChange }) => {
       <BrandDropdown formData={formData} setFormData={setFormData} />
 
       {[
-        { label: 'Item Code', name: 'itemCode' },
-        { label: 'Product Name', name: 'productName' },
-        { label: 'Purchase Price', name: 'purchasePrice' },
-        { label: 'Sale Price', name: 'salePrice' },
-        { label: 'Min Sale Price', name: 'minSalePrice' },
-        { label: 'MRP', name: 'mrp' },
-        { label: 'Opening Stock', name: 'openingStock' },
-        { label: 'UNIT', name: 'unit' },
+        { label: "Item Code", name: "itemCode" },
+        { label: "Product Name", name: "productName" },
+        { label: "Purchase Price", name: "purchasePrice" },
+        { label: "Sale Price", name: "salePrice" },
+        { label: "Min Sale Price", name: "minSalePrice" },
+        { label: "MRP", name: "mrp" },
+        { label: "Opening Stock", name: "openingStock" },
+        { label: "UNIT", name: "unit" },
       ].map(({ label, name }) => (
         <div className="form-control  w-full" key={name}>
           <label className="label">
-            <span className="label-text text-xs">{label} {['itemCode', 'productName', 'purchasePrice', 'salePrice', 'unit'].includes(name) && '*'}</span>
+            <span className="label-text text-xs">{label} {["itemCode", "productName", "purchasePrice", "salePrice", "unit"].includes(name) && "*"}</span>
           </label>
           <input
             type="text"
@@ -28,7 +28,7 @@ const RequiredFields = ({ formData, setFormData, handleChange }) => {
             value={formData[name]}
             onChange={handleChange}
             className="input input-bordered input-sm text-xs w-full"
-            required={['itemCode', 'productName', 'purchasePrice', 'salePrice', 'unit'].includes(name)}
+            required={["itemCode", "productName", "purchasePrice", "salePrice", "unit"].includes(name)}
           />
         </div>
       ))}

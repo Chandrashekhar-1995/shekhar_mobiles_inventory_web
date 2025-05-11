@@ -1,10 +1,10 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import ProtectedRoute from '../components/ProtectedRoute';
-import CreateProduct from '../components/product/CreateProduct';
-import UpdateProduct from '../components/product/UpdateProduct';
-import ManageProduct from '../components/product/ManageProduct';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import ProtectedRoute from "../components/ProtectedRoute";
+import CreateProduct from "../components/product/CreateProduct";
+import UpdateProduct from "../components/product/UpdateProduct";
+import ManageProduct from "../components/product/ManageProduct";
 
 
 

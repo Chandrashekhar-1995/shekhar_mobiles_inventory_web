@@ -23,7 +23,7 @@ const HomePage = () => {
     ];
   
       if (role === "admin") {
-        navigate('/user/admin');
+        navigate("/user/admin");
       } else if (userRoles.includes(role)) {
         navigate("/user")
       } 

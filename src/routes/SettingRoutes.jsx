@@ -1,8 +1,8 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import ProtectedRoute from '../components/ProtectedRoute';
-import Settings from '../components/settings/Settings';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import ProtectedRoute from "../components/ProtectedRoute";
+import Settings from "../components/settings/Settings";
 
 
 const SettingRoutes = [

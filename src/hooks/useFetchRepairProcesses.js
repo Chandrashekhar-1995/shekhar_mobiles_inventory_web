@@ -18,7 +18,7 @@ const useFetchRepairProcesses = () => {
                     toast.error(data.message)
                 }
             } catch (error) {
-                console.error('Failed to fetch types:', error);
+                console.error("Failed to fetch types:", error);
             }
         };
 

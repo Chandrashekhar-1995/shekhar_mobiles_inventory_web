@@ -293,9 +293,9 @@ const SidebarLayout = ({ children }) => {
         ref={sidebarRef}
         className={`fixed top-0 left-0 h-screen transition-all duration-300 ${
           sidebarOpen ? (isMobile ? "w-64 z-20 shadow-xl" : "w-64") : "w-0 overflow-hidden"
-        } ${isMobile ? 'bg-primary' : 'bg-primary'}`} 
+        } ${isMobile ? "bg-primary" : "bg-primary"}`} 
         style={{
-          zIndex: isMobile ? 20 : 'auto',
+          zIndex: isMobile ? 20 : "auto",
         }}
       >
         <div className="h-full flex flex-col">
@@ -359,7 +359,7 @@ const SidebarLayout = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 overflow-auto ${sidebarOpen && !isMobile ? 'ml-64' : ''} ${isMobile && sidebarOpen ? 'pl-0' : ''}`}>
+      <div className={`flex-1 overflow-auto ${sidebarOpen && !isMobile ? "ml-64" : ""} ${isMobile && sidebarOpen ? "pl-0" : ""}`}>
         {/* Mobile toggle button (visible only on mobile) */}
         {isMobile && (
           !sidebarOpen && (

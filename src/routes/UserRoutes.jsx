@@ -1,20 +1,20 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import UserDashboard from '../components/user/UserDashboard';
-import CustomerDashboard from '../components/user/customer/CustomerDashboard';
-import CreateCustomer from '../components/user/customer/CreateCustomer';
-import ProtectedRoute from '../components/ProtectedRoute';
-import CreateUser from '../components/user/CreateUser';
-import AdminDashboard from '../components/dashboard/AdminDashboard';
-import ManageCustomer from '../components/user/customer/ManageCustomer';
-import CustomerProfile from '../components/user/customer/CustomerProfile';
-import UserProfile from '../components/user/UserProfile';
-import ManageSupplier from '../components/user/supplier/ManageSupplier';
-import SupplierDashboard from '../components/user/supplier/SupplierDashboard';
-import CreateSupplier from '../components/user/supplier/CreateSupplier';
-import SupplierProfile from '../components/user/supplier/SupplierProfile';
-import ManageUser from '../components/user/ManageUser';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import UserDashboard from "../components/user/UserDashboard";
+import CustomerDashboard from "../components/user/customer/CustomerDashboard";
+import CreateCustomer from "../components/user/customer/CreateCustomer";
+import ProtectedRoute from "../components/ProtectedRoute";
+import CreateUser from "../components/user/CreateUser";
+import AdminDashboard from "../components/dashboard/AdminDashboard";
+import ManageCustomer from "../components/user/customer/ManageCustomer";
+import CustomerProfile from "../components/user/customer/CustomerProfile";
+import UserProfile from "../components/user/UserProfile";
+import ManageSupplier from "../components/user/supplier/ManageSupplier";
+import SupplierDashboard from "../components/user/supplier/SupplierDashboard";
+import CreateSupplier from "../components/user/supplier/CreateSupplier";
+import SupplierProfile from "../components/user/supplier/SupplierProfile";
+import ManageUser from "../components/user/ManageUser";
 
 
 

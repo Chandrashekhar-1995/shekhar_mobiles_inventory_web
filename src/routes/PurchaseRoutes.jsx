@@ -1,10 +1,10 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import ProtectedRoute from '../components/ProtectedRoute';
-import CreatePurchaseInvoice from '../components/purchase/CreatePurchaseInvoice';
-import UpdatePurchaseInvoice from '../components/purchase/UpdatePurchaseInvoice';
-import ManagePurchaseInvoice from '../components/purchase/ManagePurchaseInvoice';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import ProtectedRoute from "../components/ProtectedRoute";
+import CreatePurchaseInvoice from "../components/purchase/CreatePurchaseInvoice";
+import UpdatePurchaseInvoice from "../components/purchase/UpdatePurchaseInvoice";
+import ManagePurchaseInvoice from "../components/purchase/ManagePurchaseInvoice";
 
 
 

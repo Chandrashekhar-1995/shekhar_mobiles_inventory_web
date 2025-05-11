@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const RepairTracking = ({ repair, repairItemIndex, process, onUpdate }) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -51,7 +51,7 @@ const RepairTracking = ({ repair, repairItemIndex, process, onUpdate }) => {
         {checklist.map((step, stepIndex) => (
           <div 
             key={stepIndex} 
-            className={`step ${stepIndex === currentStepIndex ? 'active' : ''} ${step.isCompleted ? 'completed' : ''}`}
+            className={`step ${stepIndex === currentStepIndex ? "active" : ""} ${step.isCompleted ? "completed" : ""}`}
           >
             <h3>
               Step {stepIndex + 1}: {step.stepName}

@@ -12,7 +12,7 @@ const useFetchModels = () => {
                 const data = await getAllModel();
                 dispatch(addModel(data.data.models))
             } catch (error) {
-                console.error('Failed to fetch models:', error);
+                console.error("Failed to fetch models:", error);
             }
         };
 

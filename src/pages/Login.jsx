@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addUser } from '../store/userSlice';
-import { login } from '../../service/authApi';
-import { toast } from 'react-toastify';
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/userSlice";
+import { login } from "../../service/authApi";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    identifier: '', 
-    password: '',
+    identifier: "", 
+    password: "",
   });
 
   const dispatch = useDispatch();
@@ -114,9 +114,9 @@ const Login = () => {
 
         <p
               className="hover:text-blue-800 cursor-pointer"
-              onClick={() => navigate('/register')}
+              onClick={() => navigate("/register")}
             >
-              Don't have an account? Signup
+              Don"t have an account? Signup
             </p>
         
         </form>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { register } from '../../service/authApi';
-import { toast } from 'react-toastify';
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom";
+import { register } from "../../service/authApi";
+import { toast } from "react-toastify";
 
 
 const Register = () => {
@@ -129,7 +129,7 @@ const Register = () => {
 
         <p
           className="hover:text-blue-800 cursor-pointer"
-          onClick={() => navigate('/login')}
+          onClick={() => navigate("/login")}
           >
           Already have an account? Signup
         </p>

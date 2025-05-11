@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiClient from "../../service/apiClient";
 
 export const fetchLast90DaysSales = createAsyncThunk(
-  'sales/fetchLast90DaysSales',
+  "sales/fetchLast90DaysSales",
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.customFetch("/invoice/last-90days-sales");
@@ -14,7 +14,7 @@ export const fetchLast90DaysSales = createAsyncThunk(
 );
 
 export const fetchTodaySummary = createAsyncThunk(
-  'sales/fetchTodaySummary',
+  "sales/fetchTodaySummary",
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.customFetch("/invoice/today-sales-summary");
@@ -26,7 +26,7 @@ export const fetchTodaySummary = createAsyncThunk(
 );
 
 const salesSlice = createSlice({
-  name: 'sales',
+  name: "sales",
   initialState: {
     last90DaysSaleData: [],
     todaySaleSummary: { totalSales: 0, invoiceCount: 0 },

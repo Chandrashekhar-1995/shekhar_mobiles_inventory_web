@@ -18,7 +18,7 @@ const NotesSection = ({
               value={formData.deliveryTerm}
               onChange={handleChange}
               className="textarea input-sm text-xs border-gray-300"
-              placeholder='Delivery Terms'
+              placeholder="Delivery Terms"
               />
         </div>
 

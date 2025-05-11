@@ -12,7 +12,7 @@ const useFetchCustomers = () => {
                 const data = await getAllCustomers();
                 dispatch(addCustomer(data.data.customers))
             } catch (error) {
-                console.error('Failed to fetch customers :', error);
+                console.error("Failed to fetch customers :", error);
             }
         };
 

@@ -23,7 +23,7 @@ const BulkUploadProduct = () => {
 
     const handleRemoveFile = () => {
         setFile(null);
-        document.querySelector('input[type="file"]').value = '';
+        document.querySelector("input[type='file']").value = "";
     };
 
     const handleDownloadTemplate = () => {
@@ -162,7 +162,7 @@ const BulkUploadProduct = () => {
                                 </h3>
                                 <ul className="list-disc pl-5 text-sm text-gray-700">
                                     {uploadProducts.map((product, index) => (
-                                        <li key={index}>{product.productName + " - "+ product.itemCode || 'Product ' + (index + 1)}</li>
+                                        <li key={index}>{product.productName + " - "+ product.itemCode || "Product " + (index + 1)}</li>
                                     ))}
                                 </ul>
                             </div>
@@ -179,7 +179,7 @@ const BulkUploadProduct = () => {
                                 </p>
                                 <ul className="list-disc pl-5 text-sm text-gray-700">
                                     {skippedProducts.map((product, index) => (
-                                        <li key={index}>{product.row.productName + " - "+ product.row.itemCode || 'Product ' + (index + 1)} - {product.reason || 'Reason not provided'}</li>
+                                        <li key={index}>{product.row.productName + " - "+ product.row.itemCode || "Product " + (index + 1)} - {product.reason || "Reason not provided"}</li>
                                     ))}
                                 </ul>
                             </div>

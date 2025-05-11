@@ -12,7 +12,7 @@ const useFetchUsers = () => {
                 const data = await getAllUser();
                 dispatch(addAllUser(data.data.users))
             } catch (error) {
-                console.error('Failed to fetch users:', error);
+                console.error("Failed to fetch users:", error);
             }
         };
 

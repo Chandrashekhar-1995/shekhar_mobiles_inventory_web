@@ -1,13 +1,13 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import ProtectedRoute from '../components/ProtectedRoute';
-import ManageRepair from '../components/repairs/ManageRepair';
-import BookingRepair from '../components/repairs/BookingRepair';
-import EditRepairItem from '../components/repairs/processComponent/EditRepairItem';
-import CreateRepairProcess from '../components/repairs/processComponent/CreateRepairProcess';
-import ManageRepairProcess from '../components/repairs/ManageRepairProcess';
-import ManageFault from '../components/repairs/fault/ManageFault';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import ProtectedRoute from "../components/ProtectedRoute";
+import ManageRepair from "../components/repairs/ManageRepair";
+import BookingRepair from "../components/repairs/BookingRepair";
+import EditRepairItem from "../components/repairs/processComponent/EditRepairItem";
+import CreateRepairProcess from "../components/repairs/processComponent/CreateRepairProcess";
+import ManageRepairProcess from "../components/repairs/ManageRepairProcess";
+import ManageFault from "../components/repairs/fault/ManageFault";
 
 const RepairRoutes = [
     {

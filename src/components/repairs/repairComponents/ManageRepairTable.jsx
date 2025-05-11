@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { updateRepairItem } from "../../../../service/repairApi";
 import { setAllRepairs } from "../../../store/repairSlice"
-import useFetchRepairs from '../../../hooks/useFetchRepairs';
-import { toast } from 'react-toastify';
+import useFetchRepairs from "../../../hooks/useFetchRepairs";
+import { toast } from "react-toastify";
 
 const ManageRepairTable = () => {
     const dispatch = useDispatch();
@@ -14,12 +14,12 @@ const ManageRepairTable = () => {
     useFetchRepairs();
     const repairs = useSelector((store) => store.repairs.allRepairs);
     const formatToIndianDate = (isoDate) => {
-        if (!isoDate) return '';
+        if (!isoDate) return "";
         const date = new Date(isoDate);
-        return date.toLocaleDateString('en-IN', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
         });
     };
 
@@ -124,7 +124,7 @@ const ManageRepairTable = () => {
                                                 onClick={() => handleStatusChange(repair._id, itemIndex, item.repairStatus || "")}
                                                 className="cursor-pointer hover:underline"
                                             >
-                                                {(item.repairStatus || "No Status").replace(/_/g, ' ')}
+                                                {(item.repairStatus || "No Status").replace(/_/g, " ")}
                                             </span>
                                         )}
                                     </td>

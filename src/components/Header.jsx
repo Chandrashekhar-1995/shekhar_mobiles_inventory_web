@@ -12,7 +12,7 @@ const Header = () => {
   const user = useSelector((store) => store.user);
 
   const handleProfileClick = () => {
-    navigate('/profile');
+    navigate("/profile");
   };
 
   const handleDashboardClick = () => {
@@ -32,7 +32,7 @@ const Header = () => {
       ];
 
       if (role === "admin") {
-        navigate('/user/admin');
+        navigate("/user/admin");
       } else if (userRoles.includes(role)) {
         navigate("/user");
       } else {
@@ -44,7 +44,7 @@ const Header = () => {
   };
 
   const handleSettingClick = () => {
-    navigate('/setting');
+    navigate("/setting");
   };
 
   const handleLogout = async () => {
@@ -55,7 +55,7 @@ const Header = () => {
         dispatch(removeUser());
         localStorage.removeItem("user");
         await persistor.purge();
-        navigate('/login');
+        navigate("/login");
       } else {
         toast.error(error)
       }
@@ -123,7 +123,7 @@ const Header = () => {
                 <li><a onClick={handleLogout}>Logout</a></li>
               </>
             ) : (
-              <li><a onClick={() => navigate('/login')}>Login</a></li>
+              <li><a onClick={() => navigate("/login")}>Login</a></li>
             )}
           </ul>
         </div>

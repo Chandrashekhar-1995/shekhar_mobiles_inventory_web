@@ -17,7 +17,7 @@ const SubmitSection = ({ formData, totalItemPrice, loading, handleSubmit }) => {
         <button
           type="submit"
           disabled={loading}
-          className={`btn btn-primary ${loading ? 'btn-disabled' : ''}`}
+          className={`btn btn-primary ${loading ? "btn-disabled" : ""}`}
           onClick={handleSubmit}
         >
           {loading ? <span className="loading loading-spinner ">Saving...</span> : "Save" }

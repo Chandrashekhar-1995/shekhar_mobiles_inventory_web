@@ -12,7 +12,7 @@ const useFetchMobiles = () => {
                 const data = await getAllMobile();
                 dispatch(addMobile(data.data.mobiles))
             } catch (error) {
-                console.error('Failed to fetch mobiles:', error);
+                console.error("Failed to fetch mobiles:", error);
             }
         };
 

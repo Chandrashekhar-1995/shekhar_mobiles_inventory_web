@@ -12,7 +12,7 @@ const useFetchAccounts = () => {
                 const data = await getAllAccount();
                 dispatch(addAccount(data.data.accounts))
             } catch (error) {
-                console.error('Failed to fetch brands:', error);
+                console.error("Failed to fetch brands:", error);
             }
         };
 

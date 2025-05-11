@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import useFetchFaults from '../../../hooks/useFetchFaults';
-import { deleteFault, deleteSubFault, updateFault } from '../../../../service/faultApi';
-import { toast } from 'react-toastify';
+import useFetchFaults from "../../../hooks/useFetchFaults";
+import { deleteFault, deleteSubFault, updateFault } from "../../../../service/faultApi";
+import { toast } from "react-toastify";
 
 const ManageFaultTable = () => {
     const [showDropdown, setShowDropdown] = useState(null);

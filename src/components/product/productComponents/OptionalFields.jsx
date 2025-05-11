@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const OptionalFields = ({ formData, handleChange }) => {
   const fields = [
-    { label: 'Sale Discount', name: 'saleDiscount' },
-    { label: 'Low Level Limit', name: 'lowLevelLimit' },
-    { label: 'Serial Number', name: 'serialNumber' },
-    { label: 'Description', name: 'description' },
-    { label: 'Warranty', name: 'warranty' },
-    { label: 'Location', name: 'location' },
+    { label: "Sale Discount", name: "saleDiscount" },
+    { label: "Low Level Limit", name: "lowLevelLimit" },
+    { label: "Serial Number", name: "serialNumber" },
+    { label: "Description", name: "description" },
+    { label: "Warranty", name: "warranty" },
+    { label: "Location", name: "location" },
   ];
 
   return (

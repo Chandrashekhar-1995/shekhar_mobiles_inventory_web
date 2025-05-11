@@ -1,8 +1,8 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import ProtectedRoute from '../components/ProtectedRoute';
-import ManageAccounts from '../components/account/ManageAccouts';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import ProtectedRoute from "../components/ProtectedRoute";
+import ManageAccounts from "../components/account/ManageAccouts";
 
 
 

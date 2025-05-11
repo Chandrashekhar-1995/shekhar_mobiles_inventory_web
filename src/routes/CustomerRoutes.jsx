@@ -1,9 +1,9 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import ComingSoon from '../pages/ComingSoon';
-import HomePage from '../pages/HomePage';
-import CustomerDashboard from '../components/customer/CustomerDashboard';
-import ProtectedRoute from '../components/ProtectedRoute';
+import React from "react"
+import { Outlet } from "react-router-dom";
+import ComingSoon from "../pages/ComingSoon";
+import HomePage from "../pages/HomePage";
+import CustomerDashboard from "../components/customer/CustomerDashboard";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 
 

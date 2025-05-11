@@ -12,7 +12,7 @@ import { useEffect } from "react";
                  const data = await getAllRepairs();
                  dispatch(addRepair(data.data.repairs))
              } catch (error) {
-                 console.error('Failed to fetch repairs:', error);
+                 console.error("Failed to fetch repairs:", error);
              }
          };
  

@@ -114,7 +114,7 @@ const CreateCustomer = () => {
               <div className="mt-6">
                 <button
                   type="submit"
-                  className={`btn btn-primary w-full ${loading ? 'btn-disabled' : ''}`}
+                  className={`btn btn-primary w-full ${loading ? "btn-disabled" : ""}`}
                   disabled={loading}
                 >
                   {loading ? (

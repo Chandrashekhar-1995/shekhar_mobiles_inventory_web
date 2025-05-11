@@ -12,7 +12,7 @@ const useFetchBrands = () => {
                 const data = await getAllBrand();
                 dispatch(addBrand(data.data.brands))
             } catch (error) {
-                console.error('Failed to fetch brands:', error);
+                console.error("Failed to fetch brands:", error);
             }
         };
 

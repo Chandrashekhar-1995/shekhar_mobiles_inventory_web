@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import FaultDropdown from '../fault/FaultDropdown';
-import { toast } from 'react-toastify';
-import { createRepairProcess } from '../../../../service/repairApi';
+import React, { useState } from "react";
+import FaultDropdown from "../fault/FaultDropdown";
+import { toast } from "react-toastify";
+import { createRepairProcess } from "../../../../service/repairApi";
 
 const CreateRepairProcess = ({ onSubmit }) => {
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +42,7 @@ const CreateRepairProcess = ({ onSubmit }) => {
   const addChecklistItem = () => {
     setCurrentStep(prev => ({
       ...prev,
-      checklistItems: [...prev.checklistItems, { itemName: '', isChecked: false }]
+      checklistItems: [...prev.checklistItems, { itemName: "", isChecked: false }]
     }));
   };
 
@@ -67,7 +67,7 @@ const CreateRepairProcess = ({ onSubmit }) => {
         ...prev,
         steps: [...prev.steps, { ...currentStep, order: prev.steps.length + 1 }],
       }));
-      setCurrentStep({ stepName: '', description: '', checklistItems: [] });
+      setCurrentStep({ stepName: "", description: "", checklistItems: [] });
     }
   };
 
@@ -198,7 +198,7 @@ const CreateRepairProcess = ({ onSubmit }) => {
                       <span className="label-text text-xs">Checklist Items *</span>
                     </label>
                     {currentStep.checklistItems.map((item, index) => (
-                      <div key={index} className='flex items-center space-x-2'>
+                      <div key={index} className="flex items-center space-x-2">
                         <input
                           type="checkbox"
                           checked={item.isChecked}
@@ -213,7 +213,7 @@ const CreateRepairProcess = ({ onSubmit }) => {
                         />
                       </div>
                     ))}
-                    <button type="button" className='btn btn-sm mt-2' onClick={addChecklistItem}>Add Checklist Item</button>
+                    <button type="button" className="btn btn-sm mt-2" onClick={addChecklistItem}>Add Checklist Item</button>
                   </div>
 
                   {/* Description */}
@@ -223,14 +223,14 @@ const CreateRepairProcess = ({ onSubmit }) => {
                     </label>
                     <textarea
                       className="textarea textarea-bordered textarea-sm text-xs w-full"
-                      name='description'
+                      name="description"
                       placeholder="Detailed instructions for this step"
                       value={currentStep.description}
                       onChange={handleStepChange}
                     />
                   </div>
 
-                  <button type="button" className='btn btn-sm bg-green-300' onClick={addStep}>Add Step</button>
+                  <button type="button" className="btn btn-sm bg-green-300" onClick={addStep}>Add Step</button>
 
                 </div>
               </div>

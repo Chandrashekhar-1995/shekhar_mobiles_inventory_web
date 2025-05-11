@@ -80,12 +80,12 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           if (match) {
             const prefix = match[1];
             const numericPart = match[2];
-            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, '0');
+            const nextNumber = (parseInt(numericPart, 10) + 1).toString().padStart(numericPart.length, "0");
             const nextRepairNumber = `${prefix}${nextNumber}`;
             setFormData((prev) => ({ ...prev, repairNumber: nextRepairNumber }));
             
           } else {
-            console.error('Invalid repair number format');
+            console.error("Invalid repair number format");
           }
         } 
       } catch (error) {
@@ -101,7 +101,7 @@ useEffect(() => {
   const today = new Date();
   const todayString = today.toISOString().split("T")[0];
   
-  // Calculate tomorrow's date
+  // Calculate tomorrow"s date
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowString = tomorrow.toISOString().split("T")[0];

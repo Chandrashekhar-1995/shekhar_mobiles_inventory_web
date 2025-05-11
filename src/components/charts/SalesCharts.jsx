@@ -23,14 +23,14 @@ const SalesCharts = () => {
   const chartData = {
     labels: last30DaysData.map(item => {
       const date = new Date(item.date);
-      return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
+      return `${date.getDate()} ${date.toLocaleString("default", { month: "short" })}`;
     }),
     datasets: [
       {
-        label: 'Daily Sales',
+        label: "Daily Sales",
         data: last30DaysData.map(item => item.totalSales),
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59, 130, 246, 0.2)",
         tension: 0.4,
       }
     ]
@@ -40,11 +40,11 @@ const SalesCharts = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Last 30 Days Sales Trend'
+        text: "Last 30 Days Sales Trend"
       }
     },
     scales: {
@@ -67,18 +67,18 @@ const SalesCharts = () => {
 
   return (
     <div className="space-y-6">
-      {/* Today's Summary Cards */}
+      {/* Today"s Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="stats bg-primary text-primary-content shadow">
           <div className="stat">
-            <div className="stat-title text-white">Today's Sales</div>
+            <div className="stat-title text-white">Today"s Sales</div>
             <div className="stat-value">₹{todaySaleSummary.totalSales}</div>
           </div>
         </div>
         
         <div className="stats bg-secondary text-secondary-content shadow">
           <div className="stat">
-            <div className="stat-title text-white">Today's Invoices</div>
+            <div className="stat-title text-white">Today"s Invoices</div>
             <div className="stat-value">{todaySaleSummary.invoiceCount}</div>
           </div>
         </div>

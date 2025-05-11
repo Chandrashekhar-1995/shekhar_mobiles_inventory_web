@@ -30,15 +30,15 @@ const BusinessInsightsPieChart = ({ sales, purchase, expense }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: "bottom",
       },
       tooltip: {
         callbacks: {
           label: (context) => {
-            const label = context.label || '';
+            const label = context.label || "";
             const value = context.dataset.data[context.dataIndex];
             const total = context.dataset.data.reduce((acc, curr) => acc + curr, 0);
-            const percentage = ((value / total) * 100).toFixed(2) + '%';
+            const percentage = ((value / total) * 100).toFixed(2) + "%";
             return `${label}: ${value} (${percentage})`;
           },
         },

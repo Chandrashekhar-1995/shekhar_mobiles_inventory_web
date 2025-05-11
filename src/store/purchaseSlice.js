@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiClient from "../../service/apiClient";
 
 export const fetchLast90DaysPurchases = createAsyncThunk(
-  'purchases/fetchLast90DaysPurchases',
+  "purchases/fetchLast90DaysPurchases",
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.customFetch("/purchase-invoice/last-90days-purchases");
@@ -14,7 +14,7 @@ export const fetchLast90DaysPurchases = createAsyncThunk(
 );
 
 export const fetchTodayPurchaseSummary = createAsyncThunk(
-  'purchases/fetchTodayPurchaseSummary',
+  "purchases/fetchTodayPurchaseSummary",
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.customFetch("/purchase-invoice/today-purchase-summary");
@@ -26,7 +26,7 @@ export const fetchTodayPurchaseSummary = createAsyncThunk(
 );
 
 const purchaseSlice = createSlice({
-  name: 'purchases',
+  name: "purchases",
   initialState: {
     last90DaysPurchaseData: [],
     todayPurchaseSummary: { totalPurchases: 0, invoiceCount: 0 },

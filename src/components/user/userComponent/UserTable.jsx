@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useFetchUsers from '../../../hooks/useFetchUsers';
-import { deleteUser } from '../../../../service/userApi';
-import { removeAllUser } from '../../../store/allUserSlice';
+import useFetchUsers from "../../../hooks/useFetchUsers";
+import { deleteUser } from "../../../../service/userApi";
+import { removeAllUser } from "../../../store/allUserSlice";
 
 const UserTable = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -14,7 +14,7 @@ const UserTable = () => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB');
+        return date.toLocaleDateString("en-GB");
     };
 
     const handleDeleteClick = (user) => {
