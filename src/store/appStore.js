@@ -18,6 +18,7 @@ import purchaseInvoicesReducer from "./purchaseInvoiceSlice";
 import customerReducer from "./customerSlice";
 import supplierReducer from "./supplierSlice";
 import salesReducer from "./salesSlice";
+import purchaseReducer from "./purchaseSlice";
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   customers: customerReducer,
   suppliers: supplierReducer,
   sales: salesReducer,
+  purchases: purchaseReducer,
 });
 
 // Persist configuration
