@@ -6,7 +6,7 @@ import CustomerDashboard from '../components/user/customer/CustomerDashboard';
 import CreateCustomer from '../components/user/customer/CreateCustomer';
 import ProtectedRoute from '../components/ProtectedRoute';
 import CreateUser from '../components/user/CreateUser';
-import AdminDashboard from '../components/admin/AdminDashboard';
+import AdminDashboard from '../components/dashboard/AdminDashboard';
 import ManageCustomer from '../components/user/customer/ManageCustomer';
 import CustomerProfile from '../components/user/customer/CustomerProfile';
 import UserProfile from '../components/user/UserProfile';

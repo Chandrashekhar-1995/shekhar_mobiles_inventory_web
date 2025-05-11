@@ -2,15 +2,13 @@ import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { toast } from "react-toastify";
-import useSalesData from "../../hooks/useSalesData";
 import { useSelector } from "react-redux";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const SalesCharts = () => {
-  useSalesData();
-  
-  const { last90DaysData, todaySummary, loading, error } = useSelector((state) => state.sales);
+
+  const { last90DaysSaleData, todaySaleSummary, loading, error } = useSelector((state) => state.sales);
 
   useEffect(() => {
     if (error) {
@@ -19,7 +17,7 @@ const SalesCharts = () => {
   }, [error]);
 
   // Last 30 days ke liye data filter karein
-  const last30DaysData = last90DaysData.slice(-30);
+  const last30DaysData = last90DaysSaleData.slice(-30);
 
   // Chart data prepare karein
   const chartData = {
@@ -74,14 +72,14 @@ const SalesCharts = () => {
         <div className="stats bg-primary text-primary-content shadow">
           <div className="stat">
             <div className="stat-title text-white">Today's Sales</div>
-            <div className="stat-value">₹{todaySummary.totalSales}</div>
+            <div className="stat-value">₹{todaySaleSummary.totalSales}</div>
           </div>
         </div>
         
         <div className="stats bg-secondary text-secondary-content shadow">
           <div className="stat">
             <div className="stat-title text-white">Today's Invoices</div>
-            <div className="stat-value">{todaySummary.invoiceCount}</div>
+            <div className="stat-value">{todaySaleSummary.invoiceCount}</div>
           </div>
         </div>
       </div>

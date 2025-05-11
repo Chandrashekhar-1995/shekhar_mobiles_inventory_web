@@ -2,15 +2,12 @@ import { useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { toast } from 'react-toastify';
-import usePurchaseData from '../../hooks/usePurchaseData';
 import { useSelector } from 'react-redux';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const PurchaseCharts = () => {
-  usePurchaseData();
-  
-  const { last90DaysData, todaySummary, loading, error } = useSelector((state) => state.purchases);
+const PurchaseCharts = () => {  
+  const { last90DaysPurchaseData, todayPurchaseSummary, loading, error } = useSelector((state) => state.purchases);
 
   useEffect(() => {
     if (error) {
@@ -19,18 +16,18 @@ const PurchaseCharts = () => {
   }, [error]);
 
   // Last 30 days data
-  const last30DaysData = last90DaysData.slice(-30);
+  const last30DaysPurchaseData = last90DaysPurchaseData.slice(-30);
 
   // Chart data
   const chartData = {
-    labels: last30DaysData.map(item => {
+    labels: last30DaysPurchaseData.map(item => {
       const date = new Date(item.date);
       return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
     }),
     datasets: [
       {
         label: 'Daily Purchases',
-        data: last30DaysData.map(item => item.totalPurchases),
+        data: last30DaysPurchaseData.map(item => item.totalPurchases),
         borderColor: '#10b981',
         backgroundColor: 'rgba(16, 185, 129, 0.2)',
         tension: 0.4,
@@ -74,14 +71,14 @@ const PurchaseCharts = () => {
         <div className="stats bg-accent text-accent-content shadow">
           <div className="stat">
             <div className="stat-title">Today's Purchases</div>
-            <div className="stat-value">₹{todaySummary.totalPurchases}</div>
+            <div className="stat-value">₹{todayPurchaseSummary.totalPurchases}</div>
           </div>
         </div>
         
         <div className="stats bg-info text-info-content shadow">
           <div className="stat">
             <div className="stat-title">Today's Invoices</div>
-            <div className="stat-value">{todaySummary.invoiceCount}</div>
+            <div className="stat-value">{todayPurchaseSummary.invoiceCount}</div>
           </div>
         </div>
       </div>

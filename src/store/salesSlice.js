@@ -28,8 +28,8 @@ export const fetchTodaySummary = createAsyncThunk(
 const salesSlice = createSlice({
   name: 'sales',
   initialState: {
-    last90DaysData: [],
-    todaySummary: { totalSales: 0, invoiceCount: 0 },
+    last90DaysSaleData: [],
+    todaySaleSummary: { totalSales: 0, invoiceCount: 0 },
     loading: false,
     error: null
   },
@@ -42,14 +42,14 @@ const salesSlice = createSlice({
       })
       .addCase(fetchLast90DaysSales.fulfilled, (state, action) => {
         state.loading = false;
-        state.last90DaysData = action.payload;
+        state.last90DaysSaleData = action.payload;
       })
       .addCase(fetchLast90DaysSales.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
       .addCase(fetchTodaySummary.fulfilled, (state, action) => {
-        state.todaySummary = action.payload;
+        state.todaySaleSummary = action.payload;
       });
   }
 });
