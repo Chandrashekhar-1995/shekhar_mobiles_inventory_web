@@ -359,7 +359,7 @@ const SidebarLayout = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 overflow-auto ${sidebarOpen && !isMobile ? 'ml-64' : ''} ${isMobile && sidebarOpen ? 'pl-0' : ''} pt-16`}>
+      <div className={`flex-1 overflow-auto ${sidebarOpen && !isMobile ? 'ml-64' : ''} ${isMobile && sidebarOpen ? 'pl-0' : ''}`}>
         {/* Mobile toggle button (visible only on mobile) */}
         {isMobile && (
           !sidebarOpen && (
