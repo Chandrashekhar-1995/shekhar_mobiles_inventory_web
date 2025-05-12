@@ -5,6 +5,8 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import CreatePurchaseInvoice from "../components/purchase/CreatePurchaseInvoice";
 import UpdatePurchaseInvoice from "../components/purchase/UpdatePurchaseInvoice";
 import ManagePurchaseInvoice from "../components/purchase/ManagePurchaseInvoice";
+import ManageSupplier from "../components/supplier/ManageSupplier";
+import CreateSupplier from "../components/supplier/CreateSupplier";
 
 
 
@@ -37,6 +39,18 @@ const PurchaseRoutes = [
             { path: "", element: <ManagePurchaseInvoice/>},
             { path: "create", element: <CreatePurchaseInvoice/>},
             { path: "update/:id", element: <UpdatePurchaseInvoice/>},
+        ]
+    },
+    {
+        path:"supplier",
+        element:(
+            <ProtectedRoute roles={["relationship_manager","admin","marketing_executive", "manager", "accountant", "office_boy", "receptionist", "trainee",]}>
+                <Outlet/>
+            </ProtectedRoute>
+        ),
+        children:[
+            { path: "", element: <ManageSupplier/>},
+            { path: "create", element: <CreateSupplier/>},
         ]
     },
 ];

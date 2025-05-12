@@ -66,8 +66,8 @@ const SidebarLayout = ({ children }) => {
           // { text: "Purchase Return", link: "/purchase/return" },
           // { text: "Debit Note", link: "/purchase/debit_note" },
           // { text: "Credit Note", link: "/purchase/credit_note" },
-          { text: "Manage Supplier", link: "/purchase/supplier/manage" },
-          { text: "Add Supplier", link: "/purchase/supplier/create" },
+          { text: "Manage Supplier", link: "/supplier" },
+          { text: "Add Supplier", link: "/supplier/create" },
         ],
       },
       {

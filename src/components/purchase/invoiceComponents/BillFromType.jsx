@@ -7,7 +7,7 @@ const BillFromType = ({ formData, setFormData, handleChange }) => {
 
     const handleCreateCustomer = (e) => {
         e.preventDefault();
-        navigate("/user/customer/create")
+        navigate("/supplier/create")
     }
 
     return (
