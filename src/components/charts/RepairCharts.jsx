@@ -66,7 +66,7 @@ const RepairCharts = () => {
   if (error) return <div className="text-center text-red-500 py-4">{error}</div>;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 my-4">
       {/* Repair Booking Trend Chart */}
       <div className="card bg-base-100 shadow">
         <div className="card-body">

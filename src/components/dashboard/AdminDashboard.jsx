@@ -21,13 +21,16 @@ const AdminDashboard = () => {
   const [salesData, setSalesData] = useState(0);
   const [purchaseData, setPurchaseData] = useState(0);
   const [expenseData, setExpenseData] = useState(0);
+  const [repairData, setRepairData] = useState(0);
 
-  const { last90DaysSaleData, todaySaleSummary } = useSelector((state) => state.sales);
-  const { last90DaysPurchaseData, todayPurchaseSummary} = useSelector((state) => state.purchases);
+  const { last90DaysSaleData} = useSelector((state) => state.sales);
+  const { last90DaysPurchaseData} = useSelector((state) => state.purchases);
+  const { last90DaysRepairBookingData} = useSelector((state) => state.repairBooking);
 
   // Last 30 days ke liye data filter karein
   const last30DaysSalesData = last90DaysSaleData.slice(-30);
   const last30DaysPurchaseData = last90DaysPurchaseData.slice(-30);
+  const last30DaysRepairBookingData = last90DaysRepairBookingData.slice(-30);
 
   // set sale data
   useEffect(() => {
@@ -69,6 +72,22 @@ const AdminDashboard = () => {
     calculateTotalPurchase();
   }, [last90DaysPurchaseData]);
 
+  // Repair data
+  useEffect(() => {
+    const calculateTotalRepair = () => {
+      let total = 0;
+      if (last30DaysRepairBookingData && last30DaysRepairBookingData.length > 0) {
+        last30DaysRepairBookingData.forEach((repair) => {
+          total += repair.totalRepairPrice || 0;
+        });
+      }
+      
+      setRepairData(total);
+    };
+
+    calculateTotalRepair();
+  }, [last90DaysRepairBookingData]);
+
   return (
     <div className="container mx-auto p-4 grid grid-cols-12 gap-4 bg-gray-100">
       <div className="col-span-3 p-4">
@@ -76,6 +95,7 @@ const AdminDashboard = () => {
           totalSales={salesData}
           totalPurchase={purchaseData}
           totalExpense={expenseData}
+          totalRepairs={repairData}
         />
       </div>
       <div className="col-span-7 p-4">

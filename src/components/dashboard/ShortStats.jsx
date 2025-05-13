@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 const ShortStats = () => {
   const { todaySaleSummary } = useSelector((state) => state.sales);
   const { todayPurchaseSummary } = useSelector((state) => state.purchases);
+  const { todayRepairBookingSummary } = useSelector((state) => state.repairBooking);
   return (
     <div className="container mx-auto grid grid-cols-2 gap-2 bg-white">
         <div>
@@ -15,30 +16,30 @@ const ShortStats = () => {
 
         {/* Div for show stats */}
         <div className="">
-            <div className="text-gray-600">GROSS SALE</div>
+            <div className="text-gray-600 text-xs">TOTAL SALE</div>
             <div className="font-bold">₹{todaySaleSummary.totalSales}</div>
         </div>
         <div>
-          <div className="text-gray-600">NO. OF INVOICES</div>
-          <div className="font-bold">{todaySaleSummary.invoiceCount}</div>
+          <div className="text-gray-600 text-xs">TOTAL INVOICES</div>
+          <div className="font-bold">₹ {todaySaleSummary.invoiceCount}</div>
         </div>
 
 
         <div>
-          <div className="text-gray-600">REPAIR AMOUNT</div>
-          <div className="font-bold">₹ 1,350</div>
+          <div className="text-gray-600 text-xs">REPAIR AMOUNT</div>
+          <div className="font-bold">₹ {todayRepairBookingSummary.totalRepairPrice}</div>
         </div>
         <div>
-          <div className="text-gray-600">REPAIR COUNT</div>
-          <div className="font-bold">₹ 1</div>
+          <div className="text-gray-600 text-xs">TOTAL REPAIR</div>
+          <div className="font-bold">{todayRepairBookingSummary.bookRepairCount}</div>
       </div>
 
       <div className="">
-          <div className="text-gray-600">GROSS PURCHASE</div>
+          <div className="text-gray-600 text-xs">GROSS PURCHASE</div>
           <div className="font-bold">₹{todayPurchaseSummary.totalPurchases}</div>
       </div>
       <div>
-        <div className="text-gray-600">NO. OF PURCHASE</div>
+        <div className="text-gray-600 text-xs">NO. OF PURCHASE</div>
         <div className="font-bold">{todayPurchaseSummary.invoiceCount}</div>
       </div>
     </div>
