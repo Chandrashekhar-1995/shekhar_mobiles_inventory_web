@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { createNewInvoice, lastInvoice, updateInvoice } from "../../../service/invoiceApi";
-import InvoiceDetails from "./invoiceComponents/InvoiceDetails";
-import ItemDetails from "./invoiceComponents/ItemDetails";
-import BillToType from "./invoiceComponents/BillToType";
-import InvoiceTable from "./invoiceComponents/InvoiceTable";
-import OtherSection from "./invoiceComponents/OtherSection";
-import SubmitSection from "./invoiceComponents/SubmitSection";
+import { createNewInvoice, lastInvoice, updateInvoice } from "../../../../service/invoiceApi";
+import InvoiceDetails from "./InvoiceDetails";
+import ItemDetails from "./ItemDetails";
+import BillToType from "./BillToType";
+import InvoiceTable from "./InvoiceTable";
+import OtherSection from "./OtherSection";
+import SubmitSection from "./SubmitSection";
 import { toast } from "react-toastify";
 
-const CreateInvoice = ({ isEditMode = false, onClose }) => {
-  const [showModal, setShowModal] = useState(false);
+const CreateInvoice = ({ isEditMode = false, showInvoiceModal, setShowInvoiceModal, onClose, open }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     invoiceType: "non_gst",
@@ -50,6 +49,12 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
     deliveryTerm: "",
     srNumber: "",
   });
+  
+  useEffect(() => {
+    if(open) {
+      setShowInvoiceModal(true);
+    }
+  }, [open, setShowInvoiceModal]);
 
   // fetch last invoice
   useEffect(() => {
@@ -87,10 +92,10 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
   const handleClose = () => {
     if(onClose) {
       onClose();
-    } else if (showModal){
-      setShowModal(false); 
+    } else if (setShowInvoiceModal) {
+      setShowInvoiceModal(false);
     } else {
-      navigate(-1); 
+      navigate(-1);
     }
   };
 
@@ -125,7 +130,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
         const data = await updateInvoice(formData);
         if (data.success) { 
           toast.success(`✅ ${data.message}`)
-          setShowModal(false);
+          setShowInvoiceModal(false);
         } else {
           toast.error(`❌ ${data.message}` || "Update invoice failed");
         }
@@ -133,7 +138,7 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
         const data = await createNewInvoice(formData);
         if (data.success) { 
           toast.success(`✅ ${data.message}`)
-          setShowModal(false);
+          setShowInvoiceModal(false);
         } else {
           toast.error(`❌ ${data.message}` || "Invoice creation failed");
         }
@@ -146,58 +151,50 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
   };
 
   return (
-    <div className="form-control">
-      <button
-        className="btn btn-sm btn-primary"
-        onClick={() => setShowModal(true)}
-      >
-        Create New Invoice
-      </button>
-
-      {showModal && (
-        <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100">
-          <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto">
-            <div className="flex items-center justify-between">
-              <h2 className="font-semibold mb-4 text-sm">
+  <div className="form-control">
+    {showInvoiceModal && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-20">
+        {/* Scroll in main containt */}
+        <div className="bg-white rounded-lg shadow-md w-[90%] max-w-4xl max-h-[90vh] flex flex-col">
+          
+          {/* Header section */}
+          <div className="p-4 border-b sticky top-0 bg-white z-10">
+            <div className="flex items-center justify-between pt-10">
+              <h2 className="font-semibold text-lg">
                 {isEditMode ? "Edit Invoice" : "Unsaved Invoice"}
               </h2>
               <button 
-                className="hover:bg-red-600 rounded-lg p-2" 
-                onClick={() => handleClose()}
+                className="hover:bg-red-100 rounded-lg p-2 transition-colors" 
+                onClick={handleClose}
               > 
-                X 
+                ✕
               </button>
             </div>
-            
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
-              {/* Invoice Details */}
-              <InvoiceDetails formData={formData} handleChange={handleChange} />
+          </div>
 
-              {/* Bill To */}
+          {/* Scroll area content */}
+          <div className="overflow-y-auto flex-1 p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              
+              {/* All Section*/}
+              <InvoiceDetails formData={formData} handleChange={handleChange} />
               <BillToType
                 formData={formData}
                 setFormData={setFormData}
                 handleChange={handleChange}
               />
-              
               <ItemDetails
                 formData={formData}
                 setFormData={setFormData}
                 handleChange={handleChange}
               />
 
-              {/* Show Table */}
-              {formData.items && formData.items.length > 0 && (
-                <div className="mt-6">
-                  <InvoiceTable
-                    items={formData.items}
-                    setFormData={setFormData}
-                  />
+              {formData.items?.length > 0 && (
+                <div className="mt-4">
+                  <InvoiceTable items={formData.items} setFormData={setFormData} />
                 </div>
               )}
 
-              {/* Total amount etc */}
               <OtherSection
                 formData={formData}
                 setFormData={setFormData}
@@ -205,19 +202,21 @@ const CreateInvoice = ({ isEditMode = false, onClose }) => {
                 handleChange={handleChange}
               />
 
-              {/* Submit Section */}
-              <SubmitSection
-                formData={formData}
-                totalItemPrice={totalItemPrice}
-                loading={loading}
-                handleSubmit={handleSubmit}
-              />
+              <div className="sticky bottom-0 bg-white pt-4 pb-2 border-t">
+                <SubmitSection
+                  formData={formData}
+                  totalItemPrice={totalItemPrice}
+                  loading={loading}
+                  handleSubmit={handleSubmit}
+                />
+              </div>
             </form>
           </div>
         </div>
-      )}
-    </div>
-  )
+      </div>
+    )}
+  </div>
+);
 };
 
 export default CreateInvoice;

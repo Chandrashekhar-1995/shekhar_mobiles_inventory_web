@@ -2,11 +2,9 @@ import React from "react"
 import { Outlet } from "react-router-dom";
 import ComingSoon from "../pages/ComingSoon";
 import ProtectedRoute from "../components/ProtectedRoute";
-import CreateInvoice from "../components/sales/CreateInvoice";
 import ManageInvoice from "../components/sales/ManageInvoice";
 import UpdateInvoice from "../components/sales/UpdateInvoice";
-
-
+import InvoiceContainer from "../components/sales/InvoiceContainer";
 
 const InvoiceRoutes = [
     {
@@ -35,7 +33,7 @@ const InvoiceRoutes = [
         ),
         children:[
             { path: "", element: <ManageInvoice/>},
-            { path: "create", element: <CreateInvoice/>},
+            { path: "create", element: <InvoiceContainer open={true} />},
             { path: "update/:id", element: <UpdateInvoice/>},
         ]
     },
