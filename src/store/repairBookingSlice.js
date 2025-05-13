@@ -5,7 +5,7 @@ export const fetchLast90DaysRepairBooking = createAsyncThunk(
   "repair/fetchLast90DaysRepairBooking",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await apiClient.customFetch("/repair/last-90days-repair-booking");
+      const response = await apiClient.customFetch("/repair/last-90days-repair-booking"); 
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch repair booking data");
@@ -28,8 +28,8 @@ export const fetchTodayRepairBookingSummary = createAsyncThunk(
 const repairBookingSlice = createSlice({
   name: "repairBooking",
   initialState: {
-    last90DaysrepairBookingData: [],
-    todayrepairBookingSummary: { totalRepairPrice: 0, bookRepairCount: 0 },
+    last90DaysRepairBookingData: [],
+    todayRepairBookingSummary: { totalRepairPrice: 0, bookRepairCount: 0 },
     loading: false,
     error: null
   },
@@ -42,14 +42,14 @@ const repairBookingSlice = createSlice({
       })
       .addCase(fetchLast90DaysRepairBooking.fulfilled, (state, action) => {
         state.loading = false;
-        state.last90DaysrepairBookingData = action.payload;
+        state.last90DaysRepairBookingData = action.payload;
       })
       .addCase(fetchLast90DaysRepairBooking.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
       .addCase(fetchTodayRepairBookingSummary.fulfilled, (state, action) => {
-        state.todayrepairBookingSummary = action.payload;
+        state.todayRepairBookingSummary = action.payload;
       });
   }
 });

@@ -8,11 +8,14 @@ import useSalesData from "../../hooks/useSalesData";
 import usePurchaseData from "../../hooks/usePurchaseData";
 import { useSelector } from "react-redux";
 import { data } from "react-router-dom";
+import RepairCharts from "../charts/RepairCharts";
+import useRepairBookingData from "../../hooks/useRepairBookingData";
 
 const AdminDashboard = () => {
   useSalesData();
   usePurchaseData();
   useFetchInvoices();
+  useRepairBookingData();
   useFetchPurchaseInvoices();
   
   const [salesData, setSalesData] = useState(0);
@@ -77,6 +80,7 @@ const AdminDashboard = () => {
       </div>
       <div className="col-span-7 p-4">
         <SalesCharts />
+        <RepairCharts/>
         <PurchaseCharts />
       </div>
       <div className="col-span-3 p-4">
