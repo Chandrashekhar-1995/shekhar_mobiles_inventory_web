@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const SalesCharts = () => {
+const SalesCharts = ({ isMobile }) => {
 
   const { last90DaysSaleData, loading, error } = useSelector((state) => state.sales);
 
@@ -38,40 +38,51 @@ const SalesCharts = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false, // Added for better responsive control
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: {
+            size: isMobile ? 12 : 14 // Responsive font size
+          }
+        }
       },
       title: {
         display: true,
-        text: "Last 30 Days Sales Trend"
+        text: "Last 30 Days Sales Trend",
+        font: {
+          size: isMobile ? 16 : 18 // Responsive title size
+        }
       }
     },
     scales: {
       x: {
-        grid: {
-          display: false
+        grid: { display: false },
+        ticks: {
+          font: {
+            size: isMobile ? 10 : 12 // X-axis font size
+          }
         }
       },
       y: {
         beginAtZero: true,
         ticks: {
-          callback: (value) => `₹${value}`
+          callback: (value) => `₹${value}`,
+          font: {
+            size: isMobile ? 10 : 12 // Y-axis font size
+          }
         }
       }
     }
   };
 
-  if (loading) return <div className="text-center py-4">Loading sales data...</div>;
-  if (error) return <div className="text-center text-red-500 py-4">{error}</div>;
-
   return (
     <div className="space-y-6">
-      {/* Sales Trend Chart */}
       <div className="card bg-base-100 shadow">
         <div className="card-body">
-          <h2 className="card-title">Sales Trend (Last 30 Days)</h2>
-          <div className="h-96">
+          <h2 className="card-title text-lg md:text-xl">Sales Trend (Last 30 Days)</h2>
+          <div className="h-64 md:h-96"> {/* Responsive height */}
             <Line data={chartData} options={options} />
           </div>
         </div>

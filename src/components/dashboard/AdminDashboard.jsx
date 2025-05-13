@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // useState और useEffect आयात करें
+import React, { useState, useEffect } from "react";
 import useFetchInvoices from "../../hooks/useFetchInvoices";
 import useFetchPurchaseInvoices from "../../hooks/useFetchPurchaseInvoice";
 import PurchaseCharts from "../charts/PurchaseCharts";
@@ -7,11 +7,13 @@ import ButtonSection from "./ButtonSection";
 import useSalesData from "../../hooks/useSalesData";
 import usePurchaseData from "../../hooks/usePurchaseData";
 import { useSelector } from "react-redux";
-import { data } from "react-router-dom";
 import RepairCharts from "../charts/RepairCharts";
 import useRepairBookingData from "../../hooks/useRepairBookingData";
+import MobileActionButtons from "./components/MobileActionButtons";
+import useScreenSize from "../../hooks/useScreenSize";
 
 const AdminDashboard = () => {
+  const { isMobile } = useScreenSize();
   useSalesData();
   usePurchaseData();
   useFetchInvoices();
@@ -89,22 +91,29 @@ const AdminDashboard = () => {
   }, [last90DaysRepairBookingData]);
 
   return (
-    <div className="container mx-auto p-4 grid grid-cols-12 gap-4 bg-gray-100">
-      <div className="col-span-3 p-4">
-        <ButtonSection
-          totalSales={salesData}
-          totalPurchase={purchaseData}
-          totalExpense={expenseData}
-          totalRepairs={repairData}
-        />
+    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 bg-gray-100">
+      {isMobile && <MobileActionButtons />}
+
+      {!isMobile && (
+        <div className="lg:col-span-3 p-4">
+          <ButtonSection
+            totalSales={salesData}
+            totalPurchase={purchaseData}
+            totalExpense={expenseData}
+            totalRepairs={repairData}
+            isMobile={isMobile}
+          />
+        </div>
+      )}
+
+
+      <div className={`${isMobile ? "col-span-12" : "lg:col-span-7"} p-4 space-y-6`}>
+        <SalesCharts isMobile={isMobile}/>
+        <RepairCharts isMobile={isMobile}/>
+        <PurchaseCharts isMobile={isMobile}/>
       </div>
-      <div className="col-span-7 p-4">
-        <SalesCharts />
-        <RepairCharts/>
-        <PurchaseCharts />
-      </div>
-      <div className="col-span-3 p-4">
-      </div>
+
+      {!isMobile && <div className="lg:col-span-3 p-4"></div>}
     </div>
   );
 };

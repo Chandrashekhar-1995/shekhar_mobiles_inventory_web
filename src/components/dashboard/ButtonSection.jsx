@@ -4,13 +4,13 @@ import ActionButton from "./ActionButton";
 import BusinessInsightsPieChart from "../charts/BusinessInsightsPieChart";
 import RepairSaleRatioPieChart from "../charts/RepairSaleRatioPieChart";
 
-const ButtonSection = ({ totalSales, totalPurchase, totalExpense, totalRepairs }) => {
+const ButtonSection = ({ totalSales, totalPurchase, totalExpense, totalRepairs, isMobile }) => {
   return (
     <div>
       <ShortStats />
       <ActionButton />
-      <BusinessInsightsPieChart sales={totalSales} purchase={totalPurchase} expense={totalExpense} />
-      <RepairSaleRatioPieChart sales={totalSales} repairs={totalRepairs} />
+      <BusinessInsightsPieChart sales={totalSales} purchase={totalPurchase} expense={totalExpense} isMobile={isMobile}/>
+      <RepairSaleRatioPieChart sales={totalSales} repairs={totalRepairs} isMobile={isMobile}/>
     </div>
   )
 }

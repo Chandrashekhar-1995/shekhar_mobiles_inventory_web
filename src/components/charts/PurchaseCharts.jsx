@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const PurchaseCharts = () => {  
+const PurchaseCharts = ({ isMobile }) => {  
   const { last90DaysPurchaseData, loading, error } = useSelector((state) => state.purchases);
 
   useEffect(() => {
@@ -37,40 +37,55 @@ const PurchaseCharts = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: {
+            size: isMobile ? 12 : 14
+          }
+        }
       },
       title: {
         display: true,
-        text: "Last 30 Days Purchase Trend"
+        text: "Last 30 Days Purchase Trend",
+        font: {
+          size: isMobile ? 16 : 18
+        }
       }
     },
     scales: {
       x: {
-        grid: {
-          display: false
+        grid: { display: false },
+        ticks: {
+          font: {
+            size: isMobile ? 10 : 12
+          }
         }
       },
       y: {
         beginAtZero: true,
         ticks: {
-          callback: (value) => `₹${value}`
+          callback: (value) => `₹${value}`,
+          font: {
+            size: isMobile ? 10 : 12
+          }
         }
       }
     }
   };
+
 
   if (loading) return <div className="text-center py-4">Loading purchase data...</div>;
   if (error) return <div className="text-center text-red-500 py-4">{error}</div>;
 
   return (
     <div className="space-y-6 my-4">
-      {/* Purchase Trend Chart */}
       <div className="card bg-base-100 shadow">
         <div className="card-body">
-          <h2 className="card-title">Purchase Trend (Last 30 Days)</h2>
-          <div className="h-96">
+          <h2 className="card-title text-lg md:text-xl">Purchase Trend</h2>
+          <div className="h-64 md:h-96"> {/* Responsive height */}
             <Line data={chartData} options={options} />
           </div>
         </div>
