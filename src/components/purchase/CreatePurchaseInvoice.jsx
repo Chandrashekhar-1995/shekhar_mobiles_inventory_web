@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import { lastPurchaseInvoice, createNewPurchaseInvoice, updatePurchaseInvoice } from "../../../service/purchaseInvoiceApi";
 import InvoiceDetails from "../sales/invoiceComponents/InvoiceDetails";
 import BillFromType from "./invoiceComponents/BillFromType";
-import ItemDetails from "../sales/invoiceComponents/ItemDetails";
-import InvoiceTable from "../sales/invoiceComponents/InvoiceTable";
+import ItemDetails from "./invoiceComponents/ItemDetails";
+import InvoiceTable from "./invoiceComponents/InvoiceTable";
 import OtherSection from "../sales/invoiceComponents/OtherSection";
 import SubmitSection from "../sales/invoiceComponents/SubmitSection";
 
@@ -127,22 +127,22 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
         if(isEditMode){
           const data = await updatePurchaseInvoice(formData);
           if (data.success) { 
-            toast.success(`✅ ${data.message}`)
+            toast.success(`data.message`)
             setShowModal(false);
           } else {
-            toast.error(`❌ ${data.message}` || "Update invoice failed");
+            toast.error(data.message || "Update invoice failed");
           }
         } else {
           const data = await createNewPurchaseInvoice(formData);
           if (data.success) { 
-            toast.success(`✅ ${data.message}`)
+            toast.success(` ${data.message}`)
             setShowModal(false);
           } else {
-            toast.error(`❌ ${data.message}` || "Invoice creation failed");
+            toast.error(` ${data.message}` || "Invoice creation failed");
           }
         }
       } catch (error) {
-        toast.error(`❌ ${error.message}`);
+        toast.error(` ${error.message}`);
       } finally {
         setLoading(false);
       }
@@ -158,8 +158,10 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
       </button>
 
       {showModal && (
-        <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100">
-        <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-20">
+        <div className="bg-white rounded-lg shadow-md w-[90%] max-w-4xl max-h-[90vh] flex flex-col">
+          {/* Header section */}
+          <div className="p-4 border-b sticky top-0 bg-white z-10">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold mb-4 text-sm">
               {isEditMode ? "Edit Purchase" : "Unsaved Purchase"}
@@ -171,9 +173,11 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
               X 
             </button>
           </div>
+          </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
+          {/* Scroll area content */}
+          <div className="overflow-y-auto flex-1 p-6">
+            <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
             {/* Invoice Details */}
             <InvoiceDetails formData={formData} handleChange={handleChange} />
 
@@ -196,8 +200,10 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
               {/* Submit Section */}
               <SubmitSection formData={formData} totalItemPrice={totalItemPrice} loading={loading} handleSubmit={handleSubmit} />
 
-          </form>
+            </form>
           </div>
+          </div>
+
         </div>
       )}
 

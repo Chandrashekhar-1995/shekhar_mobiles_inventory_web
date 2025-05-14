@@ -80,18 +80,23 @@ const CreateProduct = ({ isEditMode = false, onClose }) => {
       >
         Create New Product
       </button>
-
+ 
      {/* Modal */}
      {showModal && (
-      <div className="flex items-center justify-center mb-8 pt-4 bg-gray-100 ">
-        <div className="bg-white mb-8 rounded-lg shadow-md w-[80%] max-w-4xl pt-0 p-6 overflow-y-auto ">
-          <div className="flex items-center justify-between">
-            <h2 className="font-semibold mb-4 text-sm">Product Details</h2>
-            <button className="hover:bg-red-600 rounded-lg p-2"  onClick={handleClose}
-              > X </button>
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-20">
+        <div className="bg-white rounded-lg shadow-md w-[90%] max-w-4xl max-h-[90vh] flex flex-col">
+          {/* Header section */}
+          <div className="p-4 border-b sticky top-0 bg-white z-10">
+            <div className="flex items-center justify-between">
+              <h2 className="font-semibold mb-4 text-sm">Product Details</h2>
+              <button className="hover:bg-red-600 rounded-lg p-2"  onClick={handleClose}
+                > X </button>
+            </div>
           </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
+          
+          {/* Scroll area content */}
+          <div className="overflow-y-auto flex-1 p-6">
+            <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
             {/* Required Fields */}
               <RequiredFields  formData={formData}  setFormData={setFormData}  handleChange={handleChange}
               />
@@ -132,7 +137,9 @@ const CreateProduct = ({ isEditMode = false, onClose }) => {
                 )}
               </button>
             </div>
-          </form>
+            </form>
+          </div>
+
         </div>
       </div>
      )}

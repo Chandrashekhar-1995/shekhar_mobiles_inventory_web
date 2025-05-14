@@ -51,9 +51,9 @@ const ItemDetails = ({ formData, setFormData, handleChange }) => {
   };
   
   const calculateTotalAmount = () => {
-    const { quantity, salePrice, discount } = formData;
-    if (!quantity || !salePrice) return "";
-    const total = quantity * salePrice;
+    const { quantity, purchasePrice, discount } = formData;
+    if (!quantity || !purchasePrice) return "";
+    const total = quantity * purchasePrice;
     return discount > 0 ? total - (total * discount) / 100 : total;
   };
 
@@ -61,7 +61,7 @@ const ItemDetails = ({ formData, setFormData, handleChange }) => {
     event.preventDefault();
     const { item, itemCode, productName, quantity, unit, salePrice, purchasePrice, mrp, discount, itemDescription } = formData;
   
-    if (!productName || !quantity || !salePrice) {
+    if (!productName || !quantity || !purchasePrice) {
       alert("Please fill in all required fields before adding an item.");
       return;
     }

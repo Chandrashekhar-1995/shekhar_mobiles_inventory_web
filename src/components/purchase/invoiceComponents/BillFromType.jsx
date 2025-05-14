@@ -1,6 +1,6 @@
 import React from "react";
-import CustomerDropdown from "../../customer/CustomerDropdown";
 import { useNavigate } from "react-router-dom";
+import SupplierDropdown from "../../supplier/SupplierDropdown";
 
 const BillFromType = ({ formData, setFormData, handleChange }) => {
     const navigate = useNavigate();
@@ -54,7 +54,7 @@ const BillFromType = ({ formData, setFormData, handleChange }) => {
             </div>
 
             {formData.billFrom === "Supplier" &&
-                <CustomerDropdown
+                <SupplierDropdown
                     formData={formData}
                     setFormData={setFormData}
                     handleChange={handleChange}
