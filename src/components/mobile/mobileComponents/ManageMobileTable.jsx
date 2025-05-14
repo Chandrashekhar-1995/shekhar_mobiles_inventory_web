@@ -100,13 +100,13 @@ const ManageMobileTable = () => {
                                 {m.stockQuantity}
                             </td>
                             <td className="border px-4 py-2">
-                            <button
-                                onClick={() => handleDeleteClick(m)}
-                                className="text-red-500 hover:text-red-700"
-                            >
-                                Delete
-                            </button>
-                        </td>
+                                <button
+                                    onClick={() => handleDeleteClick(m)}
+                                    className="text-red-500 hover:text-red-700"
+                                >
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

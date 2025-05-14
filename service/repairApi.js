@@ -65,6 +65,11 @@ const getFaultTypes = () => {
     return apiClient.customFetch("/repair-process/fault-types");
 };
 
+const deleteRepairProcess = (id) => {
+    return apiClient.customFetch(`/repair-process/${id}`,{
+        method: "DELETE",
+    });
+};
 
 export {
     lastRepair,
@@ -79,4 +84,5 @@ export {
     getAllRepairProcesses,
     getRepairProcessesByFault,
     getFaultTypes,
+    deleteRepairProcess,
 }
