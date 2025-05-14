@@ -6,7 +6,7 @@ const CreateCategory = () => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     categoryName: "",
-    gstRate: "",
+    gstRate: "", 
     subCategory: "", 
     subCategories: [], 
   });
