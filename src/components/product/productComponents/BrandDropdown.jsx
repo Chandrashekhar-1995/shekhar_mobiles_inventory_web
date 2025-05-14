@@ -13,7 +13,7 @@ const BrandDropdown = ({ formData, setFormData }) => {
   useFetchBrands();
 
   const allBrands = useSelector((store) => store.brands.allBrands);
-
+  
   const filteredBrands =
     query === ""
       ? allBrands
