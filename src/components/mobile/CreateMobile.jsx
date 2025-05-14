@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createMobile } from "../../../service/mobileApi";
-import BrandDropdown from "../product/productComponents/BrandDropdown";
+import BrandDropdown from "../brand/BrandDropdown";
 import MobileFields from "./mobileComponents/MobileFields";
 import ModelNoDropdown from "./mobileComponents/ModelNoDropdown";
 

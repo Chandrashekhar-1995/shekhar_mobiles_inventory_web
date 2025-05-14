@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BrandDropdown from "../../product/productComponents/BrandDropdown";
+import BrandDropdown from "../../brand/BrandDropdown";
 import ModelNoDropdown from "../../mobile/mobileComponents/ModelNoDropdown";
 
 const MobileDetails = ({ formData, setFormData, handleChange}) => {

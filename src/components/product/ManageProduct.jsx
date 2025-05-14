@@ -15,6 +15,6 @@ const ManageProduct = () => {
       </div>
     </div>
   )
-}
+};
 
 export default ManageProduct;

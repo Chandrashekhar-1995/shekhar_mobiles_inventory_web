@@ -233,8 +233,10 @@ const SidebarLayout = ({ children }) => {
         text: "Master", 
         icon: <ArrowsRightLeftIcon className="h-5 w-5" />, 
         subMenu: [
-          { text: "Add Product", link: "/product/create" },
-          { text: "Add Mobile", link: "/mobile/create" },
+          { text: "Brands", link: "/brand" },
+          { text: "Categories", link: "/category" },
+          // { text: "Brands", link: "/" },
+          { text: "Mobiles", link: "/mobile" },
           { text: "Repair Process", link: "/repair-process" },
           { text: "Problems", link: "/fault" },
           // { text: "Add Service", link: "/service/create" },

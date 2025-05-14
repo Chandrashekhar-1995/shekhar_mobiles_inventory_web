@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
-import { createBrand } from "../../../../service/brandApi";
-import useFetchBrands from "../../../hooks/useFetchBrands";
+import { createBrand } from "../../../service/brandApi";
+import useFetchBrands from "../../hooks/useFetchBrands";
 import { toast } from "react-toastify";
 
 const BrandDropdown = ({ formData, setFormData }) => {
@@ -62,7 +62,6 @@ const BrandDropdown = ({ formData, setFormData }) => {
     }
   };
   
-
   const cancelCreate = () => {
     setFormData(prev => ({
       ...prev,

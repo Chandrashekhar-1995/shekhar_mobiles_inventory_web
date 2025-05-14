@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
-import { createCategory, createSubCategory } from "../../../../service/categoryApi";
-import useFetchCategories from "../../../hooks/useFetchCategories";
+import { createCategory, createSubCategory } from "../../../service/categoryApi";
+import useFetchCategories from "../../hooks/useFetchCategories";
 import { toast } from "react-toastify";
 
 const CategoryDropdown = ({ formData, setFormData }) => {

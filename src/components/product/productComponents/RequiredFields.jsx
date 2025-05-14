@@ -1,6 +1,6 @@
 import React from "react";
-import CategoryDropdown from "./CategoryDropdown";
-import BrandDropdown from "./BrandDropdown";
+import CategoryDropdown from "../../category/CategoryDropdown";
+import BrandDropdown from "../../brand/BrandDropdown";
 
 const RequiredFields = ({ formData, setFormData, handleChange }) => {
   return (
