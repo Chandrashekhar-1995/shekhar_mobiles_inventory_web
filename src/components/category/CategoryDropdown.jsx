@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useSelector } from "react-redux";
-import { createCategory, createSubCategory } from "../../../service/categoryApi";
+import { createNewCategory, createSubCategory } from "../../../service/categoryApi";
 import useFetchCategories from "../../hooks/useFetchCategories";
 import { toast } from "react-toastify";
 
@@ -39,7 +39,7 @@ const CategoryDropdown = ({ formData, setFormData }) => {
 
   const addCategory = async () => {
     try {
-      const data = await createCategory({
+      const data = await createNewCategory({
         categoryName: newCategoryName,
       });
 

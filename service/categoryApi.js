@@ -1,7 +1,7 @@
 import apiClient from "./apiClient";
 
 
-const createCategory = (formData) => {
+const createNewCategory = (formData) => {
     return apiClient.customFetch("/category/create", {
         method: "POST",
         body: JSON.stringify(formData)
@@ -55,7 +55,7 @@ const deleteSubCategory = (id) => {
 
 
 export {
-    createCategory,
+    createNewCategory,
     createSubCategory,
     getAllCategories,
     getCategoryById,
