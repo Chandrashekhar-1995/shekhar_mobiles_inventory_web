@@ -23,6 +23,7 @@ const RepairHeaderDetails = ({ data }) => {
         <div><span className="font-medium">Book By:</span> {data.bookBy}</div>
         <div><span className="font-medium">Private Note:</span> {data.privateNote}</div>
         <div><span className="font-medium">Customer Note:</span> {data.customerNote}</div>
+        <div><span className="font-medium">Repair Process:</span> {data.repairProcessName}</div>
       </div>
     </div>
   );

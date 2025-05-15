@@ -11,14 +11,13 @@ const useFetchRepairProcesses = () => {
         const fetchProblemTypes = async () => {
             try {
                 const data = await getAllRepairProcesses();
-                console.log("repairprocess hooks",data)
                 if(data.success){
                     dispatch(setAllProcesses(data.data.processes))
                 } else {
                     toast.error(data.message)
                 }
             } catch (error) {
-                console.error("Failed to fetch types:", error);
+                toast.error("Failed to fetch types:", error);
             }
         };
 

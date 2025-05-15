@@ -15,7 +15,7 @@ const EditRepairItem = () => {
   const dispatch = useDispatch();
 
   const repairs = useSelector((store) => store.repairs.allRepairs);
-  
+
   const repair = repairs?.find((r) => r._id === repairId);
   const item = repair?.repairing?.[itemIndex];
 
@@ -89,12 +89,14 @@ const EditRepairItem = () => {
         repairBy: item.repairBy || "",
         repairNumber: repair.repairNumber || "",
         bookingDate: repair.bookingDate || "",
-        customerName: repair.customerName || "",
-        mobileNumber: repair.mobileNumber || "",
-        address: repair.address || "",
+        customerName: repair.customer.name || "",
+        mobileNumber: repair.customer.mobileNumber || "",
+        address: repair.customer.address || "",
         privateNote: repair.privateNote || "",
         customerNote: repair.customerNote || "",
         bookBy: repair?.bookBy.name || "",
+        repairProcess:item?.repairProcess || "",
+        repairProcessName:item?.repairProcess?.processName || "Not Selected",
       });
     }
   }, [item]);
@@ -106,27 +108,34 @@ const EditRepairItem = () => {
     }));
   };
 
-  const handleSubmit = async () => {
-    const result = await updateRepairItem(repairId, {
-      itemIndex,
-      ...formData,
-    });
+  // const handleSubmit = async (e) => {
+  //   e.preventDefalt()
+  //   const result = await updateRepairItem(repairId, {
+  //     itemIndex,
+  //     ...formData,
+  //   });
 
-    if (result.success) {
-      const updatedRepairs = repairs.map((r) =>
-        r._id === repairId
-          ? {
-              ...r,
-              repairing: r.repairing.map((it, i) =>
-                i == itemIndex ? { ...it, ...formData } : it
-              ),
-            }
-          : r
-      );
-      dispatch(setAllRepairs(updatedRepairs));
-      navigate(-1);
-    }
-  };
+  //   if (result.success) {
+  //     const updatedRepairs = repairs.map((r) =>
+  //       r._id === repairId
+  //         ? {
+  //             ...r,
+  //             repairing: r.repairing.map((it, i) =>
+  //               i == itemIndex ? { ...it, ...formData } : it
+  //             ),
+  //           }
+  //         : r
+  //     );
+  //     dispatch(setAllRepairs(updatedRepairs));
+  //     navigate(-1);
+  //   }
+  // };
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    console.log(item);
+    
+  }
 
   if (loading || !item) return <div>Loading...</div>;
 
@@ -142,7 +151,6 @@ const EditRepairItem = () => {
         <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100">
           <RepairHeaderDetails data={formData} />
           <UsedItems formData={formData} setFormData={setFormData} handleChange={handleChange} />
-          <RepairProcessDropdown formData={formData} setFormData={setFormData} handleChange={handleChange} />
           <RepairingProcess formData={formData} setFormData={setFormData} handleChange={handleChange} />
 
           <button

@@ -26,6 +26,7 @@ const BookingRepair = ({ isEditMode = false, onClose }) => {
           customerName: "Cash",
           mobileNumber: "",
           address: "",
+          repairProcess:undefined,
           repairing:[],
           deviceType:"mobile",
           mobile:"",
