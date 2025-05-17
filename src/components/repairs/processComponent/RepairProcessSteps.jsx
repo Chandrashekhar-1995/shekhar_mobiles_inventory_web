@@ -1,49 +1,57 @@
-import React from 'react';
+// RepairProcessSteps.js
+import React from "react";
 
 const RepairProcessSteps = ({ process, currentStatus, onCheckboxChange }) => {
-  // Helper to find step status
-  const getStepStatus = (stepId) => {
-    return currentStatus?.completedSteps.find(s => s.stepId.toString() === stepId.toString());
+  const getStepStatus = (stepId) =>
+    currentStatus?.completedSteps.find(
+      (s) => s.stepId.toString() === stepId.toString()
+    );
+
+  // only complete when you have clicked every item and all are checked
+  const isStepCompleted = (step) => {
+    const stepStatus = getStepStatus(step._id);
+    if (!stepStatus) return false;
+    // must match total items
+    if (stepStatus.checkedItems.length !== step.checklistItems.length)
+      return false;
+    // and each one true
+    return stepStatus.checkedItems.every((i) => i.isChecked);
   };
 
-  // Helper to check if item is completed
   const isItemCompleted = (stepStatus, itemId) => {
-    const item = stepStatus?.checkedItems.find(i => i.itemId.toString() === itemId.toString());
+    if (!stepStatus) return false;
+    const item = stepStatus.checkedItems.find(
+      (i) => i.itemId.toString() === itemId.toString()
+    );
     return item?.isChecked || false;
   };
 
-  // Check if step is current
-  const isCurrentStep = (stepIndex) => {
-    return currentStatus?.currentStep === stepIndex;
-  };
-
-  // Check if step is completed
-  const isStepCompleted = (stepId) => {
-    const stepStatus = getStepStatus(stepId);
-    return stepStatus?.checkedItems.every(i => i.isChecked) || false;
-  };
+  const isCurrentStep = (stepIndex) => currentStatus?.currentStep === stepIndex;
 
   return (
     <div className="border border-gray-300 rounded-md shadow-sm p-4 bg-white mb-4">
       <h3 className="text-sm font-semibold mb-3">
         Repair Process: {process.processName}
         <span className="ml-2 text-blue-600">
-          (Step {currentStatus?.currentStep + 1 || 1} of {process.steps.length})
+          (Step {currentStatus?.currentStep + 1} of {process.steps.length})
         </span>
       </h3>
-      
+
       <div className="space-y-4">
         {process.steps.map((step, index) => {
           const stepStatus = getStepStatus(step._id);
-          const completed = isStepCompleted(step._id);
+          const completed = isStepCompleted(step);
           const current = isCurrentStep(index);
 
           return (
-            <div 
+            <div
               key={step._id}
               className={`p-3 rounded-md border ${
-                current ? 'border-blue-300 bg-blue-50' : 
-                completed ? 'border-green-200 bg-green-50' : 'border-gray-200'
+                current
+                  ? "border-blue-300 bg-blue-50"
+                  : completed
+                  ? "border-green-200 bg-green-50"
+                  : "border-gray-200"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
@@ -63,24 +71,30 @@ const RepairProcessSteps = ({ process, currentStatus, onCheckboxChange }) => {
               </div>
 
               {step.description && (
-                <p className="text-sm text-gray-600 mb-2">{step.description}</p>
+                <p className="text-sm text-gray-600 mb-2">
+                  {step.description}
+                </p>
               )}
 
               <div className="space-y-2 ml-4">
-                {step.checklistItems.map(item => (
+                {step.checklistItems.map((item) => (
                   <div key={item._id} className="flex items-center">
                     <input
                       type="checkbox"
                       id={`${step._id}-${item._id}`}
                       checked={isItemCompleted(stepStatus, item._id)}
-                      onChange={(e) => onCheckboxChange(step._id, item._id, e.target.checked)}
+                      onChange={(e) =>
+                        onCheckboxChange(step._id, item._id, e.target.checked)
+                      }
                       className="mr-2 h-4 w-4"
-                      disabled={completed || (!current && !isItemCompleted(stepStatus, item._id))}
+                      disabled={completed}
                     />
-                    <label 
-                      htmlFor={`${step._id}-${item._id}`} 
+                    <label
+                      htmlFor={`${step._id}-${item._id}`}
                       className={`text-sm ${
-                        isItemCompleted(stepStatus, item._id) ? 'line-through text-gray-500' : ''
+                        isItemCompleted(stepStatus, item._id)
+                          ? "line-through text-gray-500"
+                          : ""
                       }`}
                     >
                       {item.itemName}

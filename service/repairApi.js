@@ -38,27 +38,6 @@ const updateRepairItem = (id, formData) => {
     });
 };
 
-const updateRepairProcessStatus = (id, repairingIndex, formData) => {
-    return apiClient.customFetch(`/repair/${id}/items/${repairingIndex}/process-status`,{
-        method: "PATCH",
-        body: JSON.stringify(formData)
-    });
-};
-
-const updateRepairProcessWithSteps = (id, repairingIndex, formData) => {
-    return apiClient.customFetch(`/repair/${id}/items/${repairingIndex}/process-status`,{
-        method: "PATCH",
-        body: JSON.stringify(formData)
-    });
-};
-
-const updateRepairStepCompletion = (id, repairingIndex, formData) => {
-    return apiClient.customFetch(`/repair/${id}/items/${repairingIndex}/process-status`,{
-        method: "PATCH",
-        body: JSON.stringify(formData)
-    });
-};
-
 
 const deleteRepair = (id) => {
     return apiClient.customFetch(`/repair/${id}`,{
@@ -113,8 +92,5 @@ export {
     getRepairProcessesByFault,
     getFaultTypes,
     deleteRepairProcess,
-    updateRepairProcessStatus,
-    updateRepairProcessWithSteps,
-    updateRepairStepCompletion,
     
 };

@@ -6,8 +6,6 @@ const UsedItemsTable = ({ items, setFormData }) => {
   const tableRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  console.log("userd Items", items);
-
   const handleDelete = (index) => {
     setFormData((prev) => ({
       ...prev,
