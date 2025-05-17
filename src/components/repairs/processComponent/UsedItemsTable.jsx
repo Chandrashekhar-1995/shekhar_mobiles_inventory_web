@@ -6,6 +6,8 @@ const UsedItemsTable = ({ items, setFormData }) => {
   const tableRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  console.log("userd Items", items);
+
   const handleDelete = (index) => {
     setFormData((prev) => ({
       ...prev,
@@ -76,12 +78,12 @@ const UsedItemsTable = ({ items, setFormData }) => {
                 onClick={(e) => handleRowClick(e, index)}
               >
                 <td>{index + 1}</td>
-                <td>{item.itemCode}</td>
-                <td>{item.productName}</td>
+                <td>{item.item.itemCode || item.itemCode}</td>
+                <td>{item.item.productName || item.productName}</td>
                 <td>{item.quantity}</td>
-                <td>{item.unit}</td>
-                <td>{item.salePrice}</td>
-                <td>{item.total}</td>
+                <td>{item.item.unit || item.unit}</td>
+                <td>{item.item.salePrice || item.salePrice}</td>
+                <td>{item.quantity * item.salePrice || item.quantity * item.item.salePrice}</td>
               </tr>
             ))
           ) : (

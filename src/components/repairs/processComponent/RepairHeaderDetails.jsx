@@ -21,6 +21,8 @@ const RepairHeaderDetails = ({ data }) => {
         <div><span className="font-medium">Mobile:</span> {data.mobileNumber}</div>
         <div><span className="font-medium">Address:</span> {data.address}</div>
         <div><span className="font-medium">Book By:</span> {data.bookBy}</div>
+        <div><span className="font-medium">Repair Item:</span> {data.deviceType}</div>
+        <div><span className="font-medium">Item Name:</span> {data.deviceType === "mobile" ? data.brandName + " " + data.modelNo : data.repairItem}</div>
         <div><span className="font-medium">Private Note:</span> {data.privateNote}</div>
         <div><span className="font-medium">Customer Note:</span> {data.customerNote}</div>
         <div><span className="font-medium">Repair Process:</span> {data.repairProcessName}</div>

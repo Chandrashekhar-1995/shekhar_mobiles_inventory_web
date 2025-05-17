@@ -1,6 +1,6 @@
 import React from "react"
 
-const RepairingProcess = ({formData, setFormData, handleChange}) => {
+const RepairingProgress = ({formData, setFormData, handleChange}) => {
   return (
     <div className="border border-base-300 rounded-md shadow-sm p-4 bg-base-100">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -28,4 +28,4 @@ const RepairingProcess = ({formData, setFormData, handleChange}) => {
   )
 }
 
-export default RepairingProcess;
+export default RepairingProgress;

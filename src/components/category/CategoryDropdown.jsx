@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const CategoryDropdown = ({ formData, setFormData }) => {
   const [query, setQuery] = useState("");
-  const [subcategoryInput, setSubcategoryInput] = useState("");
+  const [subCategoryInput, setSubCategoryInput] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -24,7 +24,7 @@ const CategoryDropdown = ({ formData, setFormData }) => {
   const handleSelect = (categoryObj) => {
     setSelectedCategory(categoryObj);
     setQuery(categoryObj.categoryName);
-    setFormData({ ...formData, category: categoryObj.categoryName, subcategory: "" });
+    setFormData({ ...formData, category: categoryObj.categoryName, subCategory: "" });
   };
 
   const handleBlur = () => {
@@ -44,7 +44,7 @@ const CategoryDropdown = ({ formData, setFormData }) => {
       });
 
       if (data.success) {
-        setFormData({ ...formData, category: newCategoryName, subcategory: "" });
+        setFormData({ ...formData, category: newCategoryName, subCategory: "" });
         setSelectedCategory(data.data);
         toast.success(`✅ ${data.message}`);
       } else {
@@ -58,27 +58,27 @@ const CategoryDropdown = ({ formData, setFormData }) => {
   };
 
   const cancelCreate = () => {
-    setFormData({ ...formData, category: "", subcategory: "" });
+    setFormData({ ...formData, category: "", subCategory: "" });
     setQuery("");
     setSelectedCategory(null);
     setShowModal(false);
   };
 
-  const handleAddSubcategory = async () => {
-    if (!subcategoryInput.trim() || !selectedCategory?._id) return;
+  const handleAddSubCategory = async () => {
+    if (!subCategoryInput.trim() || !selectedCategory?._id) return;
 
     try {
       const data = await createSubCategory({
         category: selectedCategory.categoryName,
-        subcategories: subcategoryInput,
+        subCategories: subCategoryInput,
       });
 
       if (data.success) {
         toast.success(`✅ ${data.message}`);
-        setFormData({ ...formData, subcategory: subcategoryInput });
-        setSubcategoryInput("");
+        setFormData({ ...formData, subCategory: subCategoryInput });
+        setSubCategoryInput("");
       } else {
-        toast.error(`❌ ${data.message}` || "Failed to add subcategory");
+        toast.error(`❌ ${data.message}` || "Failed to add subCategory");
       }
     } catch (error) {
 
@@ -122,7 +122,7 @@ const CategoryDropdown = ({ formData, setFormData }) => {
       {/* Subcategory Section */}
       {selectedCategory && (
         <div className="mt-4">
-          {selectedCategory.subcategories?.length > 0 && (
+          {selectedCategory.subCategories?.length > 0 && (
             <>
               <label className="label">
                 <span className="label-text text-xs">Subcategory</span>
@@ -130,12 +130,12 @@ const CategoryDropdown = ({ formData, setFormData }) => {
               <select
                 className="select select-bordered select-sm text-xs w-full"
                 onChange={(e) =>
-                  setFormData({ ...formData, subcategory: e.target.value })
+                  setFormData({ ...formData, subCategory: e.target.value })
                 }
-                value={formData.subcategory || ""}
+                value={formData.subCategory || ""}
               >
-                <option value="">Select Subcategory</option>
-                {selectedCategory.subcategories.map((sub, i) => (
+                <option value="">Select SubCategory</option>
+                {selectedCategory.subCategories.map((sub, i) => (
                   <option key={i} value={sub}>
                     {sub}
                   </option>
@@ -148,13 +148,13 @@ const CategoryDropdown = ({ formData, setFormData }) => {
           <div className="mt-3">
             <input
               type="text"
-              value={subcategoryInput}
-              onChange={(e) => setSubcategoryInput(e.target.value)}
-              placeholder="Add new subcategory"
+              value={subCategoryInput}
+              onChange={(e) => setSubCategoryInput(e.target.value)}
+              placeholder="Add new subCategory"
               className="input input-bordered input-sm text-xs w-full"
             />
             <button
-              onClick={handleAddSubcategory}
+              onClick={handleAddSubCategory}
               className="btn btn-primary btn-sm mt-2 w-full"
             >
               Add Subcategory

@@ -18,6 +18,8 @@ const ManageRepairTable = () => {
     useFetchRepairProcesses(); 
     const repairs = useSelector((store) => store.repairs.allRepairs);
     const repairProcesses = useSelector((store) => store.repairProcesses.allProcesses);
+    console.log("repairs", repairs);
+    
 
     const formatToIndianDate = (isoDate) => {
         if (!isoDate) return "";
