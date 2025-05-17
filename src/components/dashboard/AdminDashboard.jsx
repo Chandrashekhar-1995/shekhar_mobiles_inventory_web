@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import useFetchInvoices from "../../hooks/useFetchInvoices";
 import useFetchPurchaseInvoices from "../../hooks/useFetchPurchaseInvoice";
-import PurchaseCharts from "../charts/PurchaseCharts";
-import SalesCharts from "../charts/SalesCharts";
 import ButtonSection from "./ButtonSection";
 import useSalesData from "../../hooks/useSalesData";
 import usePurchaseData from "../../hooks/usePurchaseData";
 import { useSelector } from "react-redux";
-import RepairCharts from "../charts/RepairCharts";
 import useRepairBookingData from "../../hooks/useRepairBookingData";
 import MobileActionButtons from "./components/MobileActionButtons";
 import useScreenSize from "../../hooks/useScreenSize";
+import CombinedCharts from "../charts/CombinedCharts";
+import CombinedPieChart from "../charts/CombinedPieChart";
 
 const AdminDashboard = () => {
   const { isMobile } = useScreenSize();
@@ -106,11 +105,20 @@ const AdminDashboard = () => {
         </div>
       )}
 
+      {isMobile && 
+      // <div className="lg:col-span-3 p-4">
+        <CombinedPieChart 
+          sales={salesData}
+          purchase={purchaseData}
+          expense={expenseData}
+          repairs={repairData}
+          isMobile={isMobile}
+        />
+      // </div>
+      }
 
       <div className={`${isMobile ? "col-span-12" : "lg:col-span-7"} p-4 space-y-6`}>
-        <SalesCharts isMobile={isMobile}/>
-        <RepairCharts isMobile={isMobile}/>
-        <PurchaseCharts isMobile={isMobile}/>
+        <CombinedCharts isMobile={isMobile}/>
       </div>
 
       {!isMobile && <div className="lg:col-span-3 p-4"></div>}
