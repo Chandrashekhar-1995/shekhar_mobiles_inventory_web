@@ -286,7 +286,7 @@ const SidebarLayout = ({ children }) => {
       {isMobile && (
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="fixed top-4 left-4 btn btn-square btn-sm z-30">
+          className="fixed top-4 left-4 opacity-50 btn btn-square btn-sm z-30">
           {sidebarOpen ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
         </button>
       )}

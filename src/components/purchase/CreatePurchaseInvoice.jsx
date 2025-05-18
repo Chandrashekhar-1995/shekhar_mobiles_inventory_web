@@ -8,8 +8,7 @@ import InvoiceTable from "./invoiceComponents/InvoiceTable";
 import OtherSection from "../sales/invoiceComponents/OtherSection";
 import SubmitSection from "../sales/invoiceComponents/SubmitSection";
 
-const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
-  const [showModal, setShowModal] = useState(false);
+const CreatePurchaseInvoice = ({ isEditMode = false, showPurchaseModal, setShowPurchaseModal, onClose, open }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
       invoiceType: "non_gst",
@@ -90,8 +89,8 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
     const handleClose = () => {
       if(onClose) {
         onClose();
-      } else if (showModal){
-        setShowModal(false); 
+      } else if (showPurchaseModal){
+        setShowPurchaseModal(false); 
       } else {
         navigate(-1); 
       }
@@ -128,7 +127,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
           const data = await updatePurchaseInvoice(formData);
           if (data.success) { 
             toast.success(`data.message`)
-            setShowModal(false);
+            setShowPurchaseModal(false);
           } else {
             toast.error(data.message || "Update invoice failed");
           }
@@ -136,7 +135,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
           const data = await createNewPurchaseInvoice(formData);
           if (data.success) { 
             toast.success(` ${data.message}`)
-            setShowModal(false);
+            setShowPurchaseModal(false);
           } else {
             toast.error(` ${data.message}` || "Invoice creation failed");
           }
@@ -150,14 +149,7 @@ const CreatePurchaseInvoice = ({ isEditMode = false, onClose }) => {
 
   return (
     <div className="form-control">
-      <button
-        className="btn btn-sm btn-primary"
-        onClick={() => setShowModal(true)}
-      >
-        Create New Purchase
-      </button>
-
-      {showModal && (
+      {showPurchaseModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-20">
         <div className="bg-white rounded-lg shadow-md w-[90%] max-w-4xl max-h-[90vh] flex flex-col">
           {/* Header section */}

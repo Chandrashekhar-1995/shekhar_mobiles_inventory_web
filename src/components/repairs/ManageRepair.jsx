@@ -1,13 +1,13 @@
 import React from "react";
 import ManageRepairTable from "./repairComponents/ManageRepairTable";
-import BookingRepair from "./BookingRepair";
+import MobileActionButtons from "../dashboard/components/MobileActionButtons";
 
 const ManageRepair = () => {
 
   return (
     <div className="min-h-screen">
       <div className="p-4">
-        <BookingRepair/>
+        <MobileActionButtons/>
       </div>
       <div className="p-4">
         <ManageRepairTable />

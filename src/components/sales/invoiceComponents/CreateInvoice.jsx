@@ -7,8 +7,10 @@ import InvoiceTable from "./InvoiceTable";
 import OtherSection from "./OtherSection";
 import SubmitSection from "./SubmitSection";
 import { toast } from "react-toastify";
+import useScreenSize from "../../../hooks/useScreenSize";
 
 const CreateInvoice = ({ isEditMode = false, showInvoiceModal, setShowInvoiceModal, onClose, open }) => {
+  const { isMobile } = useScreenSize();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     invoiceType: "non_gst",
@@ -151,72 +153,75 @@ const CreateInvoice = ({ isEditMode = false, showInvoiceModal, setShowInvoiceMod
   };
 
   return (
-  <div className="form-control">
-    {showInvoiceModal && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-20">
-        {/* Scroll in main containt */}
-        <div className="bg-white rounded-lg shadow-md w-[90%] max-w-4xl max-h-[90vh] flex flex-col">
-          
-          {/* Header section */}
-          <div className="p-4 border-b sticky top-0 bg-white z-10">
-            <div className="flex items-center justify-between pt-10">
-              <h2 className="font-semibold text-lg">
-                {isEditMode ? "Edit Invoice" : "Unsaved Invoice"}
-              </h2>
-              <button 
-                className="hover:bg-red-100 rounded-lg p-2 transition-colors" 
-                onClick={handleClose}
-              > 
-                ✕
-              </button>
+    <div>
+      {showInvoiceModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-20">
+          <div
+            className={`
+              bg-white rounded-lg shadow-md 
+              w-[90%] ${isMobile ? "h-full" : "max-h-[90vh]"} 
+              ${isMobile ? "pt-4 pb-0" : "pt-6"} 
+              flex flex-col
+            `}
+          >
+            {/* Header */}
+            <div className={`p-4 border-b sticky top-0 bg-white z-10 ${isMobile ? "text-center" : ""}`}>
+              <div className={`flex ${isMobile ? "flex-col items-center" : "items-center justify-between"}`}>
+                <h2 className="font-semibold text-lg mb-2">{isEditMode ? "Edit Invoice" : "New Invoice"}</h2>
+                <button className="p-2 hover:bg-red-100 rounded" onClick={handleClose}>✕</button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className={`overflow-y-auto flex-1 p-4 ${isMobile ? "px-2" : "px-6"}`}>
+              <form onSubmit={handleSubmit} className="space-y-6">
+
+                {/* Top Sections: InvoiceDetails + BillToType */}
+                <div className={isMobile ? "flex flex-col space-y-4" : "grid grid-cols-2 gap-6"}>
+                  <InvoiceDetails formData={formData} handleChange={handleChange} />
+                  <BillToType formData={formData} setFormData={setFormData} handleChange={handleChange} />
+                </div>
+
+                {/* Item Entry */}
+                <ItemDetails formData={formData} setFormData={setFormData} handleChange={handleChange} />
+
+                {/* Table of Added Items */}
+                {formData.items.length > 0 && (
+                  <div className="mt-4 overflow-x-auto">
+                    <InvoiceTable items={formData.items} setFormData={setFormData} />
+                  </div>
+                )}
+
+                {/* Other Charges / Notes */}
+                <OtherSection
+                  formData={formData}
+                  setFormData={setFormData}
+                  totalItemPrice={totalItemPrice}
+                  handleChange={handleChange}
+                />
+
+                {/* Submit / Summary */}
+                <div className={`
+                  ${isMobile
+                    ? "sticky bottom-0 bg-white p-4 border-t"
+                    : "sticky bottom-0 bg-white p-4 border-t"
+                  }
+                `}>
+                  <SubmitSection
+                    formData={formData}
+                    totalItemPrice={totalItemPrice}
+                    loading={loading}
+                    handleSubmit={handleSubmit}
+                  />
+                </div>
+
+              </form>
             </div>
           </div>
-
-          {/* Scroll area content */}
-          <div className="overflow-y-auto flex-1 p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              
-              {/* All Section*/}
-              <InvoiceDetails formData={formData} handleChange={handleChange} />
-              <BillToType
-                formData={formData}
-                setFormData={setFormData}
-                handleChange={handleChange}
-              />
-              <ItemDetails
-                formData={formData}
-                setFormData={setFormData}
-                handleChange={handleChange}
-              />
-
-              {formData.items?.length > 0 && (
-                <div className="mt-4">
-                  <InvoiceTable items={formData.items} setFormData={setFormData} />
-                </div>
-              )}
-
-              <OtherSection
-                formData={formData}
-                setFormData={setFormData}
-                totalItemPrice={totalItemPrice}
-                handleChange={handleChange}
-              />
-
-              <div className="sticky bottom-0 bg-white pt-4 pb-2 border-t">
-                <SubmitSection
-                  formData={formData}
-                  totalItemPrice={totalItemPrice}
-                  loading={loading}
-                  handleSubmit={handleSubmit}
-                />
-              </div>
-            </form>
-          </div>
         </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
 };
 
 export default CreateInvoice;

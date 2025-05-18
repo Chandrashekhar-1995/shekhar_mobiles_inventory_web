@@ -1,7 +1,7 @@
 import React from "react";
-import CreatePurchaseInvoice from "./CreatePurchaseInvoice";
 import ManagePurchaseInvoiceTable from "./invoiceComponents/ManagePurchaseInvoiceTable";
 import useFetchPurchaseInvoices from "../../hooks/useFetchPurchaseInvoice";
+import MobileActionButtons from "../dashboard/components/MobileActionButtons";
 
 
 const ManagePurchaseInvoice = () => {
@@ -9,7 +9,7 @@ const ManagePurchaseInvoice = () => {
   return (
     <div className="min-h-screen">
             <div className="p-4">
-                <CreatePurchaseInvoice/>
+                <MobileActionButtons/>
             </div>
             <div className="p-4">
                 <ManagePurchaseInvoiceTable />
