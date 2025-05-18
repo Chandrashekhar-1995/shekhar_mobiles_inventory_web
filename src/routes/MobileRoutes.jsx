@@ -2,9 +2,9 @@ import React from "react"
 import { Outlet } from "react-router-dom";
 import ComingSoon from "../pages/ComingSoon";
 import ProtectedRoute from "../components/ProtectedRoute";
-import CreateMobile from "../components/mobile/createMobile";
 import ManageModel from "../components/mobile/ManageModel";
 import ManageMobile from "../components/mobile/ManageMobile";
+import CreateMobile from "../components/mobile/CreateMobile";
 
 
 const MobileRoutes = [
