@@ -4,7 +4,8 @@ import ComingSoon from "../pages/ComingSoon";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ManageInvoice from "../components/sales/ManageInvoice";
 import UpdateInvoice from "../components/sales/UpdateInvoice";
-import InvoiceContainer from "../components/sales/InvoiceContainer";
+import CreateInvoice from "../components/sales/invoiceComponents/CreateInvoice";
+
 
 const InvoiceRoutes = [
     {
@@ -33,7 +34,7 @@ const InvoiceRoutes = [
         ),
         children:[
             { path: "", element: <ManageInvoice/>},
-            { path: "create", element: <InvoiceContainer open={true} />},
+            { path: "create", element: <CreateInvoice />},
             { path: "update/:id", element: <UpdateInvoice/>},
         ]
     },
