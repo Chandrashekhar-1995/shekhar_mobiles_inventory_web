@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
 import { removeUser } from "../src/store/userSlice";
+import { API_BASE_URL } from "../src/utils/const";
 
 class ApiClient {
     constructor(){
-        this.baseURL = "http://localhost:7777/api/v1";
+        this.baseURL = API_BASE_URL;
         this.defaultHeaders = {
             "Content-Type":"application/json",
             "Accept": "application/json",
