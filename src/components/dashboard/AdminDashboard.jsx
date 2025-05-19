@@ -106,7 +106,7 @@ const AdminDashboard = () => {
       )}
 
       {isMobile && 
-      <div className="lg:col-span-3 p-4">
+      <div className="col-span-12 p-4">
         <CombinedPieChart 
           sales={salesData}
           purchase={purchaseData}

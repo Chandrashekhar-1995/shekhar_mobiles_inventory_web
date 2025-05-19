@@ -56,8 +56,6 @@ const CreatePurchaseInvoice = ({ isEditMode = false, showPurchaseModal, setShowP
     const fetchLastInvoice = async () => {
       try {
         const data = await lastPurchaseInvoice();
-        console.log("last invoice data", data);
-        
         if (data.success) { 
           const lastInvoiceNumber = data.data.lastPurchaseInvoice.invoiceNumber;
           const match = lastInvoiceNumber.match(/^([A-Za-z-]+)(\d+)$/);

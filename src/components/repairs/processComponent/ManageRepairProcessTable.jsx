@@ -85,10 +85,10 @@ const ManageRepairProcessTable = () => {
                 <tbody>
                     {processes && processes?.map((p, index) => (
                         <tr key={p._id}className="odd:bg-white even:bg-gray-100">
-                            <td rowSpan={p.length} className="border px-4 py-2">{index + 1}</td>
-                            <td rowSpan={p.length} className="border px-4 py-2">{p.fault.fault}</td>
-                            <td rowSpan={p.length} className="border px-4 py-2">{p.subFaults}</td>
-                            <td rowSpan={p.length} className="border px-4 py-2">{p.deviceType}</td>
+                            <td rowSpan={p.length} className="border px-4 text-black py-2">{index + 1}</td>
+                            <td rowSpan={p.length} className="border px-4 text-black py-2">{p.fault.fault}</td>
+                            <td rowSpan={p.length} className="border px-4 text-black py-2">{p.subFaults}</td>
+                            <td rowSpan={p.length} className="border px-4 text-black py-2">{p.deviceType}</td>
                             <td rowSpan={p.length} className="border px-4 py-2">
                                 <Link to={`/repair-process/update/${p._id}`} className="text-blue-500 hover:underline">
                                     {p.processName}

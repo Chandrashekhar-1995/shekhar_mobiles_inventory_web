@@ -89,11 +89,11 @@ const CustomerTable = () => {
                             key={customer._id} 
                             className="odd:bg-white even:bg-gray-100"
                         >
-                            <td className="border px-4 py-2">{index + 1}</td>
-                            <td className="border px-4 py-2">{customer.name}</td>
-                            <td className="border px-4 py-2">{customer.mobileNumber}</td>
-                            <td className="border px-4 py-2">{customer.address}</td>
-                            <td className="border px-4 py-2">{customer.balance}</td>
+                            <td className="border px-4 text-black py-2">{index + 1}</td>
+                            <td className="border px-4 text-black py-2">{customer.name}</td>
+                            <td className="border px-4 text-black py-2">{customer.mobileNumber}</td>
+                            <td className="border px-4 text-black py-2">{customer.address}</td>
+                            <td className="border px-4 text-black py-2">{customer.balance}</td>
                             <td className="border px-4 py-2">
                                 <Link 
                                     to={`/user/customer/profile/${customer._id}`} 

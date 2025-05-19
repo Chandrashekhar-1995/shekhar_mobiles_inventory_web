@@ -74,7 +74,7 @@ const CombinedPieChart = ({ sales, purchase, expense, repairs, isMobile }) => {
   };
 
   return (
-    <div className="border my-4">
+    <div className=" border my-4">
       <div className="bg-primary text-white p-2 mb-4 flex justify-between items-center">
         <h2 className="text-sm md:text-base">{title}</h2>
         <select 

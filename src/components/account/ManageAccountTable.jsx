@@ -22,7 +22,7 @@ const ManageAccountTable = () => {
                 <tbody>
                     {accounts && accounts.map((a, index) => (
                         <tr key={a._id}className="odd:bg-white even:bg-gray-100">
-                            <td rowSpan={a.length} className="border px-4 py-2">{index + 1}</td>
+                            <td rowSpan={a.length} className="border px-4 text-black py-2">{index + 1}</td>
                             <td rowSpan={a.length} className="border px-4 py-2">
                                 <Link to={`/account/update/${a._id}`} className="text-blue-500 hover:underline">
                                     {a.accountName}
@@ -33,10 +33,10 @@ const ManageAccountTable = () => {
                                     {a.accountType}
                                 </Link>
                             </td>
-                            <td rowSpan={a.length} className="border px-4 py-2">
+                            <td rowSpan={a.length} className="border px-4 text-black py-2">
                                 {a.balance}
                             </td>
-                                <td rowSpan={a.length} className="border px-4 py-2">{a.isActive ? "Active" : "Deactive"}</td>
+                                <td rowSpan={a.length} className="border text-black px-4 py-2">{a.isActive ? "Active" : "Deactive"}</td>
                         </tr>
                     ))}
                 </tbody>

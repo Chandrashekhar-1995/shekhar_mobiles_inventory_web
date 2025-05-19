@@ -88,7 +88,7 @@ const ManageCategoryTable = () => {
                         return (
                             <React.Fragment key={category._id}>
                                 <tr className="odd:bg-white even:bg-gray-100">
-                                    <td rowSpan={rowSpan} className="border px-4 py-2 text-center">
+                                    <td rowSpan={rowSpan} className="border px-4 py-2 text-black text-center">
                                         {index + 1}
                                     </td>
                                     <td rowSpan={rowSpan} className="border px-4 py-2">
@@ -96,7 +96,7 @@ const ManageCategoryTable = () => {
                                             {category.categoryName}
                                         </Link>
                                     </td>
-                                    <td rowSpan={rowSpan} className="border px-4 py-2 text-center">
+                                    <td rowSpan={rowSpan} className="border px-4 py-2 text-black text-center">
                                         {category.gstRate}%
                                     </td>
                                     {subCategories.length > 0 ? (
@@ -104,7 +104,7 @@ const ManageCategoryTable = () => {
                                             {subCategories[0]}
                                         </td>
                                     ) : (
-                                        <td className="border px-4 py-2">-</td>
+                                        <td className="border px-4 py-2 text-black">-</td>
                                     )}
                                     <td rowSpan={rowSpan} className="border px-4 py-2 text-center">
                                         <button

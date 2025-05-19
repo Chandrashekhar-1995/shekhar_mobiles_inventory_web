@@ -21,7 +21,7 @@ class ApiClient {
                 headers,
                 credentials: "include",
             }
-            console.log(`Fetching ${url}`);
+            // console.log(`Fetching ${url}`);
             const response = await fetch(url, config)
             
             // 🔴 If token is expired

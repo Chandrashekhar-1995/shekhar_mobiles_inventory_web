@@ -85,7 +85,7 @@ const ManageMobileTable = () => {
                 <tbody>
                     {mobiles && mobiles.map((m, index) => (
                         <tr key={m._id}className="odd:bg-white even:bg-gray-100">
-                            <td rowSpan={m.length} className="border px-4 py-2">{index + 1}</td>
+                            <td rowSpan={m.length} className="border px-4 text-black py-2">{index + 1}</td>
                             <td rowSpan={m.length} className="border px-4 py-2">
                                 <Link to={`/account/update/${m._id}`} className="text-blue-500 hover:underline">
                                     {m.mobileName}
@@ -96,7 +96,7 @@ const ManageMobileTable = () => {
                                     {m.mobileType}
                                 </Link>
                             </td>
-                            <td rowSpan={m.length} className="border px-4 py-2">
+                            <td rowSpan={m.length} className="border px-4 text-black py-2">
                                 {m.stockQuantity}
                             </td>
                             <td className="border px-4 py-2">

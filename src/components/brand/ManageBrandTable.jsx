@@ -82,8 +82,8 @@ const ManageBrandTable = () => {
                 <tbody>
                     {brands && brands.map((b, index) => (
                         <tr key={b._id}className="odd:bg-white even:bg-gray-100">
-                            <td rowSpan={b.length} className="border px-4 py-2">{index + 1}</td>
-                            <td rowSpan={b.length} className="border px-4 py-2">
+                            <td rowSpan={b.length} className="border text-black px-4 py-2">{index + 1}</td>
+                            <td rowSpan={b.length} className="border  px-4 py-2">
                                 <Link to={`/brand/update/${b._id}`} className="text-blue-500 hover:underline">
                                     {b.brandName}
                                 </Link>

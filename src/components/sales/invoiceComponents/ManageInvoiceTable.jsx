@@ -29,13 +29,13 @@ const ManageInvoiceTable = () => {
                                 key={invoice._id} 
                                 className="odd:bg-white even:bg-gray-100"
                             >
-                                <td className="border px-4 py-2">{index + 1}</td>
-                                <td className="border px-4 py-2">{invoice.status}</td>
-                                <td className="border px-4 py-2">{invoice.invoiceNumber}</td>
-                                <td className="border px-4 py-2">{formatDate(invoice.date)}</td>
-                                <td className="border px-4 py-2">{invoice.customer.name}</td>
-                                <td className="border px-4 py-2">{invoice.totalAmount}</td>
-                                <td className="border px-4 py-2">
+                                <td className="border px-4 text-black py-2">{index + 1}</td>
+                                <td className="border px-4 text-black py-2">{invoice.status}</td>
+                                <td className="border px-4 text-black py-2">{invoice.invoiceNumber}</td>
+                                <td className="border px-4 text-black py-2">{formatDate(invoice.date)}</td>
+                                <td className="border px-4 text-black py-2">{invoice.customer.name}</td>
+                                <td className="border px-4 text-black py-2">{invoice.totalAmount}</td>
+                                <td className="border px-4 text-black py-2">
                                     <Link 
                                         to={`/sales/invoice/update/${invoice._id}`} 
                                         className="text-blue-500 hover:underline"

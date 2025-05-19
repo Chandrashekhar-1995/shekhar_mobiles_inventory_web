@@ -94,12 +94,12 @@ const UserTable = () => {
                     key={user._id} 
                     className="odd:bg-white even:bg-gray-100"
                 >
-                    <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">{user.name}</td>
-                    <td className="border px-4 py-2">{user.mobileNumber}</td>
-                        <td className="border px-4 py-2">{user.address}</td>
-                        <td className="border px-4 py-2">{user.balance}</td>
-                        <td className="border px-4 py-2">
+                    <td className="border px-4 text-black py-2">{index + 1}</td>
+                    <td className="border px-4 text-black py-2">{user.name}</td>
+                    <td className="border px-4 text-black py-2">{user.mobileNumber}</td>
+                    <td className="border px-4 text-black py-2">{user.address}</td>
+                    <td className="border px-4 text-black py-2">{user.balance}</td>
+                    <td className="border px-4 text-black py-2">
                             <Link 
                                 to={`/user/profile/${user._id}`} 
                                 className="text-blue-500 hover:underline"

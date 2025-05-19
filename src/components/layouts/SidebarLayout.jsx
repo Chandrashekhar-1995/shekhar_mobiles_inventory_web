@@ -93,14 +93,14 @@ const SidebarLayout = ({ children }) => {
       // { text: "Tax Payment", link: "/account/tax_payment" },
     ] 
     },
-      {
-        text: "Expense", 
-        icon: <ExclamationTriangleIcon className="h-5 w-5" />, 
-        subMenu: [
-          { text: "Direct Expense", link: "/expense/direct" },
-          { text: "Indirect Expense", link: "/expense/indirect" },      
-        ]
-      },
+      // {
+      //   text: "Expense", 
+      //   icon: <ExclamationTriangleIcon className="h-5 w-5" />, 
+      //   subMenu: [
+      //     { text: "Direct Expense", link: "/expense/direct" },
+      //     { text: "Indirect Expense", link: "/expense/indirect" },      
+      //   ]
+      // },
       {
         text: "Customer", 
         icon: <UsersIcon className="h-5 w-5" />, 
@@ -248,11 +248,11 @@ const SidebarLayout = ({ children }) => {
           // { text: "Miscellaneous ", link: "/service/create" },
         ]
       },
-      { 
-        text: "Settings", 
-        icon: <CogIcon className="h-5 w-5" />, 
-        link: "/settings" 
-      },
+      // { 
+      //   text: "Settings", 
+      //   icon: <CogIcon className="h-5 w-5" />, 
+      //   link: "/settings" 
+      // },
     ];
 
   const handleItemClick = (e, index) => {

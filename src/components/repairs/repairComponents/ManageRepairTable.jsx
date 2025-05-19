@@ -121,7 +121,7 @@ const ManageRepairTable = () => {
                                 <tr key={`${repair._id}-${itemIndex}`} className="odd:bg-white even:bg-gray-100">
                                     {itemIndex === 0 && (
                                         <>
-                                            <td rowSpan={repair.repairing.length} className="border px-4 py-2">
+                                            <td rowSpan={repair.repairing.length} className="border px-4 text-black py-2">
                                                 {index + 1}
                                             </td>
                                             <td rowSpan={repair.repairing.length} className="border px-4 py-2">
@@ -129,10 +129,10 @@ const ManageRepairTable = () => {
                                                     {repair.repairNumber}
                                                 </Link>
                                             </td>
-                                            <td rowSpan={repair.repairing.length} className="border px-4 py-2">
+                                            <td rowSpan={repair.repairing.length} className="border px-4 text-black py-2">
                                                 {formatToIndianDate(repair.bookingDate)}
                                             </td>
-                                            <td rowSpan={repair.repairing.length} className="border px-4 py-2">
+                                            <td rowSpan={repair.repairing.length} className="border px-4 text-black py-2">
                                                 {repair.customer.name}
                                             </td>
                                         </>
