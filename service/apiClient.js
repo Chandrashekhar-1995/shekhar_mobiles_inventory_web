@@ -25,12 +25,12 @@ class ApiClient {
             const response = await fetch(url, config)
             
             // 🔴 If token is expired
-            if (response.status === 401) {
-                toast.error("Session expired. Please login again.");
-                store.dispatch(removeUser());
-                window.location.href = "/";
-                return;
-            }
+            // if (response.status === 401) {
+            //     toast.error("Session expired. Please login again.");
+            //     store.dispatch(removeUser());
+            //     window.location.href = "/";
+            //     return;
+            // }
 
             const data = await response.json()
             return data

@@ -19,8 +19,16 @@ const deleteProfile = (id) => {
     });
 };
 
+const changePassword = (formData) => {
+    return apiClient.customFetch(`/profile/change-password`,{
+        method: "PUT",
+        body: JSON.stringify(formData)
+    });
+};
+
 export {
     getProfile,
     updateProfile,
     deleteProfile,
+    changePassword
 }

@@ -9,6 +9,7 @@ import Register from "../pages/Register";
 import PrivateLayout from "../components/layouts/PrivateLayout";
 import ProfileRoutes from "./ProfileRoutes";
 import CustomerRoutes from "./CustomerRoutes";
+import ResetPassword from "../components/profile/ResetPassword";
 
 const AppLayout = () => (
   <div className="app flex flex-col h-screen">
@@ -28,6 +29,7 @@ const appRouter = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login/> },
+      { path: "reset-password", element: <ResetPassword/> },
       ...ProfileRoutes,
       ...CustomerRoutes,
       {

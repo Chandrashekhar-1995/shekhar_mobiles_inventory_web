@@ -24,10 +24,26 @@ const logout = () => {
     });
 };
 
+const passwordResetRequest = (formData) => {
+    return apiClient.customFetch("/auth/reset-password-request", {
+        method: "POST",
+        body: JSON.stringify(formData)
+    });
+};
+
+const passwordReset = (userId, newPassword) => {
+    return apiClient.customFetch("/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify(userId, newPassword)
+    });
+};
+
 
 export {
     checkAuth,
     register,
     login,
     logout,
+    passwordResetRequest,
+    passwordReset
 }
